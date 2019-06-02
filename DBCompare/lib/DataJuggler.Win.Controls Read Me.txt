@@ -1,0 +1,19 @@
+﻿This file is part of DataJuggler.Net.Controls which include:
+DataJuggler.Win.Controls
+DataJuggler.Web.Controls
+DataJuggler.WPF.Controls
+
+
+In all of the environments the most tested controls are:
+LabelTextBoxControl
+LabelComboBox
+
+If you find any bugs send me them to me and if you know the solution include that with your bug report as that 
+great expedites the update process.
+
+If you add any controls or features I will put a spell of good fortune upon you that will last for all of your remaining days on this earth.
+
+
+
+
+
