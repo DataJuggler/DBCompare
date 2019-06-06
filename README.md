@@ -3,15 +3,15 @@ DB Compare is used to compare two instance of SQL Server database and view a rep
 
 <a href='https://youtu.be/13HipAOyAqU'>This is the most recent video on YouTube:</a>
 
+This project now has Git Hug Pages setup. Book mark this and I will try and keep it up to date with the latest news:
 
-
-
-
+<a href='https://datajuggler.github.io/DBCompare/'>DB Compare Home - Git Hub Pages</a>
 
 The video lists the URL incorrectly, now DB Compare is in its own repo:
-https://github.com/DataJuggler/DBCompare
 
-The main engine of DB Compare and DataTier.Net is a class library called DataJuggler.Net.
+<a href='https://github.com/DataJuggler/DBCompare'>DB Compare on Git Hub<a/>
+
+The main engine of DB Compare and the project DataTier.Net is a class library called DataJuggler.Net.
 
 For any projects that need to read the database schema of a SQL Server database, DataJuggler.Net is available as a Nuget Package:
 
@@ -23,6 +23,6 @@ I am building a website this weekend, so I will have an install version availabl
 
 Please visit my YouTube channel as I make new videos often:
 
-https://www.youtube.com/channel/UCaw0joqvisKr3lYJ9Pd2vHA
+<a href='https://www.youtube.com/channel/UCaw0joqvisKr3lYJ9Pd2vHA'>Data Juggler YouTube Channel</a>
 
 
