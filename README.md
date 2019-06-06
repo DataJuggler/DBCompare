@@ -4,6 +4,10 @@ DB Compare is used to compare two instance of SQL Server database and view a rep
 <a href='https://youtu.be/13HipAOyAqU'>This is the most recent video on YouTube:</a>
 
 
+
+
+
+
 The video lists the URL incorrectly, now DB Compare is in its own repo:
 https://github.com/DataJuggler/DBCompare
 
