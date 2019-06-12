@@ -63,29 +63,9 @@ namespace DBCompare.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Black_Button {
+        internal static System.Drawing.Bitmap DarkButton {
             get {
-                object obj = ResourceManager.GetObject("Black_Button", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap DarkBlueButton {
-            get {
-                object obj = ResourceManager.GetObject("DarkBlueButton", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap OrangeBackground {
-            get {
-                object obj = ResourceManager.GetObject("OrangeBackground", resourceCulture);
+                object obj = ResourceManager.GetObject("DarkButton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -96,36 +76,6 @@ namespace DBCompare.Properties {
         internal static System.Drawing.Bitmap Swap {
             get {
                 object obj = ResourceManager.GetObject("Swap", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Swap_3 {
-            get {
-                object obj = ResourceManager.GetObject("Swap 3", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap WatchDBCompare2Movie {
-            get {
-                object obj = ResourceManager.GetObject("WatchDBCompare2Movie", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap WatchDBCompare2Movie1 {
-            get {
-                object obj = ResourceManager.GetObject("WatchDBCompare2Movie1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

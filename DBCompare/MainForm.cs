@@ -638,6 +638,7 @@ namespace DBCompare
                         {
                             // Display the count
                             this.CountLabel.Text = "Count: " + schemaComparison.SchemaDifferences.Count;
+                            this.CountLabel.Visible = true;
                                     
                             // Create a string builder
                             StringBuilder sb = new StringBuilder("The target database is not valid.");

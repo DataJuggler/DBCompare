@@ -158,7 +158,7 @@
             // BuildConnectionStringButton
             // 
             this.BuildConnectionStringButton.BackColor = System.Drawing.Color.Transparent;
-            this.BuildConnectionStringButton.BackgroundImage = global::DBCompare.Properties.Resources.DarkBlueButton;
+            this.BuildConnectionStringButton.BackgroundImage = global::DBCompare.Properties.Resources.DarkButton;
             this.BuildConnectionStringButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BuildConnectionStringButton.FlatAppearance.BorderSize = 0;
             this.BuildConnectionStringButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -179,7 +179,7 @@
             // CancelButton
             // 
             this.CancelButton.BackColor = System.Drawing.Color.Transparent;
-            this.CancelButton.BackgroundImage = global::DBCompare.Properties.Resources.DarkBlueButton;
+            this.CancelButton.BackgroundImage = global::DBCompare.Properties.Resources.DarkButton;
             this.CancelButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CancelButton.FlatAppearance.BorderSize = 0;
             this.CancelButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -220,7 +220,7 @@
             // SelectButton
             // 
             this.SelectButton.BackColor = System.Drawing.Color.Transparent;
-            this.SelectButton.BackgroundImage = global::DBCompare.Properties.Resources.DarkBlueButton;
+            this.SelectButton.BackgroundImage = global::DBCompare.Properties.Resources.DarkButton;
             this.SelectButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.SelectButton.FlatAppearance.BorderSize = 0;
             this.SelectButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -241,7 +241,7 @@
             // TestDatabaseConnectionButton
             // 
             this.TestDatabaseConnectionButton.BackColor = System.Drawing.Color.Transparent;
-            this.TestDatabaseConnectionButton.BackgroundImage = global::DBCompare.Properties.Resources.DarkBlueButton;
+            this.TestDatabaseConnectionButton.BackgroundImage = global::DBCompare.Properties.Resources.DarkButton;
             this.TestDatabaseConnectionButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.TestDatabaseConnectionButton.FlatAppearance.BorderSize = 0;
             this.TestDatabaseConnectionButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -263,8 +263,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightBlue;
-            this.BackgroundImage = global::DBCompare.Properties.Resources.OrangeBackground;
+            this.BackColor = System.Drawing.Color.Linen;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(724, 421);
             this.Controls.Add(this.TestDatabaseConnectionButton);

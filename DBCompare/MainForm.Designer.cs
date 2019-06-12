@@ -73,7 +73,6 @@ namespace DBCompare
             this.TopCheckBoxPanel = new System.Windows.Forms.Panel();
             this.StoreConnectionStringsCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             this.IgnoreDiagramProceduresCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.Separator7 = new System.Windows.Forms.Panel();
             this.RightFillerPanel = new System.Windows.Forms.Panel();
             this.Seperator4 = new System.Windows.Forms.Panel();
             this.CompareRightColumn = new System.Windows.Forms.Panel();
@@ -151,18 +150,19 @@ namespace DBCompare
             this.CountLabel.Dock = System.Windows.Forms.DockStyle.Left;
             this.CountLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CountLabel.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.CountLabel.Location = new System.Drawing.Point(420, 4);
+            this.CountLabel.Location = new System.Drawing.Point(16, 4);
             this.CountLabel.Name = "CountLabel";
             this.CountLabel.Size = new System.Drawing.Size(140, 64);
             this.CountLabel.TabIndex = 88;
             this.CountLabel.Text = "Count: 0";
+            this.CountLabel.Visible = false;
             // 
             // CountLeftMargin
             // 
             this.CountLeftMargin.Dock = System.Windows.Forms.DockStyle.Left;
             this.CountLeftMargin.Location = new System.Drawing.Point(0, 4);
             this.CountLeftMargin.Name = "CountLeftMargin";
-            this.CountLeftMargin.Size = new System.Drawing.Size(420, 64);
+            this.CountLeftMargin.Size = new System.Drawing.Size(16, 64);
             this.CountLeftMargin.TabIndex = 87;
             // 
             // YouTubeButton
@@ -204,7 +204,6 @@ namespace DBCompare
             // HiddenButton
             // 
             this.HiddenButton.BackColor = System.Drawing.Color.Transparent;
-            this.HiddenButton.BackgroundImage = global::DBCompare.Properties.Resources.DarkBlueButton;
             this.HiddenButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.HiddenButton.FlatAppearance.BorderSize = 0;
             this.HiddenButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
@@ -276,7 +275,7 @@ namespace DBCompare
             // SwapButton
             // 
             this.SwapButton.BackColor = System.Drawing.Color.Transparent;
-            this.SwapButton.BackgroundImage = global::DBCompare.Properties.Resources.Swap_3;
+            this.SwapButton.BackgroundImage = global::DBCompare.Properties.Resources.Swap;
             this.SwapButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.SwapButton.Dock = System.Windows.Forms.DockStyle.Right;
             this.SwapButton.FlatAppearance.BorderSize = 0;
@@ -284,12 +283,12 @@ namespace DBCompare
             this.SwapButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.SwapButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SwapButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold);
-            this.SwapButton.Location = new System.Drawing.Point(756, 4);
+            this.SwapButton.Location = new System.Drawing.Point(736, 4);
             this.SwapButton.Margin = new System.Windows.Forms.Padding(0);
-            this.SwapButton.MaximumSize = new System.Drawing.Size(44, 44);
-            this.SwapButton.MinimumSize = new System.Drawing.Size(44, 44);
+            this.SwapButton.MaximumSize = new System.Drawing.Size(64, 64);
+            this.SwapButton.MinimumSize = new System.Drawing.Size(64, 64);
             this.SwapButton.Name = "SwapButton";
-            this.SwapButton.Size = new System.Drawing.Size(44, 44);
+            this.SwapButton.Size = new System.Drawing.Size(64, 64);
             this.SwapButton.TabIndex = 81;
             this.MainToolTip.SetToolTip(this.SwapButton, "Swap the source and target connection strings");
             this.SwapButton.UseVisualStyleBackColor = false;
@@ -377,7 +376,6 @@ namespace DBCompare
             this.OptionsPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.OptionsPanel.Controls.Add(this.RemoteComparePanel);
             this.OptionsPanel.Controls.Add(this.TopCheckBoxPanel);
-            this.OptionsPanel.Controls.Add(this.Separator7);
             this.OptionsPanel.Controls.Add(this.SwapButton);
             this.OptionsPanel.Controls.Add(this.RightFillerPanel);
             this.OptionsPanel.Controls.Add(this.Seperator4);
@@ -394,8 +392,9 @@ namespace DBCompare
             this.RemoteComparePanel.Controls.Add(this.RemoteCompareCheckBox);
             this.RemoteComparePanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.RemoteComparePanel.Location = new System.Drawing.Point(0, 36);
+            this.RemoteComparePanel.MaximumSize = new System.Drawing.Size(720, 32);
             this.RemoteComparePanel.Name = "RemoteComparePanel";
-            this.RemoteComparePanel.Size = new System.Drawing.Size(744, 32);
+            this.RemoteComparePanel.Size = new System.Drawing.Size(720, 32);
             this.RemoteComparePanel.TabIndex = 88;
             // 
             // CreateXmlFileCheckBox
@@ -411,7 +410,6 @@ namespace DBCompare
             this.CreateXmlFileCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
             this.CreateXmlFileCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             this.CreateXmlFileCheckBox.LabelText = "Create Xml File:";
-            this.CreateXmlFileCheckBox.LabelTextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CreateXmlFileCheckBox.LabelWidth = 200;
             this.CreateXmlFileCheckBox.Location = new System.Drawing.Point(300, 0);
             this.CreateXmlFileCheckBox.MaximumSize = new System.Drawing.Size(220, 32);
@@ -433,7 +431,6 @@ namespace DBCompare
             this.RemoteCompareCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
             this.RemoteCompareCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             this.RemoteCompareCheckBox.LabelText = "Remote Compare:";
-            this.RemoteCompareCheckBox.LabelTextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.RemoteCompareCheckBox.LabelWidth = 280;
             this.RemoteCompareCheckBox.Location = new System.Drawing.Point(0, 0);
             this.RemoteCompareCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
@@ -448,8 +445,9 @@ namespace DBCompare
             this.TopCheckBoxPanel.Controls.Add(this.IgnoreDiagramProceduresCheckBox);
             this.TopCheckBoxPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.TopCheckBoxPanel.Location = new System.Drawing.Point(0, 4);
+            this.TopCheckBoxPanel.MaximumSize = new System.Drawing.Size(720, 32);
             this.TopCheckBoxPanel.Name = "TopCheckBoxPanel";
-            this.TopCheckBoxPanel.Size = new System.Drawing.Size(744, 32);
+            this.TopCheckBoxPanel.Size = new System.Drawing.Size(720, 32);
             this.TopCheckBoxPanel.TabIndex = 87;
             // 
             // StoreConnectionStringsCheckBox
@@ -465,7 +463,6 @@ namespace DBCompare
             this.StoreConnectionStringsCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
             this.StoreConnectionStringsCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             this.StoreConnectionStringsCheckBox.LabelText = "Store Conn Strings:";
-            this.StoreConnectionStringsCheckBox.LabelTextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.StoreConnectionStringsCheckBox.LabelWidth = 200;
             this.StoreConnectionStringsCheckBox.Location = new System.Drawing.Point(300, 0);
             this.StoreConnectionStringsCheckBox.MaximumSize = new System.Drawing.Size(220, 32);
@@ -487,7 +484,6 @@ namespace DBCompare
             this.IgnoreDiagramProceduresCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
             this.IgnoreDiagramProceduresCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             this.IgnoreDiagramProceduresCheckBox.LabelText = "Ignore Diagram Procedures:";
-            this.IgnoreDiagramProceduresCheckBox.LabelTextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.IgnoreDiagramProceduresCheckBox.LabelWidth = 280;
             this.IgnoreDiagramProceduresCheckBox.Location = new System.Drawing.Point(0, 0);
             this.IgnoreDiagramProceduresCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
@@ -495,15 +491,6 @@ namespace DBCompare
             this.IgnoreDiagramProceduresCheckBox.Name = "IgnoreDiagramProceduresCheckBox";
             this.IgnoreDiagramProceduresCheckBox.Size = new System.Drawing.Size(300, 32);
             this.IgnoreDiagramProceduresCheckBox.TabIndex = 94;
-            // 
-            // Separator7
-            // 
-            this.Separator7.BackColor = System.Drawing.Color.Transparent;
-            this.Separator7.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Separator7.Location = new System.Drawing.Point(744, 4);
-            this.Separator7.Name = "Separator7";
-            this.Separator7.Size = new System.Drawing.Size(12, 92);
-            this.Separator7.TabIndex = 85;
             // 
             // RightFillerPanel
             // 
@@ -603,7 +590,6 @@ namespace DBCompare
             this.TargetConnectionStringControl.LabelColor = System.Drawing.Color.LemonChiffon;
             this.TargetConnectionStringControl.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             this.TargetConnectionStringControl.LabelText = "Target Conn. String:";
-            this.TargetConnectionStringControl.LabelTextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.TargetConnectionStringControl.LabelTopMargin = 4;
             this.TargetConnectionStringControl.LabelWidth = 208;
             this.TargetConnectionStringControl.Location = new System.Drawing.Point(0, 0);
@@ -614,7 +600,6 @@ namespace DBCompare
             this.TargetConnectionStringControl.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.TargetConnectionStringControl.Size = new System.Drawing.Size(992, 32);
             this.TargetConnectionStringControl.TabIndex = 60;
-            this.TargetConnectionStringControl.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.TargetConnectionStringControl.TextBoxBottomMargin = 0;
             this.TargetConnectionStringControl.TextBoxDisabledColor = System.Drawing.Color.LightGray;
             this.TargetConnectionStringControl.TextBoxEditableColor = System.Drawing.Color.White;
@@ -653,7 +638,6 @@ namespace DBCompare
             this.SourceConnectionStringControl.LabelColor = System.Drawing.Color.LemonChiffon;
             this.SourceConnectionStringControl.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             this.SourceConnectionStringControl.LabelText = "Source Conn. String:";
-            this.SourceConnectionStringControl.LabelTextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.SourceConnectionStringControl.LabelTopMargin = 4;
             this.SourceConnectionStringControl.LabelWidth = 208;
             this.SourceConnectionStringControl.Location = new System.Drawing.Point(0, 0);
@@ -664,7 +648,6 @@ namespace DBCompare
             this.SourceConnectionStringControl.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.SourceConnectionStringControl.Size = new System.Drawing.Size(992, 32);
             this.SourceConnectionStringControl.TabIndex = 58;
-            this.SourceConnectionStringControl.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             this.SourceConnectionStringControl.TextBoxBottomMargin = 0;
             this.SourceConnectionStringControl.TextBoxDisabledColor = System.Drawing.Color.LightGray;
             this.SourceConnectionStringControl.TextBoxEditableColor = System.Drawing.Color.White;
@@ -789,7 +772,6 @@ namespace DBCompare
         private System.Windows.Forms.Panel OptionsPanel;
         private System.Windows.Forms.Panel RemoteComparePanel;
         private System.Windows.Forms.Panel TopCheckBoxPanel;
-        private System.Windows.Forms.Panel Separator7;
         private System.Windows.Forms.Button SwapButton;
         private System.Windows.Forms.Panel RightFillerPanel;
         private System.Windows.Forms.Panel Seperator4;
