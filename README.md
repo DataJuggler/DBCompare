@@ -1,5 +1,5 @@
 # DBCompare
-DB Compare is used to compare two instances of a SQL Server database and view a report of any schema differences. DB Compare was originally a sample of DataTier.Net and uses the same class SQLDatabaseConnector.cs to read the database schema.
+DB Compare is used to compare two SQL Server databases and view a report of any schema differences. DB Compare was originally a sample of DataTier.Net and uses the same class SQLDatabaseConnector.cs to read the database schema.
 
 <a href='https://youtu.be/13HipAOyAqU'>This is the most recent video on YouTube:</a>
 
