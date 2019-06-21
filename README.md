@@ -3,7 +3,7 @@ DB Compare is used to compare two SQL Server databases and view a report of any 
 
 <a href='https://youtu.be/13HipAOyAqU'>This is the most recent video on YouTube:</a>
 
-This project now has Git Hug Pages setup. Book mark this and I will try and keep it up to date with the latest news:
+This project now has Git Hub Pages setup. Book mark this and I will try and keep it up to date with the latest news:
 
 <a href='https://datajuggler.github.io/DBCompare/'>DB Compare Home - Git Hub Pages</a>
 
