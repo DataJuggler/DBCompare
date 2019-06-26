@@ -3,6 +3,10 @@ DB Compare is used to compare two SQL Server databases and view a report of any 
 
 <a href='https://youtu.be/13HipAOyAqU'>This is the most recent video on YouTube:</a>
 
+I just rented a virtual machine, so soon I am going to build a DB Compare online. 
+
+It will be easy to build the Azure to Azure comparision, for the comparision of your home machine vs an Azure I haven't figure that out yet. Suggestions anyone?
+
 This project now has Git Hub Pages setup. Book mark this and I will try and keep it up to date with the latest news:
 
 <a href='https://datajuggler.github.io/DBCompare/'>DB Compare Home - Git Hub Pages</a>
