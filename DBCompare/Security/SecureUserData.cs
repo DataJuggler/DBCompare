@@ -25,7 +25,7 @@ namespace DBCompare.Security
 
             #region CompareCount
             /// <summary>
-            /// This property gets or sets the value for FontName
+            /// This property gets or sets the value for CompareCount
             /// </summary>
             [UserScopedSetting()]
             public int CompareCount
@@ -55,7 +55,7 @@ namespace DBCompare.Security
 
             #region CompareType
             /// <summary>
-            /// This property gets or sets the value for FontName
+            /// This property gets or sets the value for CompareType
             /// </summary>
             [UserScopedSetting()]
             public string CompareType
@@ -85,7 +85,7 @@ namespace DBCompare.Security
 
             #region CreateXmlFile
             /// <summary>
-            /// This property gets or sets the value for FontName
+            /// This property gets or sets the value for CreateXmlFile
             /// </summary>
             [UserScopedSetting()]
             [DefaultSettingValue("False")]
@@ -106,7 +106,7 @@ namespace DBCompare.Security
 
             #region IgnoreDiagramProcedures
             /// <summary>
-            /// This property gets or sets the value for FontName
+            /// This property gets or sets the value for IgnoreDiagramProcedures
             /// </summary>
             [UserScopedSetting()]
             [DefaultSettingValue("True")]
@@ -121,6 +121,48 @@ namespace DBCompare.Security
                 {
                     // set the value
                     this["IgnoreDiagramProcedures"] = value;
+                }   
+            }
+            #endregion
+
+            #region IgnoreDataSync
+            /// <summary>
+            /// This property gets or sets the value for IgnoreDataSync
+            /// </summary>
+            [UserScopedSetting()]
+            [DefaultSettingValue("True")]
+            public bool IgnoreDataSync
+            {
+                get
+                {
+                    // return the value for IgnoreDataSync
+                    return (bool) this["IgnoreDataSync"];
+                }
+                set
+                {
+                    // set the value
+                    this["IgnoreDataSync"] = value;
+                }   
+            }
+            #endregion
+
+            #region IgnoreFirewallRules
+            /// <summary>
+            /// This property gets or sets the value for IgnoreFirewallRules
+            /// </summary>
+            [UserScopedSetting()]
+            [DefaultSettingValue("True")]
+            public bool IgnoreFirewallRules
+            {
+                get
+                {
+                    // return the value for IgnoreFirewallRules
+                    return (bool) this["IgnoreFirewallRules"];
+                }
+                set
+                {
+                    // set the value
+                    this["IgnoreFirewallRules"] = value;
                 }   
             }
             #endregion
@@ -157,7 +199,7 @@ namespace DBCompare.Security
             
             #region RemoteComparison
             /// <summary>
-            /// This property gets or sets the value for FontName
+            /// This property gets or sets the value for RemoteComparison
             /// </summary>
             [UserScopedSetting()]
             [DefaultSettingValue("False")]
@@ -178,7 +220,7 @@ namespace DBCompare.Security
             
             #region StoreConnectionStrings
             /// <summary>
-            /// This property gets or sets the value for FontName
+            /// This property gets or sets the value for StoreConnectionStrings
             /// </summary>
             [UserScopedSetting()]
             [DefaultSettingValue("True")]

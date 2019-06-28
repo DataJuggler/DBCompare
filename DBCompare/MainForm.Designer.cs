@@ -67,9 +67,9 @@ namespace DBCompare
             this.LeftMarginPanel3 = new System.Windows.Forms.Panel();
             this.CompareDatabaseTopPanel = new System.Windows.Forms.Panel();
             this.OptionsPanel = new System.Windows.Forms.Panel();
-            this.RemoteComparePanel = new System.Windows.Forms.Panel();
-            this.CreateXmlFileCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.RemoteCompareCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            this.IgnoreDataSyncPanel = new System.Windows.Forms.Panel();
+            this.IgnoreFirewallRulesCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            this.IgnoreDataSyncCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             this.TopCheckBoxPanel = new System.Windows.Forms.Panel();
             this.StoreConnectionStringsCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             this.IgnoreDiagramProceduresCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
@@ -92,15 +92,19 @@ namespace DBCompare
             this.ResultsTextBox = new System.Windows.Forms.TextBox();
             this.ComparisonReportLabel = new System.Windows.Forms.Label();
             this.BottomMarginPanel = new System.Windows.Forms.Panel();
+            this.RemoteComparePanel = new System.Windows.Forms.Panel();
+            this.CreateXmlFileCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            this.RemoteCompareCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             this.YouTubePanel.SuspendLayout();
             this.CompareDatabaseTopPanel.SuspendLayout();
             this.OptionsPanel.SuspendLayout();
-            this.RemoteComparePanel.SuspendLayout();
+            this.IgnoreDataSyncPanel.SuspendLayout();
             this.TopCheckBoxPanel.SuspendLayout();
             this.CompareRightColumn.SuspendLayout();
             this.TopSectionPanel.SuspendLayout();
             this.TargetConnectionPanel.SuspendLayout();
             this.MainPanel.SuspendLayout();
+            this.RemoteComparePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // LeftMarginPanel
@@ -375,6 +379,7 @@ namespace DBCompare
             this.OptionsPanel.BackColor = System.Drawing.Color.Transparent;
             this.OptionsPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.OptionsPanel.Controls.Add(this.RemoteComparePanel);
+            this.OptionsPanel.Controls.Add(this.IgnoreDataSyncPanel);
             this.OptionsPanel.Controls.Add(this.TopCheckBoxPanel);
             this.OptionsPanel.Controls.Add(this.SwapButton);
             this.OptionsPanel.Controls.Add(this.RightFillerPanel);
@@ -386,58 +391,58 @@ namespace DBCompare
             this.OptionsPanel.Size = new System.Drawing.Size(1032, 96);
             this.OptionsPanel.TabIndex = 69;
             // 
-            // RemoteComparePanel
+            // IgnoreDataSyncPanel
             // 
-            this.RemoteComparePanel.Controls.Add(this.CreateXmlFileCheckBox);
-            this.RemoteComparePanel.Controls.Add(this.RemoteCompareCheckBox);
-            this.RemoteComparePanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.RemoteComparePanel.Location = new System.Drawing.Point(0, 36);
-            this.RemoteComparePanel.MaximumSize = new System.Drawing.Size(720, 32);
-            this.RemoteComparePanel.Name = "RemoteComparePanel";
-            this.RemoteComparePanel.Size = new System.Drawing.Size(720, 32);
-            this.RemoteComparePanel.TabIndex = 88;
+            this.IgnoreDataSyncPanel.Controls.Add(this.IgnoreFirewallRulesCheckBox);
+            this.IgnoreDataSyncPanel.Controls.Add(this.IgnoreDataSyncCheckBox);
+            this.IgnoreDataSyncPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.IgnoreDataSyncPanel.Location = new System.Drawing.Point(0, 34);
+            this.IgnoreDataSyncPanel.MaximumSize = new System.Drawing.Size(720, 64);
+            this.IgnoreDataSyncPanel.Name = "IgnoreDataSyncPanel";
+            this.IgnoreDataSyncPanel.Size = new System.Drawing.Size(720, 32);
+            this.IgnoreDataSyncPanel.TabIndex = 89;
             // 
-            // CreateXmlFileCheckBox
+            // IgnoreFirewallRulesCheckBox
             // 
-            this.CreateXmlFileCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.CreateXmlFileCheckBox.CheckBoxHorizontalOffSet = 0;
-            this.CreateXmlFileCheckBox.CheckBoxVerticalOffSet = 2;
-            this.CreateXmlFileCheckBox.CheckChangedListener = null;
-            this.CreateXmlFileCheckBox.Checked = false;
-            this.CreateXmlFileCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.CreateXmlFileCheckBox.Editable = true;
-            this.CreateXmlFileCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CreateXmlFileCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.CreateXmlFileCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
-            this.CreateXmlFileCheckBox.LabelText = "Create Xml File:";
-            this.CreateXmlFileCheckBox.LabelWidth = 200;
-            this.CreateXmlFileCheckBox.Location = new System.Drawing.Point(300, 0);
-            this.CreateXmlFileCheckBox.MaximumSize = new System.Drawing.Size(220, 32);
-            this.CreateXmlFileCheckBox.MinimumSize = new System.Drawing.Size(220, 32);
-            this.CreateXmlFileCheckBox.Name = "CreateXmlFileCheckBox";
-            this.CreateXmlFileCheckBox.Size = new System.Drawing.Size(220, 32);
-            this.CreateXmlFileCheckBox.TabIndex = 98;
+            this.IgnoreFirewallRulesCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.IgnoreFirewallRulesCheckBox.CheckBoxHorizontalOffSet = 0;
+            this.IgnoreFirewallRulesCheckBox.CheckBoxVerticalOffSet = 2;
+            this.IgnoreFirewallRulesCheckBox.CheckChangedListener = null;
+            this.IgnoreFirewallRulesCheckBox.Checked = true;
+            this.IgnoreFirewallRulesCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.IgnoreFirewallRulesCheckBox.Editable = true;
+            this.IgnoreFirewallRulesCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IgnoreFirewallRulesCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            this.IgnoreFirewallRulesCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
+            this.IgnoreFirewallRulesCheckBox.LabelText = "Ignore Firewall Rules:";
+            this.IgnoreFirewallRulesCheckBox.LabelWidth = 220;
+            this.IgnoreFirewallRulesCheckBox.Location = new System.Drawing.Point(300, 0);
+            this.IgnoreFirewallRulesCheckBox.MaximumSize = new System.Drawing.Size(240, 32);
+            this.IgnoreFirewallRulesCheckBox.MinimumSize = new System.Drawing.Size(240, 32);
+            this.IgnoreFirewallRulesCheckBox.Name = "IgnoreFirewallRulesCheckBox";
+            this.IgnoreFirewallRulesCheckBox.Size = new System.Drawing.Size(240, 32);
+            this.IgnoreFirewallRulesCheckBox.TabIndex = 98;
             // 
-            // RemoteCompareCheckBox
+            // IgnoreDataSyncCheckBox
             // 
-            this.RemoteCompareCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.RemoteCompareCheckBox.CheckBoxHorizontalOffSet = 0;
-            this.RemoteCompareCheckBox.CheckBoxVerticalOffSet = 2;
-            this.RemoteCompareCheckBox.CheckChangedListener = null;
-            this.RemoteCompareCheckBox.Checked = false;
-            this.RemoteCompareCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.RemoteCompareCheckBox.Editable = true;
-            this.RemoteCompareCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RemoteCompareCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.RemoteCompareCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
-            this.RemoteCompareCheckBox.LabelText = "Remote Compare:";
-            this.RemoteCompareCheckBox.LabelWidth = 280;
-            this.RemoteCompareCheckBox.Location = new System.Drawing.Point(0, 0);
-            this.RemoteCompareCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
-            this.RemoteCompareCheckBox.MinimumSize = new System.Drawing.Size(300, 32);
-            this.RemoteCompareCheckBox.Name = "RemoteCompareCheckBox";
-            this.RemoteCompareCheckBox.Size = new System.Drawing.Size(300, 32);
-            this.RemoteCompareCheckBox.TabIndex = 97;
+            this.IgnoreDataSyncCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.IgnoreDataSyncCheckBox.CheckBoxHorizontalOffSet = 0;
+            this.IgnoreDataSyncCheckBox.CheckBoxVerticalOffSet = 2;
+            this.IgnoreDataSyncCheckBox.CheckChangedListener = null;
+            this.IgnoreDataSyncCheckBox.Checked = true;
+            this.IgnoreDataSyncCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.IgnoreDataSyncCheckBox.Editable = true;
+            this.IgnoreDataSyncCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IgnoreDataSyncCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            this.IgnoreDataSyncCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
+            this.IgnoreDataSyncCheckBox.LabelText = "Ignore SQL DataSync:";
+            this.IgnoreDataSyncCheckBox.LabelWidth = 280;
+            this.IgnoreDataSyncCheckBox.Location = new System.Drawing.Point(0, 0);
+            this.IgnoreDataSyncCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
+            this.IgnoreDataSyncCheckBox.MinimumSize = new System.Drawing.Size(300, 32);
+            this.IgnoreDataSyncCheckBox.Name = "IgnoreDataSyncCheckBox";
+            this.IgnoreDataSyncCheckBox.Size = new System.Drawing.Size(300, 32);
+            this.IgnoreDataSyncCheckBox.TabIndex = 97;
             // 
             // TopCheckBoxPanel
             // 
@@ -445,9 +450,9 @@ namespace DBCompare
             this.TopCheckBoxPanel.Controls.Add(this.IgnoreDiagramProceduresCheckBox);
             this.TopCheckBoxPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.TopCheckBoxPanel.Location = new System.Drawing.Point(0, 4);
-            this.TopCheckBoxPanel.MaximumSize = new System.Drawing.Size(720, 32);
+            this.TopCheckBoxPanel.MaximumSize = new System.Drawing.Size(720, 30);
             this.TopCheckBoxPanel.Name = "TopCheckBoxPanel";
-            this.TopCheckBoxPanel.Size = new System.Drawing.Size(720, 32);
+            this.TopCheckBoxPanel.Size = new System.Drawing.Size(720, 30);
             this.TopCheckBoxPanel.TabIndex = 87;
             // 
             // StoreConnectionStringsCheckBox
@@ -463,12 +468,12 @@ namespace DBCompare
             this.StoreConnectionStringsCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
             this.StoreConnectionStringsCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             this.StoreConnectionStringsCheckBox.LabelText = "Store Conn Strings:";
-            this.StoreConnectionStringsCheckBox.LabelWidth = 200;
+            this.StoreConnectionStringsCheckBox.LabelWidth = 220;
             this.StoreConnectionStringsCheckBox.Location = new System.Drawing.Point(300, 0);
-            this.StoreConnectionStringsCheckBox.MaximumSize = new System.Drawing.Size(220, 32);
-            this.StoreConnectionStringsCheckBox.MinimumSize = new System.Drawing.Size(220, 32);
+            this.StoreConnectionStringsCheckBox.MaximumSize = new System.Drawing.Size(240, 32);
+            this.StoreConnectionStringsCheckBox.MinimumSize = new System.Drawing.Size(240, 32);
             this.StoreConnectionStringsCheckBox.Name = "StoreConnectionStringsCheckBox";
-            this.StoreConnectionStringsCheckBox.Size = new System.Drawing.Size(220, 32);
+            this.StoreConnectionStringsCheckBox.Size = new System.Drawing.Size(240, 32);
             this.StoreConnectionStringsCheckBox.TabIndex = 97;
             // 
             // IgnoreDiagramProceduresCheckBox
@@ -719,6 +724,59 @@ namespace DBCompare
             this.BottomMarginPanel.Size = new System.Drawing.Size(1048, 12);
             this.BottomMarginPanel.TabIndex = 26;
             // 
+            // RemoteComparePanel
+            // 
+            this.RemoteComparePanel.Controls.Add(this.CreateXmlFileCheckBox);
+            this.RemoteComparePanel.Controls.Add(this.RemoteCompareCheckBox);
+            this.RemoteComparePanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.RemoteComparePanel.Location = new System.Drawing.Point(0, 66);
+            this.RemoteComparePanel.MaximumSize = new System.Drawing.Size(720, 64);
+            this.RemoteComparePanel.Name = "RemoteComparePanel";
+            this.RemoteComparePanel.Size = new System.Drawing.Size(720, 32);
+            this.RemoteComparePanel.TabIndex = 90;
+            // 
+            // CreateXmlFileCheckBox
+            // 
+            this.CreateXmlFileCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.CreateXmlFileCheckBox.CheckBoxHorizontalOffSet = 0;
+            this.CreateXmlFileCheckBox.CheckBoxVerticalOffSet = 2;
+            this.CreateXmlFileCheckBox.CheckChangedListener = null;
+            this.CreateXmlFileCheckBox.Checked = false;
+            this.CreateXmlFileCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.CreateXmlFileCheckBox.Editable = true;
+            this.CreateXmlFileCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CreateXmlFileCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            this.CreateXmlFileCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
+            this.CreateXmlFileCheckBox.LabelText = "Create Xml File:";
+            this.CreateXmlFileCheckBox.LabelWidth = 220;
+            this.CreateXmlFileCheckBox.Location = new System.Drawing.Point(300, 0);
+            this.CreateXmlFileCheckBox.MaximumSize = new System.Drawing.Size(240, 30);
+            this.CreateXmlFileCheckBox.MinimumSize = new System.Drawing.Size(240, 30);
+            this.CreateXmlFileCheckBox.Name = "CreateXmlFileCheckBox";
+            this.CreateXmlFileCheckBox.Size = new System.Drawing.Size(240, 30);
+            this.CreateXmlFileCheckBox.TabIndex = 98;
+            // 
+            // RemoteCompareCheckBox
+            // 
+            this.RemoteCompareCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.RemoteCompareCheckBox.CheckBoxHorizontalOffSet = 0;
+            this.RemoteCompareCheckBox.CheckBoxVerticalOffSet = 2;
+            this.RemoteCompareCheckBox.CheckChangedListener = null;
+            this.RemoteCompareCheckBox.Checked = false;
+            this.RemoteCompareCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.RemoteCompareCheckBox.Editable = true;
+            this.RemoteCompareCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RemoteCompareCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            this.RemoteCompareCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
+            this.RemoteCompareCheckBox.LabelText = "Remote Compare:";
+            this.RemoteCompareCheckBox.LabelWidth = 280;
+            this.RemoteCompareCheckBox.Location = new System.Drawing.Point(0, 0);
+            this.RemoteCompareCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
+            this.RemoteCompareCheckBox.MinimumSize = new System.Drawing.Size(300, 32);
+            this.RemoteCompareCheckBox.Name = "RemoteCompareCheckBox";
+            this.RemoteCompareCheckBox.Size = new System.Drawing.Size(300, 32);
+            this.RemoteCompareCheckBox.TabIndex = 97;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -748,13 +806,14 @@ namespace DBCompare
             this.YouTubePanel.ResumeLayout(false);
             this.CompareDatabaseTopPanel.ResumeLayout(false);
             this.OptionsPanel.ResumeLayout(false);
-            this.RemoteComparePanel.ResumeLayout(false);
+            this.IgnoreDataSyncPanel.ResumeLayout(false);
             this.TopCheckBoxPanel.ResumeLayout(false);
             this.CompareRightColumn.ResumeLayout(false);
             this.TopSectionPanel.ResumeLayout(false);
             this.TargetConnectionPanel.ResumeLayout(false);
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
+            this.RemoteComparePanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
             }
@@ -770,7 +829,6 @@ namespace DBCompare
         private System.Windows.Forms.Panel LeftMarginPanel3;
         private System.Windows.Forms.Panel CompareDatabaseTopPanel;
         private System.Windows.Forms.Panel OptionsPanel;
-        private System.Windows.Forms.Panel RemoteComparePanel;
         private System.Windows.Forms.Panel TopCheckBoxPanel;
         private System.Windows.Forms.Button SwapButton;
         private System.Windows.Forms.Panel RightFillerPanel;
@@ -792,16 +850,20 @@ namespace DBCompare
         private System.Windows.Forms.Panel MainPanel;
         private System.Windows.Forms.TextBox ResultsTextBox;
         private System.Windows.Forms.Label ComparisonReportLabel;
-        private DataJuggler.Win.Controls.LabelCheckBoxControl RemoteCompareCheckBox;
-        private DataJuggler.Win.Controls.LabelCheckBoxControl StoreConnectionStringsCheckBox;
         private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreDiagramProceduresCheckBox;
-        private DataJuggler.Win.Controls.LabelCheckBoxControl CreateXmlFileCheckBox;
         private System.Windows.Forms.Label CountLabel;
         private System.Windows.Forms.Panel CountLeftMargin;
         private System.Windows.Forms.Button CreateXmlFileButton;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button CompareDatabasesButton;
         private System.Windows.Forms.Panel BottomMarginPanel;
+        private System.Windows.Forms.Panel IgnoreDataSyncPanel;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreDataSyncCheckBox;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreFirewallRulesCheckBox;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl StoreConnectionStringsCheckBox;
+        private System.Windows.Forms.Panel RemoteComparePanel;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl CreateXmlFileCheckBox;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl RemoteCompareCheckBox;
     }
     #endregion
 

@@ -2,21 +2,19 @@
 
 #region using statements
 
-
 using DataJuggler.Core.UltimateHelper;
 using DataJuggler.Net;
 using DataJuggler.Win.Controls;
 using DataJuggler.Win.Controls.Interfaces;
 using DBCompare.Enumerations;
 using DBCompare.Security;
-using System;
-using System.Diagnostics;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
 using DBCompare.Xml.Parsers;
 using DBCompare.Xml.Writers;
+using System;
 using System.IO;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 #endregion
 
@@ -171,22 +169,13 @@ namespace DBCompare
             /// <summary>
             /// This event is fired when the user clicks the CompareDatabases button.
             /// </summary>
-            private void CompareDatabasesButton_Click(object sender, EventArgs e)
+            private async void CompareDatabasesButton_Click(object sender, EventArgs e)
             {
                 // Remove the focus from this button
                 this.HiddenButton.Focus();
 
-                // if the RemoteCompareMode is true
-                if ((this.HasCompareInfo) && (this.CompareInfo.CompareType == CompareTypeEnum.CompareXmlFileAndSQLDatabase))
-                {
-                    // Perform the comparison on the Remote database
-                    RemoteCompareDatabases();
-                }
-                else
-                {
-                    // Compare the databases
-                    CompareDatabases();
-                }
+                // Run the comparison async
+                bool compare = await RunComparison();
             }
             #endregion
             
@@ -213,7 +202,7 @@ namespace DBCompare
                 // Display the settings
                 DisplaySettings();
             }
-        #endregion
+            #endregion
 
             #region OnCheckChanged(LabelCheckBoxControl labelCheckBox, bool isChecked)
             /// <summary>
@@ -581,6 +570,8 @@ namespace DBCompare
 
                     // Set the value for IgnoreDiagramProceduresCheckBox.Checked
                     this.IgnoreDiagramProceduresCheckBox.Checked = Settings.IgnoreDiagramProcedures;
+                    this.IgnoreDataSyncCheckBox.Checked = Settings.IgnoreDataSync;
+                    this.IgnoreFirewallRulesCheckBox.Checked = Settings.IgnoreFirewallRules;
 
                     // Set the value for StoreConnectionStringsCheckBox
                     this.StoreConnectionStringsCheckBox.Checked = true;
@@ -694,7 +685,7 @@ namespace DBCompare
             public void Init()
             {
                 // set the version
-                string version = "2.0.1";
+                string version = "2.1.0";
 
                 // Display the version number
                 this.Text = "DB Compare " + version;
@@ -714,6 +705,10 @@ namespace DBCompare
             /// </summary>
             private void LoadDatabaseSchema(SQLDatabaseConnector connector, ref Database database)
             {
+                // local
+                bool ignoreDataSync = IgnoreDataSyncCheckBox.Checked;
+                bool ignoreFirewallRules = IgnoreFirewallRulesCheckBox.Checked;
+
                 try
                 {
                     // if the database exists
@@ -726,7 +721,7 @@ namespace DBCompare
                         if (connector.Connected)
                         {
                             // Load the database schema
-                            connector.LoadDatabaseSchema(database);
+                            connector.LoadDatabaseSchema(database, ignoreDataSync, ignoreFirewallRules);
                         }
 
                         // Close the connection
@@ -861,6 +856,29 @@ namespace DBCompare
             }
             #endregion
             
+            #region RunComparison()
+            /// <summary>
+            /// This method Run Comparison
+            /// </summary>
+            public Task<bool> RunComparison()
+            {
+                 // if the RemoteCompareMode is true
+                if ((this.HasCompareInfo) && (this.CompareInfo.CompareType == CompareTypeEnum.CompareXmlFileAndSQLDatabase))
+                {
+                    // Perform the comparison on the Remote database
+                    RemoteCompareDatabases();
+                }
+                else
+                {
+                    // Compare the databases
+                    CompareDatabases();
+                }
+
+                // return value
+                return Task.FromResult<bool>(true);
+            }
+            #endregion
+
             #region SaveSettings()
             /// <summary>
             /// This method saves the settings
@@ -951,8 +969,10 @@ namespace DBCompare
                         this.Settings.SourceXmlFilePath = null;
                     }
 
-                    // Store the value for IgnoreDiagramProcedures
+                    // Store the value for IgnoreDiagramProcedures, IgnoreDataSync and IgnoreFirewallRules
                     this.Settings.IgnoreDiagramProcedures = this.IgnoreDiagramProceduresCheckBox.Checked;
+                    this.Settings.IgnoreDataSync = this.IgnoreDataSyncCheckBox.Checked;
+                    this.Settings.IgnoreFirewallRules = this.IgnoreFirewallRulesCheckBox.Checked;
 
                     // Save the settings
                     this.Settings.Save();

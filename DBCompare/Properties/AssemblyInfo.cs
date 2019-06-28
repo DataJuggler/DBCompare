@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("DBCompare")]
 [assembly: AssemblyDescription("This tool is used to compare two SQL Server databases; as of version 2.0 there is now a remote compare.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Data Juggler")]
+[assembly: AssemblyCompany("Data Juggler Software released free on Git Hub.")]
 [assembly: AssemblyProduct("DB Compare")]
-[assembly: AssemblyCopyright("Copyright ©  2012-2017")]
+[assembly: AssemblyCopyright("Copyright ©  2012-2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.0.1.0")]
-[assembly: AssemblyFileVersion("2.0.1.0")]
+[assembly: AssemblyVersion("2.1.0.0")]
+[assembly: AssemblyFileVersion("2.1.0.0")]
