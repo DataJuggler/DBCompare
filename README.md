@@ -1,9 +1,13 @@
 # DBCompare
-DB Compare is used to compare two instance of SQL Server database and view a report of any schema differences. DB Compare was originally a sample of DataTier.Net and uses the same class SQLDatabaseConnector.cs to read the database schema.
+DB Compare is used to compare two SQL Server databases and view a report of any schema differences. DB Compare was originally a sample of DataTier.Net and uses the same class SQLDatabaseConnector.cs to read the database schema.
 
 <a href='https://youtu.be/13HipAOyAqU'>This is the most recent video on YouTube:</a>
 
-This project now has Git Hug Pages setup. Book mark this and I will try and keep it up to date with the latest news:
+I just rented a virtual machine, so soon I am going to build a DB Compare online. 
+
+It will be easy to build the Azure to Azure comparision, for the comparision of your home machine vs an Azure I haven't figure that out yet. Suggestions anyone?
+
+This project now has Git Hub Pages setup. Book mark this and I will try and keep it up to date with the latest news:
 
 <a href='https://datajuggler.github.io/DBCompare/'>DB Compare Home - Git Hub Pages</a>
 
