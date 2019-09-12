@@ -3,6 +3,8 @@ DB Compare is used to compare two SQL Server databases and view a report of any 
 
 <a href='https://youtu.be/13HipAOyAqU'>This is the most recent video on YouTube:</a>
 
+Update 9.12.2019: DBCompare install can not be downloaded here: https://datajuggler.com/Downloads/DBCompare.msi
+
 Update 6.29.2019: 
 Version 2.1 New Features
 1. Ignore DataSync - My boss installed SQL DataSync on our servers so we can run our websites on SQL Express, which is much faster than Azure SQL, but he likes Azure SQL for backups so now we have the database on the VM backed up and mirred to Azure SQL.
