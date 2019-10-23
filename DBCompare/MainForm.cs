@@ -32,7 +32,7 @@ namespace DBCompare
         private SecureUserData settings;
         private CompareInfo compareInfo;
         private const string XmlFilter = "XML files (*.xml)|*.xml";
-        private const string YouTubePath = "https://www.youtube.com/channel/UCaw0joqvisKr3lYJ9Pd2vHA";
+        private const string YouTubePath = "https://youtu.be/13HipAOyAqU";
         #endregion
         
         #region Constructor
