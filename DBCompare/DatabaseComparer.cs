@@ -2,12 +2,12 @@
 
 #region using statements
 
-using DataJuggler.Net;
-using DataJuggler.Core.UltimateHelper;
+using DataJuggler.Net5;
+using DataJuggler.UltimateHelper;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using DataJuggler.Core.UltimateHelper.Objects;
+using DataJuggler.UltimateHelper.Objects;
 using System.Linq;
 
 #endregion
@@ -27,13 +27,14 @@ namespace DBCompare
         private Database targetDatabase;
         private bool ignoreDiagramProcedures;
         private string failedReason;
+        private bool ignoreIndexes;
         #endregion
 
-        #region Parameterized Constructor(Database sourceDatabase, Database targetDatabase, bool ignoreDiagramProcedures)
+        #region Parameterized Constructor(Database sourceDatabase, Database targetDatabase, bool ignoreDiagramProcedures bool, ignoreIndexes)
         /// <summary>
         /// Create a new instance of a SQLDatabaseComparer object.
         /// </summary>
-        public DatabaseComparer(Database sourceDatabase, Database targetDatabase, bool ignoreDiagramProcedures)
+        public DatabaseComparer(Database sourceDatabase, Database targetDatabase, bool ignoreDiagramProcedures, bool ignoreIndexes)
         {
             // if both databases exist
             if (NullHelper.Exists(sourceDatabase, targetDatabase))
@@ -42,8 +43,9 @@ namespace DBCompare
                 SourceDatabase = sourceDatabase;
                 TargetDatabase = targetDatabase;
                 
-                // Set the parameter for IgnoreDiagramProcedures
+                // store the args
                 this.IgnoreDiagramProcedures = ignoreDiagramProcedures;
+                this.IgnoreIndexes = ignoreIndexes;
             }
             else
             {
@@ -73,8 +75,12 @@ namespace DBCompare
                     // Do a backwards comparison to see if there are any fields in the target table that are not in the source table.
                     DoBackwardsComparison(targetTable, sourceTable, ref comparison);
                     
-                    // Compare the indexes
-                    CompareIndexesForTable(sourceTable, targetTable, ref comparison);
+                    // should indexes be ignored
+                    if (!IgnoreIndexes)
+                    {
+                        // Compare the indexes
+                        CompareIndexesForTable(sourceTable, targetTable, ref comparison);
+                    }
 
                     // Compare the CheckConstraints for a table
                     CompareCheckConstraintsForTable(sourceTable, targetTable, ref comparison);
@@ -1268,6 +1274,17 @@ namespace DBCompare
             {
                 get { return ignoreDiagramProcedures; }
                 set { ignoreDiagramProcedures = value; }
+            }
+            #endregion
+            
+            #region IgnoreIndexes
+            /// <summary>
+            /// This property gets or sets the value for 'IgnoreIndexes'.
+            /// </summary>
+            public bool IgnoreIndexes
+            {
+                get { return ignoreIndexes; }
+                set { ignoreIndexes = value; }
             }
             #endregion
             

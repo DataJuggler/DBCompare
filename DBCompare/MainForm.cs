@@ -2,8 +2,8 @@
 
 #region using statements
 
-using DataJuggler.Core.UltimateHelper;
-using DataJuggler.Net;
+using DataJuggler.UltimateHelper;
+using DataJuggler.Net5;
 using DataJuggler.Win.Controls;
 using DataJuggler.Win.Controls.Interfaces;
 using DBCompare.Enumerations;
@@ -15,6 +15,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DBCompare.Util;
 
 #endregion
 
@@ -603,9 +604,10 @@ namespace DBCompare
                     {
                         // Get the value for IgnoreDiagramProcedures
                         bool ignoreDiagramProcedures = this.IgnoreDiagramProceduresCheckBox.Checked;
+                        bool ignoreIndexes = this.IgnoreIndexesCheckBox.Checked;
                             
                         // Create a new database comparer
-                        DatabaseComparer comparer = new DatabaseComparer(sourceDatabase, targetDatabase, ignoreDiagramProcedures);
+                        DatabaseComparer comparer = new DatabaseComparer(sourceDatabase, targetDatabase, ignoreDiagramProcedures, ignoreIndexes);
 
                         // Compare the two database schemas
                         schemaComparison = comparer.Compare();
@@ -685,7 +687,7 @@ namespace DBCompare
             public void Init()
             {
                 // set the version
-                string version = "2.1.0";
+                string version = "2.1.3";
 
                 // Display the version number
                 this.Text = "DB Compare " + version;
@@ -708,7 +710,7 @@ namespace DBCompare
                 // local
                 bool ignoreDataSync = IgnoreDataSyncCheckBox.Checked;
                 bool ignoreFirewallRules = IgnoreFirewallRulesCheckBox.Checked;
-
+                
                 try
                 {
                     // if the database exists
@@ -1080,7 +1082,7 @@ namespace DBCompare
                 get { return settings; }
                 set { settings = value; }
             }
-        #endregion
+            #endregion
 
         #endregion
             

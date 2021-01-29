@@ -2,12 +2,12 @@
 
 #region using statements
 
-using DataJuggler.Net;
+using DataJuggler.Net5;
 using System;
 using System.Collections.Generic;
-using XmlMirror.Runtime.Objects;
-using XmlMirror.Runtime.Util;
-using DataJuggler.Net.Enumerations;
+using XmlMirror.Runtime5.Objects;
+using XmlMirror.Runtime5.Util;
+using DataJuggler.Net5.Enumerations;
 
 #endregion
 

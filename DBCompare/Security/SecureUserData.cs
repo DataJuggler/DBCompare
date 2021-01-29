@@ -6,7 +6,7 @@ using System;
 using System.Configuration;
 using System.Drawing;
 using DBCompare.Enumerations;
-using DataJuggler.Core.UltimateHelper;
+using DataJuggler.UltimateHelper;
 
 #endregion
 

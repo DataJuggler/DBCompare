@@ -67,6 +67,9 @@ namespace DBCompare
             this.LeftMarginPanel3 = new System.Windows.Forms.Panel();
             this.CompareDatabaseTopPanel = new System.Windows.Forms.Panel();
             this.OptionsPanel = new System.Windows.Forms.Panel();
+            this.RemoteComparePanel = new System.Windows.Forms.Panel();
+            this.CreateXmlFileCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            this.RemoteCompareCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             this.IgnoreDataSyncPanel = new System.Windows.Forms.Panel();
             this.IgnoreFirewallRulesCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             this.IgnoreDataSyncCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
@@ -92,19 +95,17 @@ namespace DBCompare
             this.ResultsTextBox = new System.Windows.Forms.TextBox();
             this.ComparisonReportLabel = new System.Windows.Forms.Label();
             this.BottomMarginPanel = new System.Windows.Forms.Panel();
-            this.RemoteComparePanel = new System.Windows.Forms.Panel();
-            this.CreateXmlFileCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.RemoteCompareCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            this.IgnoreIndexesCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             this.YouTubePanel.SuspendLayout();
             this.CompareDatabaseTopPanel.SuspendLayout();
             this.OptionsPanel.SuspendLayout();
+            this.RemoteComparePanel.SuspendLayout();
             this.IgnoreDataSyncPanel.SuspendLayout();
             this.TopCheckBoxPanel.SuspendLayout();
             this.CompareRightColumn.SuspendLayout();
             this.TopSectionPanel.SuspendLayout();
             this.TargetConnectionPanel.SuspendLayout();
             this.MainPanel.SuspendLayout();
-            this.RemoteComparePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // LeftMarginPanel
@@ -122,14 +123,14 @@ namespace DBCompare
             this.SourceTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.SourceTopPanel.Location = new System.Drawing.Point(16, 0);
             this.SourceTopPanel.Name = "SourceTopPanel";
-            this.SourceTopPanel.Size = new System.Drawing.Size(1048, 16);
+            this.SourceTopPanel.Size = new System.Drawing.Size(1108, 16);
             this.SourceTopPanel.TabIndex = 48;
             // 
             // RightMarginPanel
             // 
             this.RightMarginPanel.BackColor = System.Drawing.Color.Transparent;
             this.RightMarginPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.RightMarginPanel.Location = new System.Drawing.Point(1048, 16);
+            this.RightMarginPanel.Location = new System.Drawing.Point(1108, 16);
             this.RightMarginPanel.Name = "RightMarginPanel";
             this.RightMarginPanel.Size = new System.Drawing.Size(16, 653);
             this.RightMarginPanel.TabIndex = 55;
@@ -145,7 +146,7 @@ namespace DBCompare
             this.YouTubePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.YouTubePanel.Location = new System.Drawing.Point(16, 601);
             this.YouTubePanel.Name = "YouTubePanel";
-            this.YouTubePanel.Size = new System.Drawing.Size(1032, 68);
+            this.YouTubePanel.Size = new System.Drawing.Size(1092, 68);
             this.YouTubePanel.TabIndex = 85;
             // 
             // CountLabel
@@ -178,7 +179,7 @@ namespace DBCompare
             this.YouTubeButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.YouTubeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.YouTubeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.YouTubeButton.Location = new System.Drawing.Point(904, 4);
+            this.YouTubeButton.Location = new System.Drawing.Point(964, 4);
             this.YouTubeButton.Name = "YouTubeButton";
             this.YouTubeButton.Size = new System.Drawing.Size(128, 64);
             this.YouTubeButton.TabIndex = 84;
@@ -193,7 +194,7 @@ namespace DBCompare
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1032, 4);
+            this.panel6.Size = new System.Drawing.Size(1092, 4);
             this.panel6.TabIndex = 78;
             // 
             // Separator6
@@ -202,7 +203,7 @@ namespace DBCompare
             this.Separator6.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.Separator6.Location = new System.Drawing.Point(16, 589);
             this.Separator6.Name = "Separator6";
-            this.Separator6.Size = new System.Drawing.Size(1032, 12);
+            this.Separator6.Size = new System.Drawing.Size(1092, 12);
             this.Separator6.TabIndex = 87;
             // 
             // HiddenButton
@@ -238,7 +239,7 @@ namespace DBCompare
             this.BuildSourceConnectionStringButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.BuildSourceConnectionStringButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold);
             this.BuildSourceConnectionStringButton.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.BuildSourceConnectionStringButton.Location = new System.Drawing.Point(992, 0);
+            this.BuildSourceConnectionStringButton.Location = new System.Drawing.Point(1052, 0);
             this.BuildSourceConnectionStringButton.Margin = new System.Windows.Forms.Padding(0);
             this.BuildSourceConnectionStringButton.MaximumSize = new System.Drawing.Size(40, 0);
             this.BuildSourceConnectionStringButton.Name = "BuildSourceConnectionStringButton";
@@ -263,7 +264,7 @@ namespace DBCompare
             this.BuildTargetConnectionStringButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.BuildTargetConnectionStringButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold);
             this.BuildTargetConnectionStringButton.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.BuildTargetConnectionStringButton.Location = new System.Drawing.Point(992, 0);
+            this.BuildTargetConnectionStringButton.Location = new System.Drawing.Point(1052, 0);
             this.BuildTargetConnectionStringButton.Margin = new System.Windows.Forms.Padding(0);
             this.BuildTargetConnectionStringButton.MaximumSize = new System.Drawing.Size(40, 0);
             this.BuildTargetConnectionStringButton.Name = "BuildTargetConnectionStringButton";
@@ -287,7 +288,7 @@ namespace DBCompare
             this.SwapButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.SwapButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SwapButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold);
-            this.SwapButton.Location = new System.Drawing.Point(736, 4);
+            this.SwapButton.Location = new System.Drawing.Point(796, 4);
             this.SwapButton.Margin = new System.Windows.Forms.Padding(0);
             this.SwapButton.MaximumSize = new System.Drawing.Size(64, 64);
             this.SwapButton.MinimumSize = new System.Drawing.Size(64, 64);
@@ -371,7 +372,7 @@ namespace DBCompare
             this.CompareDatabaseTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.CompareDatabaseTopPanel.Location = new System.Drawing.Point(0, 0);
             this.CompareDatabaseTopPanel.Name = "CompareDatabaseTopPanel";
-            this.CompareDatabaseTopPanel.Size = new System.Drawing.Size(1032, 184);
+            this.CompareDatabaseTopPanel.Size = new System.Drawing.Size(1092, 184);
             this.CompareDatabaseTopPanel.TabIndex = 99;
             // 
             // OptionsPanel
@@ -388,8 +389,61 @@ namespace DBCompare
             this.OptionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OptionsPanel.Location = new System.Drawing.Point(0, 88);
             this.OptionsPanel.Name = "OptionsPanel";
-            this.OptionsPanel.Size = new System.Drawing.Size(1032, 96);
+            this.OptionsPanel.Size = new System.Drawing.Size(1092, 96);
             this.OptionsPanel.TabIndex = 69;
+            // 
+            // RemoteComparePanel
+            // 
+            this.RemoteComparePanel.Controls.Add(this.CreateXmlFileCheckBox);
+            this.RemoteComparePanel.Controls.Add(this.RemoteCompareCheckBox);
+            this.RemoteComparePanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.RemoteComparePanel.Location = new System.Drawing.Point(0, 66);
+            this.RemoteComparePanel.MaximumSize = new System.Drawing.Size(780, 64);
+            this.RemoteComparePanel.Name = "RemoteComparePanel";
+            this.RemoteComparePanel.Size = new System.Drawing.Size(780, 32);
+            this.RemoteComparePanel.TabIndex = 90;
+            // 
+            // CreateXmlFileCheckBox
+            // 
+            this.CreateXmlFileCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.CreateXmlFileCheckBox.CheckBoxHorizontalOffSet = 0;
+            this.CreateXmlFileCheckBox.CheckBoxVerticalOffSet = 2;
+            this.CreateXmlFileCheckBox.CheckChangedListener = null;
+            this.CreateXmlFileCheckBox.Checked = false;
+            this.CreateXmlFileCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.CreateXmlFileCheckBox.Editable = true;
+            this.CreateXmlFileCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CreateXmlFileCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            this.CreateXmlFileCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
+            this.CreateXmlFileCheckBox.LabelText = "Create Xml File:";
+            this.CreateXmlFileCheckBox.LabelWidth = 220;
+            this.CreateXmlFileCheckBox.Location = new System.Drawing.Point(300, 0);
+            this.CreateXmlFileCheckBox.MaximumSize = new System.Drawing.Size(232, 30);
+            this.CreateXmlFileCheckBox.MinimumSize = new System.Drawing.Size(232, 30);
+            this.CreateXmlFileCheckBox.Name = "CreateXmlFileCheckBox";
+            this.CreateXmlFileCheckBox.Size = new System.Drawing.Size(232, 30);
+            this.CreateXmlFileCheckBox.TabIndex = 98;
+            // 
+            // RemoteCompareCheckBox
+            // 
+            this.RemoteCompareCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.RemoteCompareCheckBox.CheckBoxHorizontalOffSet = 0;
+            this.RemoteCompareCheckBox.CheckBoxVerticalOffSet = 2;
+            this.RemoteCompareCheckBox.CheckChangedListener = null;
+            this.RemoteCompareCheckBox.Checked = false;
+            this.RemoteCompareCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.RemoteCompareCheckBox.Editable = true;
+            this.RemoteCompareCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RemoteCompareCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            this.RemoteCompareCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
+            this.RemoteCompareCheckBox.LabelText = "Remote Compare:";
+            this.RemoteCompareCheckBox.LabelWidth = 280;
+            this.RemoteCompareCheckBox.Location = new System.Drawing.Point(0, 0);
+            this.RemoteCompareCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
+            this.RemoteCompareCheckBox.MinimumSize = new System.Drawing.Size(300, 32);
+            this.RemoteCompareCheckBox.Name = "RemoteCompareCheckBox";
+            this.RemoteCompareCheckBox.Size = new System.Drawing.Size(300, 32);
+            this.RemoteCompareCheckBox.TabIndex = 97;
             // 
             // IgnoreDataSyncPanel
             // 
@@ -397,9 +451,9 @@ namespace DBCompare
             this.IgnoreDataSyncPanel.Controls.Add(this.IgnoreDataSyncCheckBox);
             this.IgnoreDataSyncPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.IgnoreDataSyncPanel.Location = new System.Drawing.Point(0, 34);
-            this.IgnoreDataSyncPanel.MaximumSize = new System.Drawing.Size(720, 64);
+            this.IgnoreDataSyncPanel.MaximumSize = new System.Drawing.Size(780, 64);
             this.IgnoreDataSyncPanel.Name = "IgnoreDataSyncPanel";
-            this.IgnoreDataSyncPanel.Size = new System.Drawing.Size(720, 32);
+            this.IgnoreDataSyncPanel.Size = new System.Drawing.Size(780, 32);
             this.IgnoreDataSyncPanel.TabIndex = 89;
             // 
             // IgnoreFirewallRulesCheckBox
@@ -417,10 +471,10 @@ namespace DBCompare
             this.IgnoreFirewallRulesCheckBox.LabelText = "Ignore Firewall Rules:";
             this.IgnoreFirewallRulesCheckBox.LabelWidth = 220;
             this.IgnoreFirewallRulesCheckBox.Location = new System.Drawing.Point(300, 0);
-            this.IgnoreFirewallRulesCheckBox.MaximumSize = new System.Drawing.Size(240, 32);
-            this.IgnoreFirewallRulesCheckBox.MinimumSize = new System.Drawing.Size(240, 32);
+            this.IgnoreFirewallRulesCheckBox.MaximumSize = new System.Drawing.Size(232, 32);
+            this.IgnoreFirewallRulesCheckBox.MinimumSize = new System.Drawing.Size(232, 32);
             this.IgnoreFirewallRulesCheckBox.Name = "IgnoreFirewallRulesCheckBox";
-            this.IgnoreFirewallRulesCheckBox.Size = new System.Drawing.Size(240, 32);
+            this.IgnoreFirewallRulesCheckBox.Size = new System.Drawing.Size(232, 32);
             this.IgnoreFirewallRulesCheckBox.TabIndex = 98;
             // 
             // IgnoreDataSyncCheckBox
@@ -446,13 +500,14 @@ namespace DBCompare
             // 
             // TopCheckBoxPanel
             // 
+            this.TopCheckBoxPanel.Controls.Add(this.IgnoreIndexesCheckBox);
             this.TopCheckBoxPanel.Controls.Add(this.StoreConnectionStringsCheckBox);
             this.TopCheckBoxPanel.Controls.Add(this.IgnoreDiagramProceduresCheckBox);
             this.TopCheckBoxPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.TopCheckBoxPanel.Location = new System.Drawing.Point(0, 4);
-            this.TopCheckBoxPanel.MaximumSize = new System.Drawing.Size(720, 30);
+            this.TopCheckBoxPanel.MaximumSize = new System.Drawing.Size(780, 30);
             this.TopCheckBoxPanel.Name = "TopCheckBoxPanel";
-            this.TopCheckBoxPanel.Size = new System.Drawing.Size(720, 30);
+            this.TopCheckBoxPanel.Size = new System.Drawing.Size(780, 30);
             this.TopCheckBoxPanel.TabIndex = 87;
             // 
             // StoreConnectionStringsCheckBox
@@ -470,10 +525,10 @@ namespace DBCompare
             this.StoreConnectionStringsCheckBox.LabelText = "Store Conn Strings:";
             this.StoreConnectionStringsCheckBox.LabelWidth = 220;
             this.StoreConnectionStringsCheckBox.Location = new System.Drawing.Point(300, 0);
-            this.StoreConnectionStringsCheckBox.MaximumSize = new System.Drawing.Size(240, 32);
-            this.StoreConnectionStringsCheckBox.MinimumSize = new System.Drawing.Size(240, 32);
+            this.StoreConnectionStringsCheckBox.MaximumSize = new System.Drawing.Size(232, 32);
+            this.StoreConnectionStringsCheckBox.MinimumSize = new System.Drawing.Size(232, 32);
             this.StoreConnectionStringsCheckBox.Name = "StoreConnectionStringsCheckBox";
-            this.StoreConnectionStringsCheckBox.Size = new System.Drawing.Size(240, 32);
+            this.StoreConnectionStringsCheckBox.Size = new System.Drawing.Size(232, 32);
             this.StoreConnectionStringsCheckBox.TabIndex = 97;
             // 
             // IgnoreDiagramProceduresCheckBox
@@ -501,7 +556,7 @@ namespace DBCompare
             // 
             this.RightFillerPanel.BackColor = System.Drawing.Color.Transparent;
             this.RightFillerPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.RightFillerPanel.Location = new System.Drawing.Point(800, 4);
+            this.RightFillerPanel.Location = new System.Drawing.Point(860, 4);
             this.RightFillerPanel.Name = "RightFillerPanel";
             this.RightFillerPanel.Size = new System.Drawing.Size(12, 92);
             this.RightFillerPanel.TabIndex = 80;
@@ -512,7 +567,7 @@ namespace DBCompare
             this.Seperator4.Dock = System.Windows.Forms.DockStyle.Top;
             this.Seperator4.Location = new System.Drawing.Point(0, 0);
             this.Seperator4.Name = "Seperator4";
-            this.Seperator4.Size = new System.Drawing.Size(812, 4);
+            this.Seperator4.Size = new System.Drawing.Size(872, 4);
             this.Seperator4.TabIndex = 78;
             // 
             // CompareRightColumn
@@ -524,7 +579,7 @@ namespace DBCompare
             this.CompareRightColumn.Controls.Add(this.ButtonTopPanel);
             this.CompareRightColumn.Controls.Add(this.ButtonBottomPanel);
             this.CompareRightColumn.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CompareRightColumn.Location = new System.Drawing.Point(812, 0);
+            this.CompareRightColumn.Location = new System.Drawing.Point(872, 0);
             this.CompareRightColumn.Name = "CompareRightColumn";
             this.CompareRightColumn.Size = new System.Drawing.Size(220, 96);
             this.CompareRightColumn.TabIndex = 62;
@@ -569,7 +624,7 @@ namespace DBCompare
             this.VerticalSeparator2.Dock = System.Windows.Forms.DockStyle.Top;
             this.VerticalSeparator2.Location = new System.Drawing.Point(0, 76);
             this.VerticalSeparator2.Name = "VerticalSeparator2";
-            this.VerticalSeparator2.Size = new System.Drawing.Size(1032, 12);
+            this.VerticalSeparator2.Size = new System.Drawing.Size(1092, 12);
             this.VerticalSeparator2.TabIndex = 68;
             // 
             // TopSectionPanel
@@ -580,7 +635,7 @@ namespace DBCompare
             this.TopSectionPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.TopSectionPanel.Location = new System.Drawing.Point(0, 44);
             this.TopSectionPanel.Name = "TopSectionPanel";
-            this.TopSectionPanel.Size = new System.Drawing.Size(1032, 32);
+            this.TopSectionPanel.Size = new System.Drawing.Size(1092, 32);
             this.TopSectionPanel.TabIndex = 60;
             // 
             // TargetConnectionStringControl
@@ -603,7 +658,7 @@ namespace DBCompare
             this.TargetConnectionStringControl.OnTextChangedListener = null;
             this.TargetConnectionStringControl.PasswordMode = false;
             this.TargetConnectionStringControl.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.TargetConnectionStringControl.Size = new System.Drawing.Size(992, 32);
+            this.TargetConnectionStringControl.Size = new System.Drawing.Size(1052, 32);
             this.TargetConnectionStringControl.TabIndex = 60;
             this.TargetConnectionStringControl.TextBoxBottomMargin = 0;
             this.TargetConnectionStringControl.TextBoxDisabledColor = System.Drawing.Color.LightGray;
@@ -617,7 +672,7 @@ namespace DBCompare
             this.VerticalSeparator1.Dock = System.Windows.Forms.DockStyle.Top;
             this.VerticalSeparator1.Location = new System.Drawing.Point(0, 32);
             this.VerticalSeparator1.Name = "VerticalSeparator1";
-            this.VerticalSeparator1.Size = new System.Drawing.Size(1032, 12);
+            this.VerticalSeparator1.Size = new System.Drawing.Size(1092, 12);
             this.VerticalSeparator1.TabIndex = 59;
             // 
             // TargetConnectionPanel
@@ -628,7 +683,7 @@ namespace DBCompare
             this.TargetConnectionPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.TargetConnectionPanel.Location = new System.Drawing.Point(0, 0);
             this.TargetConnectionPanel.Name = "TargetConnectionPanel";
-            this.TargetConnectionPanel.Size = new System.Drawing.Size(1032, 32);
+            this.TargetConnectionPanel.Size = new System.Drawing.Size(1092, 32);
             this.TargetConnectionPanel.TabIndex = 57;
             // 
             // SourceConnectionStringControl
@@ -651,7 +706,7 @@ namespace DBCompare
             this.SourceConnectionStringControl.OnTextChangedListener = null;
             this.SourceConnectionStringControl.PasswordMode = false;
             this.SourceConnectionStringControl.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.SourceConnectionStringControl.Size = new System.Drawing.Size(992, 32);
+            this.SourceConnectionStringControl.Size = new System.Drawing.Size(1052, 32);
             this.SourceConnectionStringControl.TabIndex = 58;
             this.SourceConnectionStringControl.TextBoxBottomMargin = 0;
             this.SourceConnectionStringControl.TextBoxDisabledColor = System.Drawing.Color.LightGray;
@@ -665,7 +720,7 @@ namespace DBCompare
             this.VerticalSeparator3.Dock = System.Windows.Forms.DockStyle.Top;
             this.VerticalSeparator3.Location = new System.Drawing.Point(0, 184);
             this.VerticalSeparator3.Name = "VerticalSeparator3";
-            this.VerticalSeparator3.Size = new System.Drawing.Size(1032, 12);
+            this.VerticalSeparator3.Size = new System.Drawing.Size(1092, 12);
             this.VerticalSeparator3.TabIndex = 100;
             // 
             // InnerBorder
@@ -688,7 +743,7 @@ namespace DBCompare
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(16, 16);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(1032, 573);
+            this.MainPanel.Size = new System.Drawing.Size(1092, 573);
             this.MainPanel.TabIndex = 102;
             // 
             // ResultsTextBox
@@ -699,7 +754,7 @@ namespace DBCompare
             this.ResultsTextBox.Multiline = true;
             this.ResultsTextBox.Name = "ResultsTextBox";
             this.ResultsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ResultsTextBox.Size = new System.Drawing.Size(1016, 345);
+            this.ResultsTextBox.Size = new System.Drawing.Size(1076, 345);
             this.ResultsTextBox.TabIndex = 107;
             // 
             // ComparisonReportLabel
@@ -710,7 +765,7 @@ namespace DBCompare
             this.ComparisonReportLabel.ForeColor = System.Drawing.Color.LemonChiffon;
             this.ComparisonReportLabel.Location = new System.Drawing.Point(16, 196);
             this.ComparisonReportLabel.Name = "ComparisonReportLabel";
-            this.ComparisonReportLabel.Size = new System.Drawing.Size(1016, 32);
+            this.ComparisonReportLabel.Size = new System.Drawing.Size(1076, 32);
             this.ComparisonReportLabel.TabIndex = 106;
             this.ComparisonReportLabel.Text = "Comparison Report:";
             this.ComparisonReportLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -721,61 +776,29 @@ namespace DBCompare
             this.BottomMarginPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.BottomMarginPanel.Location = new System.Drawing.Point(16, 669);
             this.BottomMarginPanel.Name = "BottomMarginPanel";
-            this.BottomMarginPanel.Size = new System.Drawing.Size(1048, 12);
+            this.BottomMarginPanel.Size = new System.Drawing.Size(1108, 12);
             this.BottomMarginPanel.TabIndex = 26;
             // 
-            // RemoteComparePanel
+            // IgnoreIndexesCheckBox
             // 
-            this.RemoteComparePanel.Controls.Add(this.CreateXmlFileCheckBox);
-            this.RemoteComparePanel.Controls.Add(this.RemoteCompareCheckBox);
-            this.RemoteComparePanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.RemoteComparePanel.Location = new System.Drawing.Point(0, 66);
-            this.RemoteComparePanel.MaximumSize = new System.Drawing.Size(720, 64);
-            this.RemoteComparePanel.Name = "RemoteComparePanel";
-            this.RemoteComparePanel.Size = new System.Drawing.Size(720, 32);
-            this.RemoteComparePanel.TabIndex = 90;
-            // 
-            // CreateXmlFileCheckBox
-            // 
-            this.CreateXmlFileCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.CreateXmlFileCheckBox.CheckBoxHorizontalOffSet = 0;
-            this.CreateXmlFileCheckBox.CheckBoxVerticalOffSet = 2;
-            this.CreateXmlFileCheckBox.CheckChangedListener = null;
-            this.CreateXmlFileCheckBox.Checked = false;
-            this.CreateXmlFileCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.CreateXmlFileCheckBox.Editable = true;
-            this.CreateXmlFileCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CreateXmlFileCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.CreateXmlFileCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
-            this.CreateXmlFileCheckBox.LabelText = "Create Xml File:";
-            this.CreateXmlFileCheckBox.LabelWidth = 220;
-            this.CreateXmlFileCheckBox.Location = new System.Drawing.Point(300, 0);
-            this.CreateXmlFileCheckBox.MaximumSize = new System.Drawing.Size(240, 30);
-            this.CreateXmlFileCheckBox.MinimumSize = new System.Drawing.Size(240, 30);
-            this.CreateXmlFileCheckBox.Name = "CreateXmlFileCheckBox";
-            this.CreateXmlFileCheckBox.Size = new System.Drawing.Size(240, 30);
-            this.CreateXmlFileCheckBox.TabIndex = 98;
-            // 
-            // RemoteCompareCheckBox
-            // 
-            this.RemoteCompareCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.RemoteCompareCheckBox.CheckBoxHorizontalOffSet = 0;
-            this.RemoteCompareCheckBox.CheckBoxVerticalOffSet = 2;
-            this.RemoteCompareCheckBox.CheckChangedListener = null;
-            this.RemoteCompareCheckBox.Checked = false;
-            this.RemoteCompareCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.RemoteCompareCheckBox.Editable = true;
-            this.RemoteCompareCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RemoteCompareCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.RemoteCompareCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
-            this.RemoteCompareCheckBox.LabelText = "Remote Compare:";
-            this.RemoteCompareCheckBox.LabelWidth = 280;
-            this.RemoteCompareCheckBox.Location = new System.Drawing.Point(0, 0);
-            this.RemoteCompareCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
-            this.RemoteCompareCheckBox.MinimumSize = new System.Drawing.Size(300, 32);
-            this.RemoteCompareCheckBox.Name = "RemoteCompareCheckBox";
-            this.RemoteCompareCheckBox.Size = new System.Drawing.Size(300, 32);
-            this.RemoteCompareCheckBox.TabIndex = 97;
+            this.IgnoreIndexesCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.IgnoreIndexesCheckBox.CheckBoxHorizontalOffSet = 0;
+            this.IgnoreIndexesCheckBox.CheckBoxVerticalOffSet = 2;
+            this.IgnoreIndexesCheckBox.CheckChangedListener = null;
+            this.IgnoreIndexesCheckBox.Checked = false;
+            this.IgnoreIndexesCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.IgnoreIndexesCheckBox.Editable = true;
+            this.IgnoreIndexesCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IgnoreIndexesCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            this.IgnoreIndexesCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
+            this.IgnoreIndexesCheckBox.LabelText = "Ignore Indexes";
+            this.IgnoreIndexesCheckBox.LabelWidth = 220;
+            this.IgnoreIndexesCheckBox.Location = new System.Drawing.Point(532, 0);
+            this.IgnoreIndexesCheckBox.MaximumSize = new System.Drawing.Size(232, 32);
+            this.IgnoreIndexesCheckBox.MinimumSize = new System.Drawing.Size(232, 32);
+            this.IgnoreIndexesCheckBox.Name = "IgnoreIndexesCheckBox";
+            this.IgnoreIndexesCheckBox.Size = new System.Drawing.Size(232, 32);
+            this.IgnoreIndexesCheckBox.TabIndex = 98;
             // 
             // MainForm
             // 
@@ -783,7 +806,7 @@ namespace DBCompare
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1064, 681);
+            this.ClientSize = new System.Drawing.Size(1124, 681);
             this.Controls.Add(this.LeftMarginPanel3);
             this.Controls.Add(this.MainPanel);
             this.Controls.Add(this.HiddenButton);
@@ -797,8 +820,8 @@ namespace DBCompare
             this.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1080, 720);
-            this.MinimumSize = new System.Drawing.Size(1080, 720);
+            this.MaximumSize = new System.Drawing.Size(1140, 720);
+            this.MinimumSize = new System.Drawing.Size(1140, 720);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DB Compare Version 2.0.1";
@@ -806,6 +829,7 @@ namespace DBCompare
             this.YouTubePanel.ResumeLayout(false);
             this.CompareDatabaseTopPanel.ResumeLayout(false);
             this.OptionsPanel.ResumeLayout(false);
+            this.RemoteComparePanel.ResumeLayout(false);
             this.IgnoreDataSyncPanel.ResumeLayout(false);
             this.TopCheckBoxPanel.ResumeLayout(false);
             this.CompareRightColumn.ResumeLayout(false);
@@ -813,7 +837,6 @@ namespace DBCompare
             this.TargetConnectionPanel.ResumeLayout(false);
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
-            this.RemoteComparePanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
             }
@@ -864,6 +887,7 @@ namespace DBCompare
         private System.Windows.Forms.Panel RemoteComparePanel;
         private DataJuggler.Win.Controls.LabelCheckBoxControl CreateXmlFileCheckBox;
         private DataJuggler.Win.Controls.LabelCheckBoxControl RemoteCompareCheckBox;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreIndexesCheckBox;
     }
     #endregion
 
