@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>5.0.1</Version>
+    <Version>5.0.2</Version>
     <PackageId>DataJuggler.DBCompare</PackageId>
     <Authors>DataJuggler</Authors>
     <Company>DataJuggler</Company>
@@ -24,7 +24,10 @@ since no one knows about this and 40 other projects of mine on Git Hub.</Descrip
     <RepositoryUrl>https://github.com/DataJuggler.git</RepositoryUrl>
     <RepositoryType>Git / Git Hub</RepositoryType>
     <PackageTags>C#, SQL, Database, Compare Schema, Compare Databases, Compare SQL</PackageTags>
-    <PackageReleaseNotes>Version 5.0.1  - I had an image path that was in my Graphics folder, not in the project folder.
+    <PackageReleaseNotes>Version 5.0.2 - I left the version # as 2 something on the Main Form. Now it is up to date.
+I now know this works! New video coming soon.
+
+Version 5.0.1  - I had an image path that was in my Graphics folder, not in the project folder.
 
 This is the 1st version for .Net 5. This project has been ported from .Net Framework, and this is the 1st
 attempt as a Nuget package.</PackageReleaseNotes>
