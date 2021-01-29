@@ -687,7 +687,7 @@ namespace DBCompare
             public void Init()
             {
                 // set the version
-                string version = "2.1.3";
+                string version = "5.0.3";
 
                 // Display the version number
                 this.Text = "DB Compare " + version;
