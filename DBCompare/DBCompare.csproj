@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>5.0.3</Version>
+    <Version>5.0.4</Version>
     <PackageId>DataJuggler.DBCompare</PackageId>
     <Authors>DataJuggler</Authors>
     <Company>DataJuggler</Company>
@@ -24,7 +24,9 @@ since no one knows about this and 40 other projects of mine on Git Hub.</Descrip
     <RepositoryUrl>https://github.com/DataJuggler.git</RepositoryUrl>
     <RepositoryType>Git / Git Hub</RepositoryType>
     <PackageTags>C#, SQL, Database, Compare Schema, Compare Databases, Compare SQL</PackageTags>
-    <PackageReleaseNotes>Version 5.0.3 - It turns out the Label text is set in the Init method of the Main Form.
+    <PackageReleaseNotes>Version 5.0.4 - Testing including a ReadMe that opens with the project.
+
+Version 5.0.3 - It turns out the Label text is set in the Init method of the Main Form.
 It is fixed now.
 
 Version 5.0.2 - I left the version # as 2 something on the Main Form. Now it is up to date.
@@ -52,11 +54,15 @@ attempt as a Nuget package.</PackageReleaseNotes>
     <None Include="Images\Database Compare Transparent.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
-    </None>
+    </None>    
     <None Include="License\License.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="readme.txt" pack="true" PackagePath="." />
   </ItemGroup>
 
 </Project>
