@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>5.0.4</Version>
+    <Version>5.0.7</Version>
     <PackageId>DataJuggler.DBCompare</PackageId>
     <Authors>DataJuggler</Authors>
     <Company>DataJuggler</Company>
@@ -12,19 +12,26 @@
     <Description>DB Compare compares two instances of a SQL Server database. This project has been on .Net Framework
 for about 10 or 12 years or more. Today I got motivated and converted it to .Net 5, and a bunch of other Nuget packages.
 
-I want to see if I can turn this into a Nuget package, then people can just add it and run it.
+I converted this project to a Nuget package, because I know expecting developers to go all the way to 
+GitHub.com and then further wanting them to Clone or Download a file is too much to ask.
 
-We will see if this works. DB Compare has been tested and used for over a decade 
+Now you can create a project in a manner of minutes and this way you can stay updated with the latest version.
 
-This product is a standalone application. I am testing making it a Nuget package for easy distribution
-since no one knows about this and 40 other projects of mine on Git Hub.</Description>
+This product is also a standalone application. Using it as a Nuget package is just a nice way to always have
+the latest version.</Description>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/DataJuggler/DBCompare</PackageProjectUrl>
     <PackageIcon>Database Compare Transparent.png</PackageIcon>
     <RepositoryUrl>https://github.com/DataJuggler.git</RepositoryUrl>
     <RepositoryType>Git / Git Hub</RepositoryType>
     <PackageTags>C#, SQL, Database, Compare Schema, Compare Databases, Compare SQL</PackageTags>
-    <PackageReleaseNotes>Version 5.0.4 - Testing including a ReadMe that opens with the project.
+    <PackageReleaseNotes>Version 5.0.7 - The text was out of date. I need to convert the text to pull from the binary version number, or remember to enter the text when I update.
+
+Version 5.0.6 - The YouTube Button showed up on the Form, but the background image didn't make it. Now this is fixed. I should have checked for this when I fixed the Swap Button. Oops.
+
+Version 5.0.5 - The Swap Button showed up on the Form, but the background image didn't make it. Now this is fixed.
+
+Version 5.0.4 - Testing including a ReadMe that opens with the project. (Worked)
 
 Version 5.0.3 - It turns out the Label text is set in the Init method of the Main Form.
 It is fixed now.
@@ -63,6 +70,21 @@ attempt as a Nuget package.</PackageReleaseNotes>
 
   <ItemGroup>
     <None Include="readme.txt" pack="true" PackagePath="." />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

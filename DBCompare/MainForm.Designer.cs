@@ -172,6 +172,7 @@ namespace DBCompare
             // 
             // YouTubeButton
             // 
+            this.YouTubeButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("YouTubeButton.BackgroundImage")));
             this.YouTubeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.YouTubeButton.Dock = System.Windows.Forms.DockStyle.Right;
             this.YouTubeButton.FlatAppearance.BorderSize = 0;
@@ -279,6 +280,7 @@ namespace DBCompare
             // SwapButton
             // 
             this.SwapButton.BackColor = System.Drawing.Color.Transparent;
+            this.SwapButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SwapButton.BackgroundImage")));
             this.SwapButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.SwapButton.Dock = System.Windows.Forms.DockStyle.Right;
             this.SwapButton.FlatAppearance.BorderSize = 0;
