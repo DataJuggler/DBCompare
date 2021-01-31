@@ -1,4 +1,10 @@
-﻿To run this project as a Nuget package, follow these steps.
+﻿I just published a video that demonstrates how to use this.
+
+Please like and subscribe to my channel if you find this useful.
+
+https://youtu.be/0dMvALbl6MA
+
+To run this project as a Nuget package, follow these steps.
 
 Modify your Program.cs.
 

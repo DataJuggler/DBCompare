@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>5.0.7</Version>
+    <Version>5.0.8</Version>
     <PackageId>DataJuggler.DBCompare</PackageId>
     <Authors>DataJuggler</Authors>
     <Company>DataJuggler</Company>
@@ -25,7 +25,9 @@ the latest version.</Description>
     <RepositoryUrl>https://github.com/DataJuggler.git</RepositoryUrl>
     <RepositoryType>Git / Git Hub</RepositoryType>
     <PackageTags>C#, SQL, Database, Compare Schema, Compare Databases, Compare SQL</PackageTags>
-    <PackageReleaseNotes>Version 5.0.7 - The text was out of date. I need to convert the text to pull from the binary version number, or remember to enter the text when I update.
+    <PackageReleaseNotes>Version 5.0.8 - I added a link to a video I just made for this project in the ReadMe.txt that opens.
+
+Version 5.0.7 - The text was out of date. I need to convert the text to pull from the binary version number, or remember to enter the text when I update.
 
 Version 5.0.6 - The YouTube Button showed up on the Form, but the background image didn't make it. Now this is fixed. I should have checked for this when I fixed the Swap Button. Oops.
 
