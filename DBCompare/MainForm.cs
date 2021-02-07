@@ -256,12 +256,12 @@ namespace DBCompare
                                                 if (field.DataType == DataManager.DataTypeEnum.String)
                                                 {
                                                     // create the CreateField SQL Statement
-                                                    createField = "Alter " + tableName + Environment.NewLine + "Add " + fieldName + " " + field.DBDataType + "(" + field.Size + ") null";
+                                                    createField = "Alter Table " + tableName + Environment.NewLine + "Add " + fieldName + " " + field.DBDataType + "(" + field.Size + ") null";
                                                 }
                                                 else
                                                 {
                                                     // create the CreateField SQL Statement
-                                                    createField = "Alter " + tableName + Environment.NewLine + "Add " + fieldName + " " + field.DBDataType + " null";
+                                                    createField = "Alter Table " + tableName + Environment.NewLine + "Add " + fieldName + " " + field.DBDataType + " null";
                                                 }
 
                                                 // add to this field
