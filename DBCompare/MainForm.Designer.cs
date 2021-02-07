@@ -96,6 +96,7 @@ namespace DBCompare
             this.ResultsTextBox = new System.Windows.Forms.TextBox();
             this.ComparisonReportLabel = new System.Windows.Forms.Label();
             this.BottomMarginPanel = new System.Windows.Forms.Panel();
+            this.GenerateScriptsButton = new System.Windows.Forms.Button();
             this.YouTubePanel.SuspendLayout();
             this.CompareDatabaseTopPanel.SuspendLayout();
             this.OptionsPanel.SuspendLayout();
@@ -139,6 +140,7 @@ namespace DBCompare
             // 
             this.YouTubePanel.BackColor = System.Drawing.Color.Transparent;
             this.YouTubePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.YouTubePanel.Controls.Add(this.GenerateScriptsButton);
             this.YouTubePanel.Controls.Add(this.CountLabel);
             this.YouTubePanel.Controls.Add(this.CountLeftMargin);
             this.YouTubePanel.Controls.Add(this.YouTubeButton);
@@ -800,6 +802,29 @@ namespace DBCompare
             this.BottomMarginPanel.Size = new System.Drawing.Size(1108, 12);
             this.BottomMarginPanel.TabIndex = 26;
             // 
+            // GenerateScriptsButton
+            // 
+            this.GenerateScriptsButton.BackColor = System.Drawing.Color.Transparent;
+            this.GenerateScriptsButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("GenerateScriptsButton.BackgroundImage")));
+            this.GenerateScriptsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.GenerateScriptsButton.FlatAppearance.BorderSize = 0;
+            this.GenerateScriptsButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.GenerateScriptsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.GenerateScriptsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.GenerateScriptsButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.GenerateScriptsButton.ForeColor = System.Drawing.Color.LemonChiffon;
+            this.GenerateScriptsButton.Location = new System.Drawing.Point(444, 19);
+            this.GenerateScriptsButton.MaximumSize = new System.Drawing.Size(220, 34);
+            this.GenerateScriptsButton.MinimumSize = new System.Drawing.Size(220, 34);
+            this.GenerateScriptsButton.Name = "GenerateScriptsButton";
+            this.GenerateScriptsButton.Size = new System.Drawing.Size(220, 34);
+            this.GenerateScriptsButton.TabIndex = 100;
+            this.GenerateScriptsButton.Text = "Generate Scripts";
+            this.MainToolTip.SetToolTip(this.GenerateScriptsButton, "Perform the database comparison");
+            this.GenerateScriptsButton.UseVisualStyleBackColor = false;
+            this.GenerateScriptsButton.Visible = false;
+            this.GenerateScriptsButton.Click += new System.EventHandler(this.GenerateScriptsButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -888,6 +913,7 @@ namespace DBCompare
         private DataJuggler.Win.Controls.LabelCheckBoxControl CreateXmlFileCheckBox;
         private DataJuggler.Win.Controls.LabelCheckBoxControl RemoteCompareCheckBox;
         private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreIndexesCheckBox;
+        private System.Windows.Forms.Button GenerateScriptsButton;
     }
     #endregion
 

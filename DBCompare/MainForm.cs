@@ -2,7 +2,9 @@
 
 #region using statements
 
+using System.Collections.Generic;
 using DataJuggler.UltimateHelper;
+using DataJuggler.UltimateHelper.Objects;
 using DataJuggler.Net5;
 using DataJuggler.Win.Controls;
 using DataJuggler.Win.Controls.Interfaces;
@@ -32,6 +34,7 @@ namespace DBCompare
         #region Private Variables
         private SecureUserData settings;
         private CompareInfo compareInfo;
+        private SchemaComparison comparison;
         private const string XmlFilter = "XML files (*.xml)|*.xml";
         private const string YouTubePath = "https://youtu.be/13HipAOyAqU";
         #endregion
@@ -188,6 +191,107 @@ namespace DBCompare
             {
                 // Create the XmlFile                
                 CreateXmlFile();
+            }
+            #endregion
+            
+            #region GenerateScriptsButton_Click(object sender, EventArgs e)
+            /// <summary>
+            /// event is fired when the 'GenerateScriptsButton' is clicked.
+            /// </summary>
+            private void GenerateScriptsButton_Click(object sender, EventArgs e)
+            {
+                // locals
+                string createField ="";
+                StringBuilder sb = new StringBuilder();
+
+                // if the Comparison object exists and has one or more differences
+                if ((HasComparison) && (Comparison.HasSchemaDifferences) && (Comparison.HasSourceDatabase) && (Comparison.SourceDatabase.HasOneOrMoreTables))
+                {   
+                    // iterate the differences
+                    foreach (string difference in Comparison.SchemaDifferences)
+                    {
+                        // version 1 of this method is only handling missing fields
+                        if (difference.StartsWith("The field '"))
+                        {
+                            // get the start index
+                            int startIndex = difference.IndexOf("'") + 1;
+                            int endIndex = difference.LastIndexOf("'");
+                            int length = endIndex - startIndex;
+
+                            // get the schema info
+                            string tableNameFieldName = difference.Substring(startIndex, length);
+
+                            // if the string exists
+                            if (TextHelper.Exists(tableNameFieldName))
+                            {
+                                // create the delimiter
+                                char[] delimiters = { '.' };
+
+                                // get the words
+                                List<Word> words = WordParser.GetWords(tableNameFieldName, delimiters);
+
+                                // if there are two or more items
+                                if (ListHelper.HasXOrMoreItems(words, 2))
+                                {
+                                    string tableName = words[0].Text;
+                                    string fieldName = words[1].Text;
+
+                                    // if both strings exist
+                                    if (TextHelper.Exists(tableName, fieldName))
+                                    {
+                                        // find the table
+                                        DataTable table = SQLDatabaseConnector.FindTable(Comparison.SourceDatabase.Tables, tableName);
+
+                                        // If the table object exists
+                                        if (NullHelper.Exists(table))
+                                        {
+                                            // attempt to find the field
+                                            DataField field = SQLDatabaseConnector.FindField(table.Fields, fieldName);
+
+                                            // If the field object exists
+                                            if (NullHelper.Exists(field))
+                                            {
+                                                
+
+                                                if (field.DataType == DataManager.DataTypeEnum.String)
+                                                {
+                                                    // create the CreateField SQL Statement
+                                                    createField = "Alter " + tableName + Environment.NewLine + "Add " + fieldName + " " + field.DBDataType + "(" + field.Size + ") null";
+                                                }
+                                                else
+                                                {
+                                                    // create the CreateField SQL Statement
+                                                    createField = "Alter " + tableName + Environment.NewLine + "Add " + fieldName + " " + field.DBDataType + " null";
+                                                }
+
+                                                // add to this field
+                                                sb.Append(createField + Environment.NewLine + "Go" + Environment.NewLine + Environment.NewLine);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // get the sql
+                string sql = sb.ToString();
+
+                // if the sql exists
+                if (TextHelper.Exists(sql))
+                {
+                    // Copy to clipboard
+                    Clipboard.SetText(sql);
+
+                    // Show a message
+                    MessageBoxHelper.ShowMessage("The sql has been copied to your clipboard.", "SQL Created");
+                }
+                else
+                {
+                    // Show a message
+                    MessageBoxHelper.ShowMessage("Something must have gone wrong.", "Oops");
+                }
             }
             #endregion
             
@@ -621,11 +725,20 @@ namespace DBCompare
                     // compare the two schemas
                     if (schemaComparison != null)
                     {
+                        // Store the Comparison. Needed for the Generate Scripts
+                        this.Comparison = schemaComparison;
+
+                        // Store the sourceDatabase
+                        this.Comparison.SourceDatabase = sourceDatabase;
+
                         // if the two database are equal
                         if (schemaComparison.IsEqual)
                         {
                             // Show the two databases are equal
                             this.ResultsTextBox.Text = "The target database is up to date.";
+                           
+                            // Show the button
+                           GenerateScriptsButton.Visible = true;
                         }
                         else
                         {
@@ -651,19 +764,8 @@ namespace DBCompare
                             // Show the schema differences
                             this.ResultsTextBox.Text = sb.ToString();
 
-                            // This is a stub for an update for Version 3.0 that isn't ready to be released
-                            //// create a message for how to 
-                            //message = "Would you like to attempt to fix any errors if possible?";
-                                    
-                            //// Get the users response
-                            //DialogResult result = MessageBoxHelper.GetUserResponse(message, "Fix Schema Differences?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                            //// if the user choose yes
-                            //if (result == DialogResult.Yes)
-                            //{
-                            //    // attempt to fix any schema differences
-                            //    int fixedCount = SqlUpdater.FixSchemaDifferences(schemaComparison.SchemaDifferences, targetDatabaseConnector, sourceDatabase);
-                            //}
+                           // Show the button
+                           GenerateScriptsButton.Visible = true;
                         }
                     }
                 }
@@ -1039,6 +1141,17 @@ namespace DBCompare
             }
             #endregion
             
+            #region Comparison
+            /// <summary>
+            /// This property gets or sets the value for 'Comparison'.
+            /// </summary>
+            public SchemaComparison Comparison
+            {
+                get { return comparison; }
+                set { comparison = value; }
+            }
+            #endregion
+            
             #region HasCompareInfo
             /// <summary>
             /// This property returns true if this object has a 'CompareInfo'.
@@ -1052,6 +1165,23 @@ namespace DBCompare
                     
                     // return value
                     return hasCompareInfo;
+                }
+            }
+            #endregion
+            
+            #region HasComparison
+            /// <summary>
+            /// This property returns true if this object has a 'Comparison'.
+            /// </summary>
+            public bool HasComparison
+            {
+                get
+                {
+                    // initial value
+                    bool hasComparison = (this.Comparison != null);
+                    
+                    // return value
+                    return hasComparison;
                 }
             }
             #endregion
@@ -1082,10 +1212,10 @@ namespace DBCompare
                 get { return settings; }
                 set { settings = value; }
             }
-            #endregion
+        #endregion
 
         #endregion
-            
+
     }
     #endregion
 

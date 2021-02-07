@@ -50,7 +50,7 @@ attempt as a Nuget package.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Net5" Version="2.5.0" />
+    <PackageReference Include="DataJuggler.Net5" Version="2.5.1" />
     <PackageReference Include="DataJuggler.Net5.Cryptography" Version="1.5.0" />
     <PackageReference Include="DataJuggler.RandomShuffler" Version="1.3.0" />
     <PackageReference Include="DataJuggler.UltimateHelper" Version="1.5.5" />

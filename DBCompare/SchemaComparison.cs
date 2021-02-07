@@ -23,6 +23,7 @@ namespace DBCompare
         #region Private Variables
         private bool isEqual;
         private List<string> schemaDifferences;
+        private Database sourceDatabase;
         #endregion
         
         #region Constructor
@@ -70,6 +71,23 @@ namespace DBCompare
             }
             #endregion
             
+            #region HasSourceDatabase
+            /// <summary>
+            /// This property returns true if this object has a 'SourceDatabase'.
+            /// </summary>
+            public bool HasSourceDatabase
+            {
+                get
+                {
+                    // initial value
+                    bool hasSourceDatabase = (this.SourceDatabase != null);
+                    
+                    // return value
+                    return hasSourceDatabase;
+                }
+            }
+            #endregion
+            
             #region IsEqual
             /// <summary>
             /// This property gets or sets the value for 'IsEqual'.
@@ -89,6 +107,17 @@ namespace DBCompare
             {
                 get { return schemaDifferences; }
                 set { schemaDifferences = value; }
+            }
+            #endregion
+            
+            #region SourceDatabase
+            /// <summary>
+            /// This property gets or sets the value for 'SourceDatabase'.
+            /// </summary>
+            public Database SourceDatabase
+            {
+                get { return sourceDatabase; }
+                set { sourceDatabase = value; }
             }
             #endregion
             
