@@ -228,7 +228,7 @@ namespace DBCompare
                                 char[] delimiters = { '.' };
 
                                 // get the words
-                                List<Word> words = WordParser.GetWords(tableNameFieldName, delimiters);
+                                List<Word> words = TextHelper.GetWords(tableNameFieldName, delimiters);
 
                                 // if there are two or more items
                                 if (ListHelper.HasXOrMoreItems(words, 2))

@@ -577,10 +577,10 @@ namespace DBCompare
                 if ((TextHelper.Exists(sourceFunctionText, targetFunctionText)) && (comparison != null))
                 {
                     // Get the words for the source procedure text
-                    List<Word> sourceWords = WordParser.GetWords(sourceFunctionText);
+                    List<Word> sourceWords = TextHelper.GetWords(sourceFunctionText);
 
                     // Get the words for the target procedure text
-                    List<Word> targetWords = WordParser.GetWords(targetFunctionText);
+                    List<Word> targetWords = TextHelper.GetWords(targetFunctionText);
 
                     // if both sets of words exist
                     if ((sourceWords != null) && (targetWords != null))
@@ -880,10 +880,10 @@ namespace DBCompare
                 if ((TextHelper.Exists(sourceProcedureText, targetProcedureText)) && (comparison != null))
                 {
                     // Get the words for the source procedure text
-                    List<Word> sourceWords = WordParser.GetWords(sourceProcedureText);
+                    List<Word> sourceWords = TextHelper.GetWords(sourceProcedureText);
 
                     // Get the words for the target procedure text
-                    List<Word> targetWords = WordParser.GetWords(targetProcedureText);
+                    List<Word> targetWords = TextHelper.GetWords(targetProcedureText);
 
                     // if both sets of words exist
                     if ((sourceWords != null) && (targetWords != null))
