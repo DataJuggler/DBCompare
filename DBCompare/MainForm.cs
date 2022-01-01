@@ -180,6 +180,9 @@ namespace DBCompare
 
                 // Run the comparison async
                 bool compare = await RunComparison();
+
+                // hide in case something went wrong
+                Graph.Visible = false;
             }
             #endregion
             
@@ -711,7 +714,7 @@ namespace DBCompare
                         bool ignoreIndexes = this.IgnoreIndexesCheckBox.Checked;
                             
                         // Create a new database comparer
-                        DatabaseComparer comparer = new DatabaseComparer(sourceDatabase, targetDatabase, ignoreDiagramProcedures, ignoreIndexes);
+                        DatabaseComparer comparer = new DatabaseComparer(sourceDatabase, targetDatabase, ignoreDiagramProcedures, ignoreIndexes, UpdateStatus);
 
                         // Compare the two database schemas
                         schemaComparison = comparer.Compare();
@@ -1116,6 +1119,60 @@ namespace DBCompare
                         this.CreateXmlFileButton.Visible = false;
                         this.BuildTargetConnectionStringButton.Visible = true;
                     }
+                }
+            }
+            #endregion
+
+            #region UpdateStatus(string message, int value)
+            /// <summary>
+            /// Update Status
+            /// </summary>
+            public void UpdateStatus(string message, int value)
+            {
+                // determine the action by the message
+                if (message == "SetGraphMax")
+                {
+                    // set the value
+                    Graph.Maximum = value;
+
+                    // Show
+                    Graph.Visible = true;
+
+                    // Refresh everything
+                    Refresh();
+                    Application.DoEvents();                    
+                }
+                else if (message == "Done")
+                {
+                    // hide
+                    Graph.Visible = false;
+
+                    // Refresh everything
+                    Refresh();
+                    Application.DoEvents();              
+                }
+                else if (message == "Progress")
+                {   
+                    // set the value
+                    Graph.Value = value;
+
+                    // only update every 10 records. Since converting to .NET6, this is really fast
+                    // but you can take this out if this makes it too slow
+                    if (value % 10 == 0)
+                    {
+                        // Refresh everything
+                        Refresh();
+                        Application.DoEvents();              
+                    }
+                }
+                else if (value == Graph.Maximum)
+                {
+                    // hide
+                    Graph.Visible = false;
+
+                    // Refresh everything
+                    Refresh();
+                    Application.DoEvents();    
                 }
             }
             #endregion

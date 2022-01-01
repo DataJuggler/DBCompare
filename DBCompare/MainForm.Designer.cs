@@ -97,6 +97,7 @@ namespace DBCompare
             this.ResultsTextBox = new System.Windows.Forms.TextBox();
             this.ComparisonReportLabel = new System.Windows.Forms.Label();
             this.BottomMarginPanel = new System.Windows.Forms.Panel();
+            this.Graph = new System.Windows.Forms.ProgressBar();
             this.YouTubePanel.SuspendLayout();
             this.CompareDatabaseTopPanel.SuspendLayout();
             this.OptionsPanel.SuspendLayout();
@@ -140,6 +141,7 @@ namespace DBCompare
             // 
             this.YouTubePanel.BackColor = System.Drawing.Color.Transparent;
             this.YouTubePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.YouTubePanel.Controls.Add(this.Graph);
             this.YouTubePanel.Controls.Add(this.GenerateScriptsButton);
             this.YouTubePanel.Controls.Add(this.CountLabel);
             this.YouTubePanel.Controls.Add(this.CountLeftMargin);
@@ -162,7 +164,7 @@ namespace DBCompare
             this.GenerateScriptsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.GenerateScriptsButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.GenerateScriptsButton.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.GenerateScriptsButton.Location = new System.Drawing.Point(444, 19);
+            this.GenerateScriptsButton.Location = new System.Drawing.Point(176, 19);
             this.GenerateScriptsButton.MaximumSize = new System.Drawing.Size(220, 34);
             this.GenerateScriptsButton.MinimumSize = new System.Drawing.Size(220, 34);
             this.GenerateScriptsButton.Name = "GenerateScriptsButton";
@@ -834,6 +836,14 @@ namespace DBCompare
             this.BottomMarginPanel.Size = new System.Drawing.Size(1108, 12);
             this.BottomMarginPanel.TabIndex = 26;
             // 
+            // Graph
+            // 
+            this.Graph.Location = new System.Drawing.Point(153, 25);
+            this.Graph.Name = "Graph";
+            this.Graph.Size = new System.Drawing.Size(760, 23);
+            this.Graph.TabIndex = 101;
+            this.Graph.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -923,6 +933,7 @@ namespace DBCompare
         private DataJuggler.Win.Controls.LabelCheckBoxControl RemoteCompareCheckBox;
         private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreIndexesCheckBox;
         private System.Windows.Forms.Button GenerateScriptsButton;
+        private System.Windows.Forms.ProgressBar Graph;
     }
     #endregion
 

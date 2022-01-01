@@ -28,13 +28,14 @@ namespace DBCompare
         private bool ignoreDiagramProcedures;
         private string failedReason;
         private bool ignoreIndexes;
+        private Callback callback;
         #endregion
 
-        #region Parameterized Constructor(Database sourceDatabase, Database targetDatabase, bool ignoreDiagramProcedures bool, ignoreIndexes)
+        #region Parameterized Constructor(Database sourceDatabase, Database targetDatabase, bool ignoreDiagramProcedures bool, ignoreIndexes, Callback callback)
         /// <summary>
         /// Create a new instance of a SQLDatabaseComparer object.
         /// </summary>
-        public DatabaseComparer(Database sourceDatabase, Database targetDatabase, bool ignoreDiagramProcedures, bool ignoreIndexes)
+        public DatabaseComparer(Database sourceDatabase, Database targetDatabase, bool ignoreDiagramProcedures, bool ignoreIndexes, Callback callback)
         {
             // if both databases exist
             if (NullHelper.Exists(sourceDatabase, targetDatabase))
@@ -44,8 +45,9 @@ namespace DBCompare
                 TargetDatabase = targetDatabase;
                 
                 // store the args
-                this.IgnoreDiagramProcedures = ignoreDiagramProcedures;
-                this.IgnoreIndexes = ignoreIndexes;
+                IgnoreDiagramProcedures = ignoreDiagramProcedures;
+                IgnoreIndexes = ignoreIndexes;
+                Callback = callback;
             }
             else
             {
@@ -509,8 +511,9 @@ namespace DBCompare
             /// </summary>
             private void CompareFunctions(SchemaComparison comparison)
             {
-                // local
+                // locals
                 Function targetFunction = null;
+                int count = 0;
 
                 // verify both objects exist
                 if ((this.HasSourceDatabase) && (this.HasTargetDatabase) && (comparison != null))
@@ -554,7 +557,20 @@ namespace DBCompare
                                 // This stored procedure is not valid
                                 comparison.SchemaDifferences.Add("The function '" + function.Name + "' was not found.");
                             }
+
+                            // Increment the value for count
+                            count++;
+
+                            // if the value for HasCallback is true
+                            if (HasCallback)
+                            {
+                                // Update Graph
+                                Callback("Progress", count);
+                            }
                         }
+
+                        // send the final message back
+                        Callback("Done", count);
                     }
                 }
             }
@@ -811,6 +827,9 @@ namespace DBCompare
             /// </summary>
             private void CompareStoredProcedures(SchemaComparison comparison)
             {   
+                // local
+                int count = 0;
+
                 // if the SourceDatabase and the TargetDatabase exist
                 if ((this.HasSourceDatabase) && (this.HasTargetDatabase) && (comparison != null))
                 {
@@ -850,6 +869,16 @@ namespace DBCompare
                                             comparison.SchemaDifferences.Add("The target database contains an extra stored procedure: '" + targetProcedure.ProcedureName + "'.");
                                         }
                                     }
+                                }
+
+                                // Increment the value for count
+                                count++;
+
+                                // if the value for HasCallback is true
+                                if (HasCallback)
+                                {
+                                    // Update the graph on MainForm
+                                    Callback("Progress", count);
                                 }
                             }
                         }
@@ -1005,6 +1034,7 @@ namespace DBCompare
                 // local
                 SchemaComparison tempComparison = null;
                 DataTable targetTable = null;
+                int count = 0;
 
                 // if there are one or more tables
                 if ((this.HasSourceDatabase) && (this.HasTargetDatabase) && (this.SourceDatabase.HasOneOrMoreTables) && (this.TargetDatabase.HasOneOrMoreTables))
@@ -1045,6 +1075,15 @@ namespace DBCompare
                                 // Add this schema difference
                                 comparison.SchemaDifferences.Add("The table '" + sourceTable.Name + "' does not exist in the target database.");
                             }
+                        }
+
+                        // Increment the value for count
+                        count++;
+
+                        if (HasCallback)
+                        {
+                            // Show the callback
+                            Callback("Progress", count);
                         }
                     }
 
@@ -1129,6 +1168,16 @@ namespace DBCompare
                 // if the SourceDatabase & TargetDatabase exist
                 if ((this.HasSourceDatabase) && (this.HasTargetDatabase))
                 {
+                    // Update 1.1.2022: (had to practice writing the year)
+                    if (HasCallback)
+                    {
+                        // Get Items Count for the graph
+                        int itemsToCompare = GetCountItemsToCompare();
+
+                        // Call back to the main form
+                        Callback("SetGraphMax", itemsToCompare);
+                    }
+
                     // Compare the tables
                     comparison = CompareTables();
 
@@ -1179,6 +1228,53 @@ namespace DBCompare
             }
             #endregion
             
+            #region GetCountItemsToCompare()
+            /// <summary>
+            /// returns the Count Items To Compare
+            /// </summary>
+            public int GetCountItemsToCompare()
+            {
+                // initial value
+                int countItemsToCompare = 0;
+
+                // locals
+                int tablesCount = 0;
+                int proceduresCount = 0;
+                int functionsCount = 0;
+
+                // if the value for HasSourceDatabase is true
+                if (HasSourceDatabase)
+                {
+                    // If the value for the property SourceDatabase.HasTables is true
+                    if (SourceDatabase.HasTables)
+                    {
+                        // set the tablesCount
+                        tablesCount = SourceDatabase.Tables.Count;
+                    }
+
+                    // If the value for the property SourceDatabase.HasStoredProcedures is true
+                    if (SourceDatabase.HasStoredProcedures)
+                    {
+                        // set the proceduresCount
+                        proceduresCount = SourceDatabase.StoredProcedures.Count;
+                    }
+
+                    // If the value for the property SourceDatabase.HasFunctions is true
+                    if (SourceDatabase.HasFunctions)
+                    {
+                        // set the functionsCount
+                        functionsCount = SourceDatabase.Functions.Count;
+                    }
+
+                    // set the return value
+                    countItemsToCompare = tablesCount + proceduresCount + functionsCount;
+                }
+                
+                // return value
+                return countItemsToCompare;
+            }
+            #endregion
+            
             #region SkipProcedure(string procedureName)
             /// <summary>
             /// This method returns the Procedure
@@ -1215,11 +1311,22 @@ namespace DBCompare
                 // return value
                 return skipProcedure;
             }
-            #endregion
+            #endregion         
             
         #endregion
 
         #region Properties
+            
+            #region Callback
+            /// <summary>
+            /// This property gets or sets the value for 'Callback'.
+            /// </summary>
+            public Callback Callback
+            {
+                get { return callback; }
+                set { callback = value; }
+            }
+            #endregion
             
             #region FailedReason
             /// <summary>
@@ -1229,6 +1336,23 @@ namespace DBCompare
             {
                 get { return failedReason; }
                 set { failedReason = value; }
+            }
+            #endregion
+            
+            #region HasCallback
+            /// <summary>
+            /// This property returns true if this object has a 'Callback'.
+            /// </summary>
+            public bool HasCallback
+            {
+                get
+                {
+                    // initial value
+                    bool hasCallback = (this.Callback != null);
+                    
+                    // return value
+                    return hasCallback;
+                }
             }
             #endregion
             
