@@ -10,8 +10,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using DataJuggler.Net5;
-using DataJuggler.Net5.Connection;
+using DataJuggler.Net6;
+using DataJuggler.Net6.Connection;
 
 #endregion
 
@@ -191,14 +191,17 @@ namespace DBCompare
                         // if the connection test passed
                         if (connectionTest)
                         {
-                            // Show a success message
-                            MessageBox.Show("A connection to the database was estalished.", "Connection Test Passed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            // Show success icon
+                            PassedImage.Visible = true;
                         }
                         else
                         {
                             // Show a success message
-                            MessageBox.Show("A connection to the database count not be estalished.", "Connection Test Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }    
+                            FailedImage.Visible = false;
+                        }
+                        
+                        // Start the timer to hide the images in 3 seconds
+                        Timer.Start();
                     }
                     else
                     {
@@ -214,6 +217,18 @@ namespace DBCompare
                     // Show a success message
                     MessageBox.Show("A connection to the database count not be estalished.", "Connection Test Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+            }
+            #endregion
+            
+            #region Timer_Tick(object sender, EventArgs e)
+            /// <summary>
+            /// event is fired when Timer _ Tick
+            /// </summary>
+            private void Timer_Tick(object sender, EventArgs e)
+            {
+                // hide all                
+                FailedImage.Visible = false;
+                PassedImage.Visible = false;
             }
             #endregion
             
@@ -303,10 +318,9 @@ namespace DBCompare
                 get { return userCancelled; }
                 set { userCancelled = value; }
             }
-            #endregion
-            
         #endregion
-        
+
+        #endregion
     }
     #endregion
 

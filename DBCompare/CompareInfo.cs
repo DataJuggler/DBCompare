@@ -3,7 +3,7 @@
 #region using statements
 
 using DataJuggler.UltimateHelper;
-using DataJuggler.Net5;
+using DataJuggler.Net6;
 using DBCompare.Enumerations;
 using System;
 using System.IO;

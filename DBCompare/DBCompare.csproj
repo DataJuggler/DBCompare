@@ -1,21 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>5.0.9</Version>
+    <Version>6.1.0</Version>
+	<FileVersion>6.1.0</FileVersion>
+	<AssemblyVersion>6.1.0</AssemblyVersion>
     <PackageId>DataJuggler.DBCompare</PackageId>
     <Authors>DataJuggler</Authors>
     <Company>DataJuggler</Company>
     <Product>DataJuggler.DBCompare</Product>
     <Description>DB Compare compares two instances of a SQL Server database. This project has been on .Net Framework
-for about 10 or 12 years or more. Today I got motivated and converted it to .Net 5, and a bunch of other Nuget packages.
+for about 10 or 12 years or more. DB Compare has been updated to .NET6.0, and should run faster.
 
-I converted this project to a Nuget package, because I know expecting developers to go all the way to 
-GitHub.com and then further wanting them to Clone or Download a file is too much to ask.
-
-Now you can create a project in a manner of minutes and this way you can stay updated with the latest version.
+C# Developers - Now you can create a project in a manner of minutes and this way you can stay updated with the latest version.
 
 This product is also a standalone application. Using it as a Nuget package is just a nice way to always have
 the latest version.</Description>
@@ -48,17 +47,25 @@ Version 5.0.1  - I had an image path that was in my Graphics folder, not in the 
 This is the 1st version for .Net 5. This project has been ported from .Net Framework, and this is the 1st
 attempt as a Nuget package.</PackageReleaseNotes>
     <ApplicationIcon>Database Compare Transparent.ico</ApplicationIcon>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;IDE0090;IDE0017;IDE0059;</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;IDE0090;IDE0017;IDE0059;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Net5" Version="3.0.0" />
-    <PackageReference Include="DataJuggler.Net5.Cryptography" Version="1.5.0" />
-    <PackageReference Include="DataJuggler.RandomShuffler" Version="1.3.0" />
-    <PackageReference Include="DataJuggler.UltimateHelper" Version="1.6.0" />
-    <PackageReference Include="DataJuggler.Win.Controls" Version="5.8.2" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
-    <PackageReference Include="XmlMirror.Runtime5" Version="5.0.0" />
+    <PackageReference Include="DataJuggler.Net6" Version="6.0.2" />
+    <PackageReference Include="DataJuggler.RandomShuffler" Version="6.0.0" />
+    <PackageReference Include="DataJuggler.UltimateHelper" Version="6.0.0" />
+    <PackageReference Include="DataJuggler.Win.Controls" Version="6.1.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.1" />
+    <PackageReference Include="XmlMirror.Runtime6" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>

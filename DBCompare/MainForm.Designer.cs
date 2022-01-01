@@ -448,6 +448,7 @@ namespace DBCompare
             this.CreateXmlFileCheckBox.Name = "CreateXmlFileCheckBox";
             this.CreateXmlFileCheckBox.Size = new System.Drawing.Size(232, 30);
             this.CreateXmlFileCheckBox.TabIndex = 98;
+            this.CreateXmlFileCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // RemoteCompareCheckBox
             // 
@@ -469,6 +470,7 @@ namespace DBCompare
             this.RemoteCompareCheckBox.Name = "RemoteCompareCheckBox";
             this.RemoteCompareCheckBox.Size = new System.Drawing.Size(300, 32);
             this.RemoteCompareCheckBox.TabIndex = 97;
+            this.RemoteCompareCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // IgnoreDataSyncPanel
             // 
@@ -501,6 +503,7 @@ namespace DBCompare
             this.IgnoreFirewallRulesCheckBox.Name = "IgnoreFirewallRulesCheckBox";
             this.IgnoreFirewallRulesCheckBox.Size = new System.Drawing.Size(232, 32);
             this.IgnoreFirewallRulesCheckBox.TabIndex = 98;
+            this.IgnoreFirewallRulesCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // IgnoreDataSyncCheckBox
             // 
@@ -522,6 +525,7 @@ namespace DBCompare
             this.IgnoreDataSyncCheckBox.Name = "IgnoreDataSyncCheckBox";
             this.IgnoreDataSyncCheckBox.Size = new System.Drawing.Size(300, 32);
             this.IgnoreDataSyncCheckBox.TabIndex = 97;
+            this.IgnoreDataSyncCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // TopCheckBoxPanel
             // 
@@ -555,6 +559,7 @@ namespace DBCompare
             this.IgnoreIndexesCheckBox.Name = "IgnoreIndexesCheckBox";
             this.IgnoreIndexesCheckBox.Size = new System.Drawing.Size(232, 32);
             this.IgnoreIndexesCheckBox.TabIndex = 98;
+            this.IgnoreIndexesCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // StoreConnectionStringsCheckBox
             // 
@@ -576,6 +581,7 @@ namespace DBCompare
             this.StoreConnectionStringsCheckBox.Name = "StoreConnectionStringsCheckBox";
             this.StoreConnectionStringsCheckBox.Size = new System.Drawing.Size(232, 32);
             this.StoreConnectionStringsCheckBox.TabIndex = 97;
+            this.StoreConnectionStringsCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // IgnoreDiagramProceduresCheckBox
             // 
@@ -597,6 +603,7 @@ namespace DBCompare
             this.IgnoreDiagramProceduresCheckBox.Name = "IgnoreDiagramProceduresCheckBox";
             this.IgnoreDiagramProceduresCheckBox.Size = new System.Drawing.Size(300, 32);
             this.IgnoreDiagramProceduresCheckBox.TabIndex = 94;
+            this.IgnoreDiagramProceduresCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // RightFillerPanel
             // 
@@ -711,6 +718,7 @@ namespace DBCompare
             this.TargetConnectionStringControl.TextBoxEditableColor = System.Drawing.Color.White;
             this.TargetConnectionStringControl.TextBoxFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TargetConnectionStringControl.TextBoxTopMargin = 6;
+            this.TargetConnectionStringControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // VerticalSeparator1
             // 
@@ -759,6 +767,7 @@ namespace DBCompare
             this.SourceConnectionStringControl.TextBoxEditableColor = System.Drawing.Color.White;
             this.SourceConnectionStringControl.TextBoxFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.SourceConnectionStringControl.TextBoxTopMargin = 3;
+            this.SourceConnectionStringControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // VerticalSeparator3
             // 
@@ -849,7 +858,7 @@ namespace DBCompare
             this.MinimumSize = new System.Drawing.Size(1140, 720);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DB Compare Version 5.0.8";
+            this.Text = "DB Compare Version 6.1.0";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.YouTubePanel.ResumeLayout(false);
             this.CompareDatabaseTopPanel.ResumeLayout(false);

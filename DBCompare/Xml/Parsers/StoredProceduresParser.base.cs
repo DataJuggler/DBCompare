@@ -2,12 +2,12 @@
 
 #region using statements
 
-using DataJuggler.Net5;
+using DataJuggler.Net6;
 using DataJuggler.UltimateHelper;
 using System;
 using System.Collections.Generic;
-using XmlMirror.Runtime5.Objects;
-using XmlMirror.Runtime5.Util;
+using XmlMirror.Runtime6.Objects;
+using XmlMirror.Runtime6.Util;
 
 #endregion
 
@@ -106,7 +106,7 @@ namespace DBCompare.Xml.Parsers
                         case "Database.StoredProcedures.StoredProcedure.StoredProcedureType":
 
                             // Set the value for storedProcedure.StoredProcedureType
-                            storedProcedure.StoredProcedureType = EnumHelper.GetEnumValue<DataJuggler.Net5.Enumerations.StoredProcedureTypes>(xmlNode.FormattedNodeValue, DataJuggler.Net5.Enumerations.StoredProcedureTypes.NotSet);
+                            storedProcedure.StoredProcedureType = EnumHelper.GetEnumValue<DataJuggler.Net6.Enumerations.StoredProcedureTypes>(xmlNode.FormattedNodeValue, DataJuggler.Net6.Enumerations.StoredProcedureTypes.NotSet);
 
                             // required
                             break;

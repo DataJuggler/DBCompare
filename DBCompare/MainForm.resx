@@ -57,8 +57,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing.Common" name="System.Drawing.Common, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
-  <data name="GenerateScriptsButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="GenerateScriptsButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAbwAAAC4CAYAAACYVll9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAu
         IgAALiIBquLdkgAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS4xYyqcSwAAVHhJREFUeF7tnQe4
@@ -425,7 +425,10 @@
         2mtedvxL8hMU/pdK/T9NwiKsOFChDwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="YouTubeButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <metadata name="MainToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="YouTubeButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAUAAAACgCAIAAADywSLLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAu
         IgAALiIBquLdkgAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS42/U4J6AAAIWdJREFUeF7tnQmQ
@@ -574,7 +577,7 @@
         IEQYMbAgRBgxsCBEGDGwIEQWpf4HhC45nnlK7LUAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="BuildSourceConnectionStringButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="BuildSourceConnectionStringButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAbwAAAC4CAYAAACYVll9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAu
         IgAALiIBquLdkgAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS4xYyqcSwAAVHhJREFUeF7tnQe4
@@ -941,7 +944,7 @@
         2mtedvxL8hMU/pdK/T9NwiKsOFChDwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="BuildTargetConnectionStringButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="BuildTargetConnectionStringButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAbwAAAC4CAYAAACYVll9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAu
         IgAALiIBquLdkgAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS4xYyqcSwAAVHhJREFUeF7tnQe4
@@ -1308,10 +1311,10 @@
         2mtedvxL8hMU/pdK/T9NwiKsOFChDwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="SwapButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="SwapButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vwAADr8BOAVTJAAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS4xYyqcSwAAGa9JREFUeF7tnQms
+        vAAADrwBlbxySQAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS4xYyqcSwAAGa9JREFUeF7tnQms
         XeVxx8FgvOINvPHwBhgc4wVjYgfbGAwYg43BbK4dzI5pADtQsHGxApgKalSsmBjFbA2t2VSlLSSqqgia
         FNIWQkoWJaoUKSgkVUmTohA1jgvIFJ3O7/OZ27nfnXvuvrznM9JP7717zz1n5j/zbWe575Dccsstt9xy
         yy233HLLLbfccsstt9xyyy233HLLLbe+YgMGDBjWv3//HmGa8OkjjjjibOD39LUetkk3z6232sCBAydJ
@@ -1424,7 +1427,7 @@
         +7XHBPUl9hVyyy233HLLLbfcuswOOeT/APJzv5F7C715AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="CompareDatabasesButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="CompareDatabasesButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAbwAAAC4CAYAAACYVll9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAu
         IgAALiIBquLdkgAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS4xYyqcSwAAVHhJREFUeF7tnQe4
@@ -1791,7 +1794,7 @@
         2mtedvxL8hMU/pdK/T9NwiKsOFChDwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="CreateXmlFileButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="CreateXmlFileButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAbwAAAC4CAYAAACYVll9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAu
         IgAALiIBquLdkgAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS4xYyqcSwAAVHhJREFUeF7tnQe4
@@ -2158,7 +2161,7 @@
         2mtedvxL8hMU/pdK/T9NwiKsOFChDwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="$this.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="$this.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         /9j/4AAQSkZJRgABAQEBLAEsAAD/4QBmRXhpZgAATU0AKgAAAAgABAEaAAUAAAABAAAAPgEbAAUAAAAB
         AAAARgEoAAMAAAABAAIAAAExAAIAAAAQAAAATgAAAAAAAAEsAAAAAQAAASwAAAABcGFpbnQubmV0IDQu
@@ -36297,7 +36300,7 @@
         JgHgkkEDAJ6/xZzuHEZCyXoWQptYLKCwO4Ftm7nbuxxnG3OM8k53FgP/2Q==
 </value>
   </data>
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing.Common" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAYAAAAAAAEAIACtkQAAZgAAAICAAAABACAAKAgBABOSAABAQAAAAQAgAChCAAA7mgEAMDAAAAEA
         IACoJQAAY9wBACAgAAABACAAqBAAAAsCAgAQEAAAAQAgAGgEAACzEgIAiVBORw0KGgoAAAANSUhEUgAA

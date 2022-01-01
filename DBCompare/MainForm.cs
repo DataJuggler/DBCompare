@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using DataJuggler.UltimateHelper;
 using DataJuggler.UltimateHelper.Objects;
-using DataJuggler.Net5;
+using DataJuggler.Net6;
 using DataJuggler.Win.Controls;
 using DataJuggler.Win.Controls.Interfaces;
 using DBCompare.Enumerations;
@@ -737,8 +737,8 @@ namespace DBCompare
                             // Show the two databases are equal
                             this.ResultsTextBox.Text = "The target database is up to date.";
                            
-                            // Show the button
-                           GenerateScriptsButton.Visible = true;
+                           // hide the button if up to date
+                           GenerateScriptsButton.Visible = false;
                         }
                         else
                         {
@@ -788,12 +788,6 @@ namespace DBCompare
             /// </summary>
             public void Init()
             {
-                // set the version
-                string version = "5.0.8";
-
-                // Display the version number
-                this.Text = "DB Compare " + version;
-
                 // Setup the listeners
                 this.RemoteCompareCheckBox.CheckChangedListener = this;
                 this.CreateXmlFileCheckBox.CheckChangedListener = this;
