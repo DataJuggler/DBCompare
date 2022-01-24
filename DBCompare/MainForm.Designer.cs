@@ -52,6 +52,7 @@ namespace DBCompare
             this.SourceTopPanel = new System.Windows.Forms.Panel();
             this.RightMarginPanel = new System.Windows.Forms.Panel();
             this.YouTubePanel = new System.Windows.Forms.Panel();
+            this.Graph = new System.Windows.Forms.ProgressBar();
             this.GenerateScriptsButton = new System.Windows.Forms.Button();
             this.CountLabel = new System.Windows.Forms.Label();
             this.CountLeftMargin = new System.Windows.Forms.Panel();
@@ -97,7 +98,6 @@ namespace DBCompare
             this.ResultsTextBox = new System.Windows.Forms.TextBox();
             this.ComparisonReportLabel = new System.Windows.Forms.Label();
             this.BottomMarginPanel = new System.Windows.Forms.Panel();
-            this.Graph = new System.Windows.Forms.ProgressBar();
             this.YouTubePanel.SuspendLayout();
             this.CompareDatabaseTopPanel.SuspendLayout();
             this.OptionsPanel.SuspendLayout();
@@ -152,6 +152,14 @@ namespace DBCompare
             this.YouTubePanel.Name = "YouTubePanel";
             this.YouTubePanel.Size = new System.Drawing.Size(1092, 68);
             this.YouTubePanel.TabIndex = 85;
+            // 
+            // Graph
+            // 
+            this.Graph.Location = new System.Drawing.Point(153, 25);
+            this.Graph.Name = "Graph";
+            this.Graph.Size = new System.Drawing.Size(760, 23);
+            this.Graph.TabIndex = 101;
+            this.Graph.Visible = false;
             // 
             // GenerateScriptsButton
             // 
@@ -836,14 +844,6 @@ namespace DBCompare
             this.BottomMarginPanel.Size = new System.Drawing.Size(1108, 12);
             this.BottomMarginPanel.TabIndex = 26;
             // 
-            // Graph
-            // 
-            this.Graph.Location = new System.Drawing.Point(153, 25);
-            this.Graph.Name = "Graph";
-            this.Graph.Size = new System.Drawing.Size(760, 23);
-            this.Graph.TabIndex = 101;
-            this.Graph.Visible = false;
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -868,7 +868,7 @@ namespace DBCompare
             this.MinimumSize = new System.Drawing.Size(1140, 720);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DB Compare Version 6.1.1";
+            this.Text = "DB Compare Version 6.1.3";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.YouTubePanel.ResumeLayout(false);
             this.CompareDatabaseTopPanel.ResumeLayout(false);
