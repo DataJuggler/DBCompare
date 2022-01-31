@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using DataJuggler.UltimateHelper.Objects;
 using System.Linq;
+using DBCompare.Enumerations;
 
 #endregion
 
@@ -67,6 +68,9 @@ namespace DBCompare
             {
                 // initial value
                 SchemaComparison comparison = new SchemaComparison();
+
+                // local
+                SchemaDifference schemaDifference = null;
                 
                 // verify both objects exist
                 if ((sourceTable != null) && (targetTable != null) && (sourceTable.Fields != null) && (targetTable.Fields != null))
@@ -92,47 +96,83 @@ namespace DBCompare
                 }
                 else if (NullHelper.IsNull(targetTable))
                 {
+                    // Create a new instance of a 'SchemaDifference' object.
+                    schemaDifference = new SchemaDifference();
+
+                    // Set the DataTable
+                    schemaDifference.Table = sourceTable;
+
+                    // Set the diff type
+                    schemaDifference.DifferenceType = DifferenceTypeEnum.TableIsMissing;
+
                     // if this table is a view
                     if (sourceTable.IsView)
                     {
-                        // change the message to say view instead of table
-
-                        // Add this table was not found to the schema differences collection
-                        comparison.SchemaDifferences.Add("The view '" + sourceTable.Name + "' does not exist in the target database.");
+                        // Set the message
+                        schemaDifference.Message = "The view '" + sourceTable.Name + "' does not exist in the target database.";
                     }
                     else
                     {
-                         // Add this table was not found to the schema differences collection
-                        comparison.SchemaDifferences.Add("The table '" + sourceTable.Name + "' does not exist in the target database.");
+                        // Set the message
+                        schemaDifference.Message = "The Table '" + sourceTable.Name + "' does not exist in the target database.";
                     }
+
+                    // Add this table was not found to the schema differences collection
+                    comparison.SchemaDifferences.Add(schemaDifference);
                 }
                 else if (!ListHelper.HasOneOrMoreItems(sourceTable.Fields))
                 {
+                    // Create a new instance of a 'SchemaDifference' object.
+                    schemaDifference = new SchemaDifference();
+
+                    // Set the DataTable
+                    schemaDifference.Table = sourceTable;
+
+                    // Set the diff type
+                    schemaDifference.DifferenceType = DifferenceTypeEnum.SourceTableHasNoFields;
+
                     // if the sourceTable is a view
                     if (sourceTable.IsView)
                     {
-                         // Add this table was not found to the schema differences collection
-                        comparison.SchemaDifferences.Add("The source database view '" + sourceTable.Name + "' does not contain any fields.");
+                         // Add this view does not have any fields
+                        schemaDifference.Message = "The source database view '" + sourceTable.Name + "' does not contain any fields.";
                     }
                     else
                     {
-                         // Add this table was not found to the schema differences collection
-                        comparison.SchemaDifferences.Add("The source database table '" + sourceTable.Name + "' does not contain any fields.");
+                         // Add this table does not have any fields
+                        schemaDifference.Message = "The source database table '" + sourceTable.Name + "' does not contain any fields.";
                     }
+                    
+                    // add this schema difference
+                    comparison.SchemaDifferences.Add(schemaDifference);
                 }
                 else if (!ListHelper.HasOneOrMoreItems(targetTable.Fields))
                 {
-                    // if the targetTable is a view
-                    if (targetTable.IsView)
+                    // TargetDatabaseHasNoFields
+
+                     // Create a new instance of a 'SchemaDifference' object.
+                    schemaDifference = new SchemaDifference();
+
+                    // Set the DataTable
+                    schemaDifference.Table = sourceTable;
+
+                    // Set the diff type
+                    schemaDifference.DifferenceType = DifferenceTypeEnum.TargetDatabaseHasNoFields;
+
+                    // if the sourceTable is a view
+                    if (sourceTable.IsView)
                     {
-                        // Add this table was not found to the schema differences collection
-                        comparison.SchemaDifferences.Add("The target database view '" + targetTable.Name + "' does not contain any fields.");
+                         // Add this view does not have any fields
+                        schemaDifference.Message = "The target database view '" + sourceTable.Name + "' does not contain any fields.";
                     }
                     else
                     {
-                        // Add this table was not found to the schema differences collection
-                        comparison.SchemaDifferences.Add("The target database table '" + targetTable.Name + "' does not contain any fields.");
+                         // Add this table does not have any fields
+                        schemaDifference.Message = "The target database table '" + sourceTable.Name + "' does not contain any fields.";
                     }
+                    
+                    // add this schema difference
+                    comparison.SchemaDifferences.Add(schemaDifference);
                 }
 
                 //if there are not any schema differences
@@ -156,26 +196,56 @@ namespace DBCompare
                 // initial value
                 SchemaComparison comparison = new SchemaComparison();
 
+                // local
+                SchemaDifference difference = null;
+
                 // if the SourceDatabase & TargetDatabase exist
                 if ((this.HasSourceDatabase) && (this.HasTargetDatabase))
                 {
                     // Do Comparison
                     comparison = DoComparison();
                 }
-                else if (!this.HasSourceDatabase)
+                else if ((!HasSourceDatabase) && (!HasTargetDatabase))
                 {
+                    // Create a new instance of a 'SchemaDifference' object.
+                    difference = new SchemaDifference();
+
+                    // can't load either
+                    difference.DifferenceType = DifferenceTypeEnum.UnableToLoadSourceAndTarget;
+
                     // Add to the schema differences
-                    comparison.SchemaDifferences.Add("Unable to load the 'Target Database.'");
+                    difference.Message = "Unable to load the 'Source' and 'Target Databases.'";
+
+                    // Add this difference
+                    comparison.SchemaDifferences.Add(difference);
                 }
                 else if (!this.HasTargetDatabase)
                 {
+                     // Create a new instance of a 'SchemaDifference' object.
+                    difference = new SchemaDifference();
+
+                    // can't load Target
+                    difference.DifferenceType = DifferenceTypeEnum.UnableToLoadTarget;
+
                     // Add to the schema differences
-                    comparison.SchemaDifferences.Add("Unable to load the 'Source Database.'");
+                    difference.Message = "Unable to load the Target Database.'";
+
+                    // Add this difference
+                    comparison.SchemaDifferences.Add(difference);
                 }
                 else
                 {
-                    // Add to the schema differences
-                    comparison.SchemaDifferences.Add("Unable to load the 'Source Database.' & 'Target Database.'");
+                     // Create a new instance of a 'SchemaDifference' object.
+                    difference = new SchemaDifference();
+
+                    // can't load Target
+                    difference.DifferenceType = DifferenceTypeEnum.UnableToLoadSource;
+
+                    // Set the message
+                    difference.Message = "Unable to load the Source Database.'";
+
+                    // Add this difference
+                    comparison.SchemaDifferences.Add(difference);
                 }
 
                 // return value
@@ -244,7 +314,7 @@ namespace DBCompare
                         // local
                         int number = 0;
                         string constraintName = "";
-                        string schemaDifference = "";
+                        SchemaDifference schemaDifference = new SchemaDifference();
                         
                         // iterate the CheckConstraints in the sourceTable
                         foreach (CheckConstraint sourceCheckConstraint in sourceTable.CheckConstraints)
@@ -277,33 +347,29 @@ namespace DBCompare
                                 if (!validCheckConstraints)
                                 {
                                     // create the schemaDifference
-                                    schemaDifference = "The check constraint '" + sourceCheckConstraint.ConstraintName + "' in the target database table '" + targetTable.Name + "' is not valid.";
+                                    schemaDifference = new SchemaDifference();
 
-                                    // see if this item is already in the comparison report (some constraints take up more than one field)
-                                    int index = comparison.SchemaDifferences.IndexOf(schemaDifference);
-
-                                    // if the index was not found
-                                    if (index < 0)
-                                    {
-                                        // Add an entry for this missing Check Constraint
-                                        comparison.SchemaDifferences.Add(schemaDifference);
-                                    }
+                                    schemaDifference.DifferenceType = DifferenceTypeEnum.CheckConstraintNotValid;
+                                    
+                                    schemaDifference.Message = "The check constraint '" + sourceCheckConstraint.ConstraintName + "' in the target database table '" + targetTable.Name + "' is not valid.";
+                                    
+                                    // Add an entry for this missing Check Constraint
+                                    comparison.SchemaDifferences.Add(schemaDifference);
                                 }
                             }
                             else
                             {
                                 // create the schemaDifference
-                                schemaDifference = "The check constraint  '" + sourceCheckConstraint.ConstraintName + "' was not found in the target database table '" + targetTable.Name + "'.";
+                                schemaDifference = new SchemaDifference();
 
-                                // see if this item is already in the comparison report (some constraints take up more than one field)
-                                int index = comparison.SchemaDifferences.IndexOf(schemaDifference);
+                                // set the difference type
+                                schemaDifference.DifferenceType = DifferenceTypeEnum.CheckConstraintNotFound;
 
-                                // if the index was not found
-                                if (index < 0)
-                                {
-                                    // Add an entry for this missing Check Constraint
-                                    comparison.SchemaDifferences.Add(schemaDifference);
-                                }
+                                // Set the message                                
+                                schemaDifference.Message = "The check constraint  '" + sourceCheckConstraint.ConstraintName + "' was not found in the target database table '" + targetTable.Name + "'.";
+                                
+                                // Add an entry for this missing Check Constraint
+                                comparison.SchemaDifferences.Add(schemaDifference);
                             }
                         }
                     }
@@ -459,8 +525,9 @@ namespace DBCompare
             /// <param name="comparison"></param>
             public void CompareForeignKeys(DataTable sourceTable, DataTable targetTable, ref SchemaComparison comparison)
             {
-                // local
+                // locals
                 ForeignKeyConstraint targetForeignKey = null;
+                SchemaDifference schemaDifference = null;
 
                 // verify all the objects exist
                 if (NullHelper.Exists(sourceTable, targetTable, comparison))
@@ -480,24 +547,60 @@ namespace DBCompare
                                 // compare the table name (should always be true)
                                 if (!TextHelper.IsEqual(foreignKey.Table, targetForeignKey.Table))
                                 {
+                                    // Create a new instance of a 'SchemaDifference' object.
+                                    schemaDifference = new SchemaDifference();
+
+                                    // Set DifferenceType
+                                    schemaDifference.DifferenceType = DifferenceTypeEnum.ForeignKeyWrongTableName;
+
                                     // Add a schemaDifference because the Table name does not match
-                                    comparison.SchemaDifferences.Add("The foreign key " + foreignKey.Name + " has a different value for Table name in the target database.");
+                                    schemaDifference.Message = "The foreign key " + foreignKey.Name + " has a different value for Table name in the target database.";
+
+                                    // add this item
+                                    comparison.SchemaDifferences.Add(schemaDifference);
                                 }
                                 else if (!TextHelper.IsEqual(foreignKey.ReferencedTable, targetForeignKey.ReferencedTable))
                                 {
+                                    // Create a new instance of a 'SchemaDifference' object.
+                                    schemaDifference = new SchemaDifference();
+
+                                    // Set DifferenceType
+                                    schemaDifference.DifferenceType = DifferenceTypeEnum.ForeignKeyWrongTableName;
+
                                     // Add a schemaDifference because the Referenced Table name does not match
-                                    comparison.SchemaDifferences.Add("The foreign key " + foreignKey.Name + " has a different value for Referenced Table name in the target database.");
+                                    schemaDifference.Message = "The foreign key " + foreignKey.Name + " has a different value for Referenced Table name in the target database.";
+
+                                    // add this item
+                                    comparison.SchemaDifferences.Add(schemaDifference);
                                 }
                                 else if (!TextHelper.IsEqual(foreignKey.ReferencedColumn, targetForeignKey.ReferencedColumn))
                                 {
+                                    // Create a new instance of a 'SchemaDifference' object.
+                                    schemaDifference = new SchemaDifference();
+
+                                    // Set DifferenceType
+                                    schemaDifference.DifferenceType = DifferenceTypeEnum.ForeignKeyWrongReferencedColumn;
+
                                     // Add a schemaDifference because the Referenced Column name does not match
-                                    comparison.SchemaDifferences.Add("The foreign key " + foreignKey.Name + " has a different value for Referenced Column name in the target database.");
+                                    schemaDifference.Message = "The foreign key " + foreignKey.Name + " has a different value for Referenced Column name in the target database.";
+
+                                    // add this item
+                                    comparison.SchemaDifferences.Add(schemaDifference);
                                 }
                             }
                             else
                             {
+                                // Create a new instance of a 'SchemaDifference' object.
+                                schemaDifference = new SchemaDifference();
+
+                                // Set DifferenceType
+                                schemaDifference.DifferenceType = DifferenceTypeEnum.ForeignKeyWrongReferencedColumn;
+
                                 // Add a schemaDifference the foreign key does not exist in the target database
-                                comparison.SchemaDifferences.Add("The foreign key " + foreignKey.Name + " does not exist in the target database.");  
+                                schemaDifference.Message = "The foreign key " + foreignKey.Name + " does not exist in the target database.";
+                                
+                                // add this item
+                                comparison.SchemaDifferences.Add(schemaDifference);  
                             }
                         }
                     }
@@ -546,16 +649,34 @@ namespace DBCompare
                                     // Compare Stored Procedure Text
                                     CompareFunctionText(function.Name, sourceFunctionText, targetFunctionText, comparison);
                                 }
-                                else 
+                                else
                                 {
+                                    // Create a new instance of a 'SchemaDifference' object.
+                                    SchemaDifference difference = new SchemaDifference();
+
+                                    // The function is not valid
+                                    difference.DifferenceType = DifferenceTypeEnum.FunctionNotValid;
+
                                     // This stored procedure is not valid
-                                    comparison.SchemaDifferences.Add("The function '" + function.Name + "' is not valid.");
+                                    difference.Message = "The function '" + function.Name + "' is not valid.";
+
+                                    // add difference
+                                    comparison.SchemaDifferences.Add(difference);
                                 }
                             }
                             else
                             {
+                                // Create a new instance of a 'SchemaDifference' object.
+                                SchemaDifference difference = new SchemaDifference();
+
+                                // The function is not valid
+                                difference.DifferenceType = DifferenceTypeEnum.FunctionNotFound;
+
                                 // This stored procedure is not valid
-                                comparison.SchemaDifferences.Add("The function '" + function.Name + "' was not found.");
+                                difference.Message = "The function '" + function.Name + "' does not exist in the target database.";
+
+                                // add difference
+                                comparison.SchemaDifferences.Add(difference);
                             }
 
                             // Increment the value for count
@@ -654,8 +775,17 @@ namespace DBCompare
                     // if the text is not the same
                     if (!isEqual)
                     {
+                        // Create a new instance of a 'SchemaDifference' object.
+                        SchemaDifference difference = new SchemaDifference();
+
+                        // The function is not valid
+                        difference.DifferenceType = DifferenceTypeEnum.FunctionNotValid;
+
                         // This stored procedure is not valid
-                        comparison.SchemaDifferences.Add("The function '" + sourceFunctionName + "' is not valid.");
+                        difference.Message = "The function '" + sourceFunctionName + "' is not valid.";
+
+                        // add difference
+                        comparison.SchemaDifferences.Add(difference);
                     }
                 }
             }
@@ -747,14 +877,32 @@ namespace DBCompare
                                 // if not a valid index
                                 if (!validIndex)
                                 {
-                                    // Add an entry for this index
-                                    comparison.SchemaDifferences.Add("The index '" + sourceIndex.Name + "' in the target database table '" + targetTable.Name + "' is not valid.");
+                                    // Create a new instance of a 'SchemaDifference' object.
+                                    SchemaDifference diff = new SchemaDifference();
+
+                                    // not valid
+                                    diff.DifferenceType = DifferenceTypeEnum.IndexNotValid;
+
+                                    // set the message
+                                    diff.Message = "The index '" + sourceIndex.Name + "' in the target database table '" + targetTable.Name + "' is not valid.";
+
+                                    // add to the SchemaDifferences
+                                    comparison.SchemaDifferences.Add(diff);
                                 }
                             }
                             else
                             {
-                                // Add an entry for this index
-                                comparison.SchemaDifferences.Add("The index '" + sourceIndex.Name + "' was not found in the target database table '" + targetTable.Name + "'.");
+                                // Create a new instance of a 'SchemaDifference' object.
+                                SchemaDifference diff = new SchemaDifference();
+
+                                // not valid
+                                diff.DifferenceType = DifferenceTypeEnum.IndexNotFound;
+
+                                // set the message
+                                diff.Message = "The index '" + sourceIndex.Name + "' was not found in the target database table '" + targetTable.Name + "'.";
+
+                                // add to the SchemaDifferences
+                                comparison.SchemaDifferences.Add(diff);                               
                             }
                         }
                     }
@@ -771,8 +919,8 @@ namespace DBCompare
                 // locals
                 StoredProcedure targetProcedure = null;
                 
-                // verify the sourceProcedure and the database both exist
-                if ((sourceProcedure != null) && (database != null) && (comparison != null))
+                // verify the sourceProcedure, database and comparison all exist
+                if (NullHelper.Exists(sourceDatabase, database, comparison))                
                 {
                     // if this procedure should not be skipped
                     if (!SkipProcedure(sourceProcedure.ProcedureName))
@@ -801,19 +949,32 @@ namespace DBCompare
                             }
                             else if (TextHelper.Exists(sourceProcedureText))
                             {
+                                // Create a new instance of a 'SchemaDifference' object.
+                                SchemaDifference schemaDifference = new SchemaDifference();
+
+                                // Set the type. Stored procedures are the same for missing or invalid to fix
+                                schemaDifference.DifferenceType = DifferenceTypeEnum.StoredProcedureMissingOrInvalid;
+
                                 // This stored procedure is not valid
-                                comparison.SchemaDifferences.Add("The stored procedure '" + sourceProcedure.ProcedureName + "' was not found in the target database.");
-                            }
-                            else if (TextHelper.Exists(targetProcedureText))
-                            {
-                                // This stored procedure is not valid
-                                comparison.SchemaDifferences.Add("The stored procedure '" + sourceProcedure.ProcedureName + "' was not found in the source database.");
+                                schemaDifference.Message = "The stored procedure '" + sourceProcedure.ProcedureName + "' was not found in the target database.";
+
+                                // add
+                                comparison.SchemaDifferences.Add(schemaDifference);
                             }
                         }
                         else
                         {
+                            // Create a new instance of a 'SchemaDifference' object.
+                            SchemaDifference schemaDifference = new SchemaDifference();
+
+                            // Set the type. Stored procedures are the same for missing or invalid to fix
+                            schemaDifference.DifferenceType = DifferenceTypeEnum.StoredProcedureMissingOrInvalid;
+
                             // This stored procedure is not valid
-                            comparison.SchemaDifferences.Add("The procedure '" + sourceProcedure.ProcedureName + "' was not found.");
+                            schemaDifference.Message = "The procedure '" + sourceProcedure.ProcedureName + "' was not found in the target database.";
+
+                            // Add this item
+                            comparison.SchemaDifferences.Add(schemaDifference);
                         }
                     }
                 }
@@ -865,8 +1026,17 @@ namespace DBCompare
                                         // if the comparisionObject hasSchemaDifferences object
                                         if (comparison.HasSchemaDifferences)
                                         {
-                                            // Show this extra procedure
-                                            comparison.SchemaDifferences.Add("The target database contains an extra stored procedure: '" + targetProcedure.ProcedureName + "'.");
+                                            // Create a new instance of a 'SchemaDifference' object.
+                                            SchemaDifference schemaDifference = new SchemaDifference();
+
+                                            // Set the DifferenceType
+                                            schemaDifference.DifferenceType = DifferenceTypeEnum.TargetDatabaseContainsExtraProcedure;
+
+                                            // Set the message
+                                            schemaDifference.Message = "The target database contains an extra stored procedure: '" + targetProcedure.ProcedureName + "'.";
+
+                                            // add this difference
+                                            comparison.SchemaDifferences.Add(schemaDifference);
                                         }
                                     }
                                 }
@@ -884,8 +1054,20 @@ namespace DBCompare
                         }
                         else
                         {
+                            // Create a new instance of a 'SchemaDifference' object.
+                            SchemaDifference schemaDifference = new SchemaDifference();
+
+                            // Set the DifferenceType
+                            schemaDifference.DifferenceType = DifferenceTypeEnum.TargetDatabaseContainsNoProcedures;
+
+                            // Set the message
+                            schemaDifference.Message = "The target database does not have any stored procedures.";
+
+                            // add this difference
+                            comparison.SchemaDifferences.Add(schemaDifference);
+
                             // The TargetDatabase does not have any stored procedures
-                            comparison.SchemaDifferences.Add("The target database does not have any stored procedures.");
+                            comparison.SchemaDifferences.Add(schemaDifference);
                         }
                     }
                 }
@@ -970,8 +1152,17 @@ namespace DBCompare
                     // if the text is not the same
                     if (!isEqual)
                     {
+                        // Create a new instance of a 'SchemaDifference' object.
+                        SchemaDifference schemaDifference = new SchemaDifference();
+
+                        // Set the DifferentType
+                        schemaDifference.DifferenceType = DifferenceTypeEnum.StoredProcedureMissingOrInvalid;
+
+                        // Set the message
+                        schemaDifference.Message = "The procedure '" + sourceProcedureName + "' is not valid.";
+
                         // This stored procedure is not valid
-                        comparison.SchemaDifferences.Add("The procedure '" + sourceProcedureName + "' is not valid.");
+                        comparison.SchemaDifferences.Add(schemaDifference);
                     }
                 }
             }
@@ -1008,14 +1199,32 @@ namespace DBCompare
                             // if the field is not valid
                             if (!validField)
                             {
-                                // Add this table was not found to the schema differences collection
-                                comparison.SchemaDifferences.Add("The field '" + sourceTable.Name + "." + sourceField.FieldName + "' is not valid: " + failedDescription);
+                                // Create a new instance of a 'SchemaDifference' object.
+                                SchemaDifference schemaDifference = new SchemaDifference();
+
+                                // Set the DifferentType
+                                schemaDifference.DifferenceType = DifferenceTypeEnum.FieldInvalid;
+
+                                // Set the message
+                                schemaDifference.Message = "The field '" + sourceTable.Name + "." + sourceField.FieldName + "' is not valid: " + failedDescription + ".";
+
+                                // Add this different to the schema differences collection
+                                comparison.SchemaDifferences.Add(schemaDifference);
                             }
                         }
                         else
                         {
-                            // Add this table was not found to the schema differences collection
-                            comparison.SchemaDifferences.Add("The field '" + sourceTable.Name + "." + sourceField.FieldName + "' was not found in the target database.");
+                            // Create a new instance of a 'SchemaDifference' object.
+                            SchemaDifference schemaDifference = new SchemaDifference();
+
+                            // Set the DifferentType
+                            schemaDifference.DifferenceType = DifferenceTypeEnum.FieldIsMissing;
+
+                            // Set the message
+                            schemaDifference.Message = "The field '" + sourceTable.Name + "." + sourceField.FieldName + "' was not found in the target database.";
+
+                            // Add this difference to the schema differences collection
+                            comparison.SchemaDifferences.Add(schemaDifference);
                         }
                     }
                 }
@@ -1031,10 +1240,11 @@ namespace DBCompare
                 // initial value
                 SchemaComparison comparison = new SchemaComparison();
 
-                // local
+                // locals
                 SchemaComparison tempComparison = null;
                 DataTable targetTable = null;
                 int count = 0;
+                SchemaDifference schemaDifference = null;
 
                 // if there are one or more tables
                 if ((this.HasSourceDatabase) && (this.HasTargetDatabase) && (this.SourceDatabase.HasOneOrMoreTables) && (this.TargetDatabase.HasOneOrMoreTables))
@@ -1055,25 +1265,43 @@ namespace DBCompare
                             if (!tempComparison.IsEqual)
                             {
                                 // copy the schemaDifferences from the tempComparison to this comparison object.
-                                foreach (string schemaDifference in tempComparison.SchemaDifferences)
+                                foreach (SchemaDifference tempSchemaDifference in tempComparison.SchemaDifferences)
                                 {
                                     // Add this SchemaDifference
-                                    comparison.SchemaDifferences.Add(schemaDifference);
+                                    comparison.SchemaDifferences.Add(tempSchemaDifference);
                                 }
                             }
                         }
                         else
                         {
+                            // Create a new instance of a 'SchemaDifference' object.
+                            schemaDifference = new SchemaDifference();
+
+                            // Set the table
+                            schemaDifference.Table = sourceTable;
+
                             // if the sourceTable is a view
                             if (sourceTable.IsView)
                             {
+                                // Views and Tables are essentially the same during comparison
+                                schemaDifference.DifferenceType = DifferenceTypeEnum.TableIsMissing;
+
+                                // Set the message
+                                schemaDifference.Message = "The view '" + sourceTable.Name + "' does not exist in the target database.";
+
                                 // Add this schema difference
-                                comparison.SchemaDifferences.Add("The view '" + sourceTable.Name + "' does not exist in the target database.");
+                                comparison.SchemaDifferences.Add(schemaDifference);
                             }
                             else
                             {
+                                // Views and Tables are essentially the same during comparison
+                                schemaDifference.DifferenceType = DifferenceTypeEnum.TableIsMissing;
+
+                                // Set the message
+                                schemaDifference.Message = "The table '" + sourceTable.Name + "' does not exist in the target database.";
+
                                 // Add this schema difference
-                                comparison.SchemaDifferences.Add("The table '" + sourceTable.Name + "' does not exist in the target database.");
+                                comparison.SchemaDifferences.Add(schemaDifference);
                             }
                         }
 
@@ -1096,17 +1324,26 @@ namespace DBCompare
                         // if the sourceTable was not found
                         if (sourceTable == null)
                         {
+                            // Create a new instance of a 'SchemaDifference' object.
+                            schemaDifference = new SchemaDifference();
+
+                            // Set the DifferenceType
+                            schemaDifference.DifferenceType = DifferenceTypeEnum.TargetDatabaseContainsExtraTable;
+
                             // if this is a view
                             if (tempTable.IsView)
                             {
-                                // Add this is an extra field to the schema differences collection
-                                comparison.SchemaDifferences.Add("The TARGET database contains an extra view: '" + tempTable.Name + "'.");
+                                // Set the message
+                                schemaDifference.Message = "The TARGET database contains an extra view: '" + tempTable.Name + "'.";
                             }
                             else
                             {
-                                // Add this is an extra field to the schema differences collection
-                                comparison.SchemaDifferences.Add("The TARGET database contains an extra table: '" + tempTable.Name + "'.");
+                                // Set the message
+                                schemaDifference.Message = "The TARGET database contains an extra table: '" + tempTable.Name + "'.";
                             }
+
+                            // Add this item
+                            comparison.SchemaDifferences.Add(schemaDifference);
                         }
                     }
                 }
@@ -1138,17 +1375,32 @@ namespace DBCompare
                         // if the sourceField was not found
                         if (sourceField == null)
                         {
+                            // Create a new instance of a 'SchemaDifference' object.
+                            SchemaDifference schemaDifference = new SchemaDifference();
+
+                            // Set the Table
+                            schemaDifference.Table = sourceTable;
+
+                            // Set the Field
+                            schemaDifference.Field = sourceField;
+
+                            // Set the DifferenceType
+                            schemaDifference.DifferenceType = DifferenceTypeEnum.TargetDatabaseContainsExtraField;
+
                             // if this is a view
                             if (targetTable.IsView)
                             {
                                 // Add this is an extra field to the schema differences collection
-                                comparison.SchemaDifferences.Add("The view '" + targetTable.Name + "' in the TARGET database contains an extra field: '" + tempField.FieldName + "'.");
+                                schemaDifference.Message  = "The view '" + targetTable.Name + "' in the TARGET database contains an extra field: '" + tempField.FieldName + "'.";
                             }
                             else
                             {
                                 // Add this is an extra field to the schema differences collection
-                                comparison.SchemaDifferences.Add("The table '" + targetTable.Name + "' in the TARGET database contains an extra field: '" + tempField.FieldName + "'.");
+                                schemaDifference.Message  = "The table '" + targetTable.Name + "' in the TARGET database contains an extra field: '" + tempField.FieldName + "'.";
                             }
+
+                            // Add to SchemaDifferences collection
+                            comparison.SchemaDifferences.Add(schemaDifference);
                         }
                     }
                 }

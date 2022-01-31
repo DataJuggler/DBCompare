@@ -206,76 +206,22 @@ namespace DBCompare
                 // locals
                 string createField ="";
                 StringBuilder sb = new StringBuilder();
+                int startIndex = 0;
+                int endIndex = 0;
+                int length = 0;
+                string tableName = "";                
+                DataTable table = null;
 
                 // if the Comparison object exists and has one or more differences
                 if ((HasComparison) && (Comparison.HasSchemaDifferences) && (Comparison.HasSourceDatabase) && (Comparison.SourceDatabase.HasOneOrMoreTables))
-                {   
-                    // iterate the differences
-                    foreach (string difference in Comparison.SchemaDifferences)
-                    {
-                        // version 1 of this method is only handling missing fields
-                        if (difference.StartsWith("The field '"))
-                        {
-                            // get the start index
-                            int startIndex = difference.IndexOf("'") + 1;
-                            int endIndex = difference.LastIndexOf("'");
-                            int length = endIndex - startIndex;
+                {
+                    // Get the tablesSQL
+                    string tablesSQL = GetUpdateTablesSQL();
 
-                            // get the schema info
-                            string tableNameFieldName = difference.Substring(startIndex, length);
+                    // Get the fieldsSQL
+                    // string fieldsSQL = GetUpdateFieldsSQL();
 
-                            // if the string exists
-                            if (TextHelper.Exists(tableNameFieldName))
-                            {
-                                // create the delimiter
-                                char[] delimiters = { '.' };
-
-                                // get the words
-                                List<Word> words = TextHelper.GetWords(tableNameFieldName, delimiters);
-
-                                // if there are two or more items
-                                if (ListHelper.HasXOrMoreItems(words, 2))
-                                {
-                                    string tableName = words[0].Text;
-                                    string fieldName = words[1].Text;
-
-                                    // if both strings exist
-                                    if (TextHelper.Exists(tableName, fieldName))
-                                    {
-                                        // find the table
-                                        DataTable table = SQLDatabaseConnector.FindTable(Comparison.SourceDatabase.Tables, tableName);
-
-                                        // If the table object exists
-                                        if (NullHelper.Exists(table))
-                                        {
-                                            // attempt to find the field
-                                            DataField field = SQLDatabaseConnector.FindField(table.Fields, fieldName);
-
-                                            // If the field object exists
-                                            if (NullHelper.Exists(field))
-                                            {
-                                                
-
-                                                if (field.DataType == DataManager.DataTypeEnum.String)
-                                                {
-                                                    // create the CreateField SQL Statement
-                                                    createField = "Alter Table " + tableName + Environment.NewLine + "Add " + fieldName + " " + field.DBDataType + "(" + field.Size + ") null";
-                                                }
-                                                else
-                                                {
-                                                    // create the CreateField SQL Statement
-                                                    createField = "Alter Table " + tableName + Environment.NewLine + "Add " + fieldName + " " + field.DBDataType + " null";
-                                                }
-
-                                                // add to this field
-                                                sb.Append(createField + Environment.NewLine + "Go" + Environment.NewLine + Environment.NewLine);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    
                 }
 
                 // get the sql
@@ -486,6 +432,9 @@ namespace DBCompare
                     // Change the Cursor
                     this.Cursor = Cursors.WaitCursor;
 
+                    // Hide
+                    GenerateScriptsButton.Visible = false;
+
                     // Refresh the UI
                     this.Refresh();
 
@@ -541,6 +490,152 @@ namespace DBCompare
                     this.Cursor = Cursors.Default;
                     this.Refresh();
                 }
+            }
+            #endregion
+            
+            #region CreateTableSQL(DataTable table)
+            /// <summary>
+            /// Create Table SQL
+            /// </summary>
+            public string CreateTableSQL(DataTable table)
+            {
+                // initial value
+                string sql = "";
+
+                // locals
+                StringBuilder sb = new StringBuilder();
+                string newLine = Environment.NewLine;
+                string go = "Go" + Environment.NewLine + Environment.NewLine;
+                int count = 0;
+
+                // If the table object exists
+                if (NullHelper.Exists(table))
+                {
+                    sb.Append("/****** Object:  Table [dbo].[");
+                    sb.Append(table.Name);
+                    sb.Append("]    Script Date: ");
+                    sb.Append(DateTime.Now);
+                    sb.Append(" ******/");                    
+                    sb.Append(newLine);
+
+                    // Now ANSI Nulls
+                    sb.Append("SET ANSI_NULLS ON");
+                    sb.Append(newLine);
+                    sb.Append(go);
+
+                    // Now create the table
+                    sb.Append("CREATE TABLE [dbo].[");
+                    sb.Append(table.Name);
+                    sb.Append("](");
+                    sb.Append(newLine);
+
+                    // if there are fields
+                    if (ListHelper.HasOneOrMoreItems(table.Fields))
+                    {   
+                        // first add the primaryKey(s)
+                        if (table.HasMultiplePrimaryKeys())
+                        {
+                            // to do: Handle multiple primary keys
+                            // I never create these, but sometimes I have to work with client DB's with this
+                            // so it is on my someday list.
+                        }
+                        else if (table.HasPrimaryKey)
+                        {  
+                            // this field has been added
+                            count++;
+
+                            // Append 8 spaces then Column
+                            sb.Append(TextHelper.Indent(8));
+                            sb.Append("[");
+                            sb.Append(table.PrimaryKey.DBFieldName);
+                            sb.Append("] [");
+                            sb.Append(table.PrimaryKey.DBDataType);
+                            sb.Append("] ");
+
+                            // if identity insert
+                            if (table.PrimaryKey.IsAutoIncrement)
+                            {
+                                // Idenity Primary Key can't be null
+                                sb.Append("IDENTITY(1,1)");
+                                sb.Append(" not null,");
+                            }
+                            else if (table.PrimaryKey.IsNullable)
+                            {
+                                // add not null
+                                sb.Append(" not null,");
+                            }
+                            else
+                            {
+                                // add null
+                                sb.Append(" null,");    
+                            }
+
+                            sb.Append(newLine);
+                        }
+
+                        // now iterate the fields
+                        foreach (DataField field in table.Fields)
+                        {
+                            if (!field.PrimaryKey)
+                            {
+                                // set the count
+                                count++;
+
+                                sb.Append(TextHelper.Indent(8));
+                                sb.Append('[');
+                                sb.Append(field.DBFieldName);
+                                sb.Append("] [");
+                                sb.Append(field.DBDataType);
+
+                                // if string
+                                if (field.DataType == DataManager.DataTypeEnum.String)
+                                {
+                                    sb.Append('(');
+                                    sb.Append(field.Size);
+                                    sb.Append(')');
+                                }
+
+                                sb.Append("] ");
+
+                                // if this field is nullable
+                                if (field.IsNullable)
+                                { 
+                                    // null
+                                    sb.Append(" null");
+                                }
+                                else
+                                {
+                                    // not null
+                                    sb.Append(" not null");
+                                }
+
+                                // if not the last field
+                                if (count < table.Fields.Count)
+                                {
+                                    // Add a comma
+                                    sb.Append(",");
+                                }
+                                else if ((count == table.Fields.Count) && (table.HasCheckConstraints) && (table.CheckConstraints.Count > 0))
+                                {
+                                    // Add a comma
+                                    sb.Append(",");
+                                }
+
+                                // start a new line
+                                sb.Append(newLine);
+                            }
+                        }
+                    }
+
+                    // Extra Blank Line Separator
+                    sb.Append(newLine);
+
+                    // set the return value
+                    sql = sb.ToString();
+                }
+
+                // return value
+                return sql;
             }
             #endregion
             
@@ -721,8 +816,17 @@ namespace DBCompare
                     }
                     else
                     {
+                        // Create a SchemaDifference
+                        SchemaDifference schemaDifference = new SchemaDifference();
+
+                        // Set the DifferenceType
+                        schemaDifference.DifferenceType = DifferenceTypeEnum.SourceDatabaseContainsNoTables;
+
+                        // Set the Message
+                        schemaDifference.Message = "The source database does not contain any tables; the comparison cannot continue.";
+
                         // Add this as a message
-                        schemaComparison.SchemaDifferences.Add("The source database does not contain any tables; the comparison cannot continue.");
+                        schemaComparison.SchemaDifferences.Add(schemaDifference);                        
                     }
 
                     // compare the two schemas
@@ -756,11 +860,11 @@ namespace DBCompare
                             sb.Append(Environment.NewLine);
 
                             // iterate the errors
-                            foreach (string schemaDifference in schemaComparison.SchemaDifferences)
+                            foreach (SchemaDifference schemaDifference in schemaComparison.SchemaDifferences)
                             {
                                 // Append an indention
                                 sb.Append("    ");
-                                sb.Append(schemaDifference);
+                                sb.Append(schemaDifference.Message);
                                 sb.Append(Environment.NewLine);
                             }
 
@@ -782,6 +886,37 @@ namespace DBCompare
                     // Show the user a message
                     this.ResultsTextBox.Text = "The target database could not be loaded.";
                 }
+            }
+            #endregion
+            
+            #region GetUpdateTablesSQL()
+            /// <summary>
+            /// returns the Update Tables SQL
+            /// </summary>
+            public string GetUpdateTablesSQL()
+            {
+                // initial value
+                string sql = "";
+
+                // Create a new instance of a 'StringBuilder' object.
+                StringBuilder sb = new StringBuilder();
+
+                // iterate the differences
+                foreach (SchemaDifference difference in Comparison.SchemaDifferences)
+                {
+                    if (difference.DifferenceType == DifferenceTypeEnum.TableIsMissing)
+                    {
+                        // set the table
+                        DataTable table = difference.Table;
+
+                        // create the SQL to create this table
+                        string tableSQL = CreateTableSQL(table);
+                        sb.Append(tableSQL);
+                    }
+                }
+                
+                // return value
+                return sql;
             }
             #endregion
             
@@ -1200,6 +1335,30 @@ namespace DBCompare
             {
                 get { return comparison; }
                 set { comparison = value; }
+            }
+            #endregion
+
+            #region CreateParams
+            /// <summary>
+            /// This property here is what did the trick to reduce the flickering.
+            /// I also needed to make all of the controls Double Buffered, but
+            /// this was the final touch. It is a little slow when you switch tabs
+            /// but that is because the repainting is finishing before control is
+            /// returned.
+            /// </summary>
+            protected override CreateParams CreateParams
+            {
+                get
+                {
+                    // initial value
+                    CreateParams cp = base.CreateParams;
+
+                    // Apparently this interrupts Paint to finish before showing
+                    cp.ExStyle |= 0x02000000;
+
+                    // return value
+                    return cp;
+                }
             }
             #endregion
             

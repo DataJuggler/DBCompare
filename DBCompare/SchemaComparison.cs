@@ -22,7 +22,7 @@ namespace DBCompare
         
         #region Private Variables
         private bool isEqual;
-        private List<string> schemaDifferences;
+        private List<SchemaDifference> schemaDifferences;
         private Database sourceDatabase;
         #endregion
         
@@ -46,7 +46,7 @@ namespace DBCompare
             public void Init()
             {
                 // Create the ChangedTables collection
-                this.SchemaDifferences = new List<string>();
+                this.SchemaDifferences = new List<SchemaDifference>();
             }
             #endregion
             
@@ -103,7 +103,7 @@ namespace DBCompare
             /// <summary>
             /// This property gets or sets the value for 'SchemaDifferences'.
             /// </summary>
-            public List<string> SchemaDifferences
+            public List<SchemaDifference> SchemaDifferences
             {
                 get { return schemaDifferences; }
                 set { schemaDifferences = value; }
