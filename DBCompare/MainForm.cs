@@ -204,14 +204,11 @@ namespace DBCompare
             private void GenerateScriptsButton_Click(object sender, EventArgs e)
             {
                 // locals
-                string createField ="";
-                StringBuilder sb = new StringBuilder();
-                int startIndex = 0;
-                int endIndex = 0;
-                int length = 0;
-                string tableName = "";                
-                DataTable table = null;
-
+                string message = "-- This script is meant to be a time saver. Use only if the generated sql looks safe for your environment";
+                message += Environment.NewLine + "-- By using this script, you acknowledge I am not responsible for any damage to your database.";
+                message += Environment.NewLine + "-- Thank you for using DB Compare." + Environment.NewLine + Environment.NewLine + Environment.NewLine + Environment.NewLine;
+                StringBuilder sb = new StringBuilder(message);
+                
                 // if the Comparison object exists and has one or more differences
                 if ((HasComparison) && (Comparison.HasSchemaDifferences) && (Comparison.HasSourceDatabase) && (Comparison.SourceDatabase.HasOneOrMoreTables))
                 {
@@ -219,9 +216,11 @@ namespace DBCompare
                     string tablesSQL = GetUpdateTablesSQL();
 
                     // Get the fieldsSQL
-                    // string fieldsSQL = GetUpdateFieldsSQL();
+                    string fieldsSQL = GetUpdateFieldsSQL();                    
 
-                    
+                    // Append each
+                    sb.Append(tablesSQL);
+                    sb.Append(fieldsSQL);
                 }
 
                 // get the sql
@@ -493,6 +492,80 @@ namespace DBCompare
             }
             #endregion
             
+            #region CreateFieldSQL(DataTable table, DataField field, bool addNew)
+            /// <summary>
+            /// returns the Field SQL
+            /// </summary>
+            public string CreateFieldSQL(DataTable table, DataField field, bool addNew)
+            {
+                // initial value
+                string sql = "";
+
+                // Create a new instance of a 'StringBuilder' object.
+                StringBuilder sb = new StringBuilder();
+
+                // locals
+                string adjustment = "Alter Column ";
+
+                // first line
+                sb.Append("Alter Table ");
+                sb.Append(table.Name);
+                sb.Append(Environment.NewLine);
+
+                // if new
+                if (addNew)
+                {
+                    // Only difference is add or Al
+                    adjustment = "Add ";
+                }
+
+                // Append Alter or Add
+                sb.Append(adjustment);
+
+                sb.Append(field.DBFieldName);
+                sb.Append(" ");
+                sb.Append(field.DBDataType);
+                   
+                // if a string
+                if (field.DataType == DataManager.DataTypeEnum.String)
+                {
+                    // append the size
+                    sb.Append("(");
+                    sb.Append(field.Size);
+                    sb.Append(")");
+                }
+
+                // not handlng identity columns here, because I just can't see that
+                // being added as a column update. If an Identity column needs renaming
+                // I am going to leave that as something you can do manual in SSMS for now.
+
+                // if this field cannot be null
+                if (!field.IsNullable)
+                {
+                    // prepend the not before null
+                    sb.Append(" not");
+                }
+
+                // now add null
+                sb.Append(" null");
+
+                // Append a new line
+                sb.Append(Environment.NewLine);
+
+                // Append a Go
+                sb.Append("Go");
+                sb.Append(Environment.NewLine);
+
+                sb.Append(Environment.NewLine);
+
+                // set the return value
+                sql = sb.ToString();
+                
+                // return value
+                return sql;
+            }
+            #endregion
+            
             #region CreateTableSQL(DataTable table)
             /// <summary>
             /// Create Table SQL
@@ -505,7 +578,10 @@ namespace DBCompare
                 // locals
                 StringBuilder sb = new StringBuilder();
                 string newLine = Environment.NewLine;
-                string go = "Go" + Environment.NewLine + Environment.NewLine;
+                string go = "Go" + Environment.NewLine + newLine;
+                string onPrimary = ") ON [PRIMARY]" + newLine + go;
+                string ansiNulls = "SET ANSI_NULLS ON" + newLine + go;
+                string quotedIdentifier = "SET QUOTED_IDENTIFIER ON" + newLine + go;
                 int count = 0;
 
                 // If the table object exists
@@ -519,9 +595,8 @@ namespace DBCompare
                     sb.Append(newLine);
 
                     // Now ANSI Nulls
-                    sb.Append("SET ANSI_NULLS ON");
-                    sb.Append(newLine);
-                    sb.Append(go);
+                    sb.Append(ansiNulls);                    
+                    sb.Append(quotedIdentifier);
 
                     // Now create the table
                     sb.Append("CREATE TABLE [dbo].[");
@@ -556,20 +631,13 @@ namespace DBCompare
                             if (table.PrimaryKey.IsAutoIncrement)
                             {
                                 // Idenity Primary Key can't be null
-                                sb.Append("IDENTITY(1,1)");
-                                sb.Append(" not null,");
-                            }
-                            else if (table.PrimaryKey.IsNullable)
-                            {
-                                // add not null
-                                sb.Append(" not null,");
-                            }
-                            else
-                            {
-                                // add null
-                                sb.Append(" null,");    
-                            }
+                                sb.Append("IDENTITY(1,1) ");                                
+                            }                            
+                            
+                            // add null
+                            sb.Append("not null,");                                
 
+                            // add a new line
                             sb.Append(newLine);
                         }
 
@@ -586,6 +654,7 @@ namespace DBCompare
                                 sb.Append(field.DBFieldName);
                                 sb.Append("] [");
                                 sb.Append(field.DBDataType);
+                                sb.Append("]");
 
                                 // if string
                                 if (field.DataType == DataManager.DataTypeEnum.String)
@@ -594,8 +663,6 @@ namespace DBCompare
                                     sb.Append(field.Size);
                                     sb.Append(')');
                                 }
-
-                                sb.Append("] ");
 
                                 // if this field is nullable
                                 if (field.IsNullable)
@@ -615,7 +682,7 @@ namespace DBCompare
                                     // Add a comma
                                     sb.Append(",");
                                 }
-                                else if ((count == table.Fields.Count) && (table.HasCheckConstraints) && (table.CheckConstraints.Count > 0))
+                                else if ((count == table.Fields.Count) && (table.HasPrimaryKey) && (table.PrimaryKey.IsAutoIncrement))
                                 {
                                     // Add a comma
                                     sb.Append(",");
@@ -625,7 +692,44 @@ namespace DBCompare
                                 sb.Append(newLine);
                             }
                         }
+
+                        // If the table has an Identity (Auto Number) Primary Key
+                        if ((table.HasPrimaryKey) && (table.PrimaryKey.IsAutoIncrement) && (table.HasIndexes))
+                        {
+                            // First version of this is only for Identity constraints
+
+                            /*
+                             
+                            CONSTRAINT [PK_ActivityLog] PRIMARY KEY CLUSTERED 
+                            (
+	                            [Id] ASC
+                            )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+
+                            */
+
+                            // create the identityConstraint, the only one being handled for now
+                            string endConstraint = "  ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]" + newLine;
+                            string identityConstraint = "  CONSTRAINT [[ConstraintName]] PRIMARY KEY CLUSTERED" + newLine + "  (" + newLine + "    [" + "[ConstraintColumnName]] ASC" + newLine + endConstraint;
+                            
+
+                            // Create the column
+                            DataField column = table.PrimaryKey;
+                            
+                            // If the column object exists
+                            if (NullHelper.Exists(column))
+                            {                                    
+                                // This is the only constraint we are handling, for now
+                                string indexName = table.Indexes[0].Name;
+                                string identity = identityConstraint.Replace("[ConstraintName]", indexName).Replace("[ConstraintColumnName]", column.FieldName);
+                                        
+                                // add this
+                                sb.Append(identity);                                    
+                            }  
+                        }
                     }
+
+                    // append the closijng on primary
+                    sb.Append(onPrimary);
 
                     // Extra Blank Line Separator
                     sb.Append(newLine);
@@ -889,6 +993,58 @@ namespace DBCompare
             }
             #endregion
             
+            #region GetUpdateFieldsSQL()
+            /// <summary>
+            /// returns the Update Fields SQL
+            /// </summary>
+            public string GetUpdateFieldsSQL()
+            {
+                // initial value
+                string sql = "";
+
+                // locals                
+                DataTable table = null;
+                DataField field = null;
+                string fieldSQL = "";
+
+                // Create a new instance of a 'StringBuilder' object.
+                StringBuilder sb = new StringBuilder();
+
+                // iterate the differences
+                foreach (SchemaDifference difference in Comparison.SchemaDifferences)
+                {
+                    // set the table and field
+                    table = difference.Table;
+                    field = difference.Field;
+
+                    // If the 'table' object and the 'field' objects both exist.
+                    if (NullHelper.Exists(table, field))
+                    {
+                        // if Field 
+                        if (difference.DifferenceType == DifferenceTypeEnum.FieldIsMissing)
+                        {
+                            // create the SQL to create this field
+                            fieldSQL = CreateFieldSQL(table, field, true);
+                        } 
+                        else if (difference.DifferenceType == DifferenceTypeEnum.FieldInvalid)
+                        {
+                            // create the SQL to create this field
+                            fieldSQL = CreateFieldSQL(table, field, false);                            
+                        }
+
+                        // Add the fieldSQL
+                        sb.Append(fieldSQL);                    
+                    }
+
+                    // set the return value
+                    sql = sb.ToString();
+                }
+                
+                // return value
+                return sql;
+            }
+            #endregion
+            
             #region GetUpdateTablesSQL()
             /// <summary>
             /// returns the Update Tables SQL
@@ -899,7 +1055,15 @@ namespace DBCompare
                 string sql = "";
 
                 // Create a new instance of a 'StringBuilder' object.
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new StringBuilder("Use [");
+                sb.Append(Comparison.SourceDatabase.Name);
+                sb.Append("]");
+                sb.Append(Environment.NewLine);
+                sb.Append("Go");
+                sb.Append(Environment.NewLine);
+                
+                // Add a blank line
+                sb.Append(Environment.NewLine);
 
                 // iterate the differences
                 foreach (SchemaDifference difference in Comparison.SchemaDifferences)
@@ -912,8 +1076,11 @@ namespace DBCompare
                         // create the SQL to create this table
                         string tableSQL = CreateTableSQL(table);
                         sb.Append(tableSQL);
-                    }
+                    }  
                 }
+
+                // get the return value
+                sql = sb.ToString();
                 
                 // return value
                 return sql;

@@ -28,7 +28,6 @@ namespace DBCompare.Enumerations
 		FieldIsMissing = 1,
 		FieldInvalid = 2,
 		TableIsMissing = 3,
-		TableInvalid = 4,
 		StoredProcedureMissingOrInvalid = 5,
 		SourceTableHasNoFields = 6,
 		TargetDatabaseHasNoFields = 7,

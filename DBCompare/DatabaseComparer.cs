@@ -1202,6 +1202,10 @@ namespace DBCompare
                                 // Create a new instance of a 'SchemaDifference' object.
                                 SchemaDifference schemaDifference = new SchemaDifference();
 
+                                // Set the field and table
+                                schemaDifference.Field = sourceField;
+                                schemaDifference.Table = sourceTable;
+
                                 // Set the DifferentType
                                 schemaDifference.DifferenceType = DifferenceTypeEnum.FieldInvalid;
 
@@ -1219,6 +1223,10 @@ namespace DBCompare
 
                             // Set the DifferentType
                             schemaDifference.DifferenceType = DifferenceTypeEnum.FieldIsMissing;
+
+                            // Set the field and table
+                            schemaDifference.Field = sourceField;
+                            schemaDifference.Table = sourceTable;
 
                             // Set the message
                             schemaDifference.Message = "The field '" + sourceTable.Name + "." + sourceField.FieldName + "' was not found in the target database.";

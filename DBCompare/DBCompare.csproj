@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>6.1.4</Version>
+    <Version>6.2.0</Version>
 	<FileVersion>6.1.1</FileVersion>	
     <PackageId>DataJuggler.DBCompare</PackageId>
     <Authors>DataJuggler</Authors>
@@ -46,7 +46,7 @@ Version 5.0.1  - I had an image path that was in my Graphics folder, not in the 
 This is the 1st version for .Net 5. This project has been ported from .Net Framework, and this is the 1st
 attempt as a Nuget package.</PackageReleaseNotes>
     <ApplicationIcon>Database Compare Transparent.ico</ApplicationIcon>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
