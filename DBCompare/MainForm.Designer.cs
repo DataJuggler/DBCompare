@@ -52,8 +52,7 @@ namespace DBCompare
             this.SourceTopPanel = new System.Windows.Forms.Panel();
             this.RightMarginPanel = new System.Windows.Forms.Panel();
             this.YouTubePanel = new System.Windows.Forms.Panel();
-            this.Graph = new System.Windows.Forms.ProgressBar();
-            this.GenerateScriptsButton = new System.Windows.Forms.Button();
+            this.GenerateScriptsButton = new DataJuggler.Win.Controls.Button();
             this.CountLabel = new System.Windows.Forms.Label();
             this.CountLeftMargin = new System.Windows.Forms.Panel();
             this.YouTubeButton = new System.Windows.Forms.Button();
@@ -98,6 +97,8 @@ namespace DBCompare
             this.ResultsTextBox = new System.Windows.Forms.TextBox();
             this.ComparisonReportLabel = new System.Windows.Forms.Label();
             this.BottomMarginPanel = new System.Windows.Forms.Panel();
+            this.GraphPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.Graph = new System.Windows.Forms.ProgressBar();
             this.YouTubePanel.SuspendLayout();
             this.CompareDatabaseTopPanel.SuspendLayout();
             this.OptionsPanel.SuspendLayout();
@@ -108,6 +109,7 @@ namespace DBCompare
             this.TopSectionPanel.SuspendLayout();
             this.TargetConnectionPanel.SuspendLayout();
             this.MainPanel.SuspendLayout();
+            this.GraphPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // LeftMarginPanel
@@ -116,7 +118,7 @@ namespace DBCompare
             this.LeftMarginPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.LeftMarginPanel.Location = new System.Drawing.Point(0, 0);
             this.LeftMarginPanel.Name = "LeftMarginPanel";
-            this.LeftMarginPanel.Size = new System.Drawing.Size(16, 681);
+            this.LeftMarginPanel.Size = new System.Drawing.Size(16, 701);
             this.LeftMarginPanel.TabIndex = 24;
             // 
             // SourceTopPanel
@@ -134,14 +136,13 @@ namespace DBCompare
             this.RightMarginPanel.Dock = System.Windows.Forms.DockStyle.Right;
             this.RightMarginPanel.Location = new System.Drawing.Point(1108, 16);
             this.RightMarginPanel.Name = "RightMarginPanel";
-            this.RightMarginPanel.Size = new System.Drawing.Size(16, 653);
+            this.RightMarginPanel.Size = new System.Drawing.Size(16, 673);
             this.RightMarginPanel.TabIndex = 55;
             // 
             // YouTubePanel
             // 
             this.YouTubePanel.BackColor = System.Drawing.Color.Transparent;
             this.YouTubePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.YouTubePanel.Controls.Add(this.Graph);
             this.YouTubePanel.Controls.Add(this.GenerateScriptsButton);
             this.YouTubePanel.Controls.Add(this.CountLabel);
             this.YouTubePanel.Controls.Add(this.CountLeftMargin);
@@ -150,37 +151,21 @@ namespace DBCompare
             this.YouTubePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.YouTubePanel.Location = new System.Drawing.Point(16, 601);
             this.YouTubePanel.Name = "YouTubePanel";
-            this.YouTubePanel.Size = new System.Drawing.Size(1092, 68);
+            this.YouTubePanel.Size = new System.Drawing.Size(1092, 88);
             this.YouTubePanel.TabIndex = 85;
-            // 
-            // Graph
-            // 
-            this.Graph.Location = new System.Drawing.Point(153, 25);
-            this.Graph.Name = "Graph";
-            this.Graph.Size = new System.Drawing.Size(760, 23);
-            this.Graph.TabIndex = 101;
-            this.Graph.Visible = false;
             // 
             // GenerateScriptsButton
             // 
             this.GenerateScriptsButton.BackColor = System.Drawing.Color.Transparent;
-            this.GenerateScriptsButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("GenerateScriptsButton.BackgroundImage")));
-            this.GenerateScriptsButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.GenerateScriptsButton.FlatAppearance.BorderSize = 0;
-            this.GenerateScriptsButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.GenerateScriptsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.GenerateScriptsButton.ButtonText = "Generate Scripts";
             this.GenerateScriptsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.GenerateScriptsButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.GenerateScriptsButton.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.GenerateScriptsButton.Location = new System.Drawing.Point(176, 19);
-            this.GenerateScriptsButton.MaximumSize = new System.Drawing.Size(220, 34);
-            this.GenerateScriptsButton.MinimumSize = new System.Drawing.Size(220, 34);
+            this.GenerateScriptsButton.Location = new System.Drawing.Point(161, 4);
+            this.GenerateScriptsButton.Margin = new System.Windows.Forms.Padding(4);
             this.GenerateScriptsButton.Name = "GenerateScriptsButton";
-            this.GenerateScriptsButton.Size = new System.Drawing.Size(220, 34);
-            this.GenerateScriptsButton.TabIndex = 100;
-            this.GenerateScriptsButton.Text = "Generate Scripts";
-            this.MainToolTip.SetToolTip(this.GenerateScriptsButton, "Perform the database comparison");
-            this.GenerateScriptsButton.UseVisualStyleBackColor = false;
+            this.GenerateScriptsButton.Size = new System.Drawing.Size(168, 44);
+            this.GenerateScriptsButton.TabIndex = 102;
+            this.GenerateScriptsButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             this.GenerateScriptsButton.Visible = false;
             this.GenerateScriptsButton.Click += new System.EventHandler(this.GenerateScriptsButton_Click);
             // 
@@ -192,7 +177,7 @@ namespace DBCompare
             this.CountLabel.ForeColor = System.Drawing.Color.LemonChiffon;
             this.CountLabel.Location = new System.Drawing.Point(16, 4);
             this.CountLabel.Name = "CountLabel";
-            this.CountLabel.Size = new System.Drawing.Size(140, 64);
+            this.CountLabel.Size = new System.Drawing.Size(140, 84);
             this.CountLabel.TabIndex = 88;
             this.CountLabel.Text = "Count: 0";
             this.CountLabel.Visible = false;
@@ -202,7 +187,7 @@ namespace DBCompare
             this.CountLeftMargin.Dock = System.Windows.Forms.DockStyle.Left;
             this.CountLeftMargin.Location = new System.Drawing.Point(0, 4);
             this.CountLeftMargin.Name = "CountLeftMargin";
-            this.CountLeftMargin.Size = new System.Drawing.Size(16, 64);
+            this.CountLeftMargin.Size = new System.Drawing.Size(16, 84);
             this.CountLeftMargin.TabIndex = 87;
             // 
             // YouTubeButton
@@ -215,6 +200,7 @@ namespace DBCompare
             this.YouTubeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.YouTubeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.YouTubeButton.Location = new System.Drawing.Point(964, 4);
+            this.YouTubeButton.MaximumSize = new System.Drawing.Size(128, 64);
             this.YouTubeButton.Name = "YouTubeButton";
             this.YouTubeButton.Size = new System.Drawing.Size(128, 64);
             this.YouTubeButton.TabIndex = 84;
@@ -800,6 +786,7 @@ namespace DBCompare
             // MainPanel
             // 
             this.MainPanel.BackColor = System.Drawing.Color.Transparent;
+            this.MainPanel.Controls.Add(this.GraphPanel);
             this.MainPanel.Controls.Add(this.ResultsTextBox);
             this.MainPanel.Controls.Add(this.ComparisonReportLabel);
             this.MainPanel.Controls.Add(this.InnerBorder);
@@ -813,14 +800,14 @@ namespace DBCompare
             // 
             // ResultsTextBox
             // 
-            this.ResultsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ResultsTextBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.ResultsTextBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ResultsTextBox.Location = new System.Drawing.Point(16, 228);
             this.ResultsTextBox.Multiline = true;
             this.ResultsTextBox.Name = "ResultsTextBox";
             this.ResultsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ResultsTextBox.Size = new System.Drawing.Size(1076, 345);
-            this.ResultsTextBox.TabIndex = 107;
+            this.ResultsTextBox.Size = new System.Drawing.Size(1076, 198);
+            this.ResultsTextBox.TabIndex = 109;
             // 
             // ComparisonReportLabel
             // 
@@ -839,10 +826,28 @@ namespace DBCompare
             // 
             this.BottomMarginPanel.BackColor = System.Drawing.Color.Transparent;
             this.BottomMarginPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.BottomMarginPanel.Location = new System.Drawing.Point(16, 669);
+            this.BottomMarginPanel.Location = new System.Drawing.Point(16, 689);
             this.BottomMarginPanel.Name = "BottomMarginPanel";
             this.BottomMarginPanel.Size = new System.Drawing.Size(1108, 12);
             this.BottomMarginPanel.TabIndex = 26;
+            // 
+            // GraphPanel
+            // 
+            this.GraphPanel.Controls.Add(this.Graph);
+            this.GraphPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.GraphPanel.Location = new System.Drawing.Point(16, 537);
+            this.GraphPanel.Name = "GraphPanel";
+            this.GraphPanel.Size = new System.Drawing.Size(1076, 36);
+            this.GraphPanel.TabIndex = 110;
+            // 
+            // Graph
+            // 
+            this.Graph.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.Graph.Location = new System.Drawing.Point(0, 13);
+            this.Graph.Name = "Graph";
+            this.Graph.Size = new System.Drawing.Size(1076, 23);
+            this.Graph.TabIndex = 109;
+            this.Graph.Visible = false;
             // 
             // MainForm
             // 
@@ -850,7 +855,7 @@ namespace DBCompare
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1124, 681);
+            this.ClientSize = new System.Drawing.Size(1124, 701);
             this.Controls.Add(this.LeftMarginPanel3);
             this.Controls.Add(this.MainPanel);
             this.Controls.Add(this.HiddenButton);
@@ -864,11 +869,11 @@ namespace DBCompare
             this.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1140, 720);
-            this.MinimumSize = new System.Drawing.Size(1140, 720);
+            this.MaximumSize = new System.Drawing.Size(1140, 740);
+            this.MinimumSize = new System.Drawing.Size(1140, 740);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DB Compare Version 6.2.0";
+            this.Text = "DB Compare Version 6.2.1";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.YouTubePanel.ResumeLayout(false);
             this.CompareDatabaseTopPanel.ResumeLayout(false);
@@ -881,6 +886,7 @@ namespace DBCompare
             this.TargetConnectionPanel.ResumeLayout(false);
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
+            this.GraphPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
             }
@@ -915,7 +921,6 @@ namespace DBCompare
         private System.Windows.Forms.Panel VerticalSeparator3;
         private System.Windows.Forms.Panel InnerBorder;
         private System.Windows.Forms.Panel MainPanel;
-        private System.Windows.Forms.TextBox ResultsTextBox;
         private System.Windows.Forms.Label ComparisonReportLabel;
         private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreDiagramProceduresCheckBox;
         private System.Windows.Forms.Label CountLabel;
@@ -932,7 +937,9 @@ namespace DBCompare
         private DataJuggler.Win.Controls.LabelCheckBoxControl CreateXmlFileCheckBox;
         private DataJuggler.Win.Controls.LabelCheckBoxControl RemoteCompareCheckBox;
         private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreIndexesCheckBox;
-        private System.Windows.Forms.Button GenerateScriptsButton;
+        private DataJuggler.Win.Controls.Button GenerateScriptsButton;
+        private System.Windows.Forms.TextBox ResultsTextBox;
+        private DataJuggler.Win.Controls.Objects.PanelExtender GraphPanel;
         private System.Windows.Forms.ProgressBar Graph;
     }
     #endregion

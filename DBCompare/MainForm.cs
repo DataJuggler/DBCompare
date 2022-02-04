@@ -203,8 +203,15 @@ namespace DBCompare
             /// </summary>
             private void GenerateScriptsButton_Click(object sender, EventArgs e)
             {
+                // Remove focus
+                HiddenButton.Focus();
+                Refresh();
+                Application.DoEvents();
+
                 // locals
                 string message = "-- This script is meant to be a time saver. Use only if the generated sql looks safe for your environment";
+                message += Environment.NewLine + "-- This tool is a work in progress. For now it does tables and fields. Stored Procedures";
+                message += Environment.NewLine + "-- are easy to update, and constraints and indexes are harder to script, so I put them off.";
                 message += Environment.NewLine + "-- By using this script, you acknowledge I am not responsible for any damage to your database.";
                 message += Environment.NewLine + "-- Thank you for using DB Compare." + Environment.NewLine + Environment.NewLine + Environment.NewLine + Environment.NewLine;
                 StringBuilder sb = new StringBuilder(message);
@@ -216,7 +223,9 @@ namespace DBCompare
                     string tablesSQL = GetUpdateTablesSQL();
 
                     // Get the fieldsSQL
-                    string fieldsSQL = GetUpdateFieldsSQL();                    
+                    string fieldsSQL = GetUpdateFieldsSQL();
+                    
+                    // string storedProceduresSQL = on my to do list, but I am busy at work this week.
 
                     // Append each
                     sb.Append(tablesSQL);
@@ -937,10 +946,11 @@ namespace DBCompare
                     if (schemaComparison != null)
                     {
                         // Store the Comparison. Needed for the Generate Scripts
-                        this.Comparison = schemaComparison;
+                        Comparison = schemaComparison;
 
                         // Store the sourceDatabase
-                        this.Comparison.SourceDatabase = sourceDatabase;
+                        Comparison.SourceDatabase = sourceDatabase;
+                        Comparison.TargetDatabase = targetDatabase;
 
                         // if the two database are equal
                         if (schemaComparison.IsEqual)
@@ -1056,7 +1066,7 @@ namespace DBCompare
 
                 // Create a new instance of a 'StringBuilder' object.
                 StringBuilder sb = new StringBuilder("Use [");
-                sb.Append(Comparison.SourceDatabase.Name);
+                sb.Append(Comparison.TargetDatabase.Name);
                 sb.Append("]");
                 sb.Append(Environment.NewLine);
                 sb.Append("Go");

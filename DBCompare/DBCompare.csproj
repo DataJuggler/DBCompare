@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>6.2.0</Version>
+    <Version>6.2.1</Version>
 	<FileVersion>6.1.1</FileVersion>	
     <PackageId>DataJuggler.DBCompare</PackageId>
     <Authors>DataJuggler</Authors>
