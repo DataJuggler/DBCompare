@@ -2,6 +2,7 @@
 
 #region using statements
 
+using DataJuggler.Win.Controls.Objects;
 
 #endregion
 
@@ -17,9 +18,57 @@ namespace DBCompare
         
         #region Private Variables
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Panel LeftMarginPanel;
-        private System.Windows.Forms.Panel SourceTopPanel;
-        private System.Windows.Forms.Panel RightMarginPanel;
+        private PanelExtender LeftMarginPanel;
+        private PanelExtender SourceTopPanel;
+        private PanelExtender RightMarginPanel;
+        private PanelExtender YouTubePanel;
+        private System.Windows.Forms.Button YouTubeButton;
+        private PanelExtender panel6;
+        private PanelExtender Separator6;
+        private System.Windows.Forms.ToolTip MainToolTip;
+        private System.Windows.Forms.Button HiddenButton;
+        private PanelExtender LeftMarginPanel3;
+        private PanelExtender CompareDatabaseTopPanel;
+        private PanelExtender OptionsPanel;
+        private PanelExtender TopCheckBoxPanel;
+        private System.Windows.Forms.Button SwapButton;
+        private PanelExtender RightFillerPanel;
+        private PanelExtender Seperator4;
+        private PanelExtender CompareRightColumn;
+        private PanelExtender SeparatorPanel;
+        private PanelExtender ButtonTopPanel;
+        private PanelExtender ButtonBottomPanel;
+        private PanelExtender VerticalSeparator2;
+        private PanelExtender TopSectionPanel;
+        private DataJuggler.Win.Controls.LabelTextBoxControl TargetConnectionStringControl;
+        private System.Windows.Forms.Button BuildTargetConnectionStringButton;
+        private PanelExtender VerticalSeparator1;
+        private PanelExtender TargetConnectionPanel;
+        private DataJuggler.Win.Controls.LabelTextBoxControl SourceConnectionStringControl;
+        private System.Windows.Forms.Button BuildSourceConnectionStringButton;
+        private PanelExtender VerticalSeparator3;
+        private PanelExtender InnerBorder;
+        private PanelExtender MainPanel;
+        private System.Windows.Forms.Label ComparisonReportLabel;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreDiagramProceduresCheckBox;
+        private System.Windows.Forms.Label CountLabel;
+        private PanelExtender CountLeftMargin;
+        private System.Windows.Forms.Button CreateXmlFileButton;
+        private PanelExtender panel1;
+        private System.Windows.Forms.Button CompareDatabasesButton;
+        private PanelExtender BottomMarginPanel;
+        private PanelExtender IgnoreDataSyncPanel;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreDataSyncCheckBox;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreFirewallRulesCheckBox;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl StoreConnectionStringsCheckBox;
+        private PanelExtender RemoteComparePanel;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl CreateXmlFileCheckBox;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl RemoteCompareCheckBox;
+        private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreIndexesCheckBox;
+        private DataJuggler.Win.Controls.Button GenerateScriptsButton;
+        private DataJuggler.Win.Controls.Objects.PanelExtender GraphPanel;
+        private System.Windows.Forms.ProgressBar Graph;
+        private System.Windows.Forms.TextBox ResultsTextBox;
         #endregion
         
         #region Methods
@@ -48,16 +97,16 @@ namespace DBCompare
             {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.LeftMarginPanel = new System.Windows.Forms.Panel();
-            this.SourceTopPanel = new System.Windows.Forms.Panel();
-            this.RightMarginPanel = new System.Windows.Forms.Panel();
-            this.YouTubePanel = new System.Windows.Forms.Panel();
+            this.LeftMarginPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.SourceTopPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.RightMarginPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.YouTubePanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.GenerateScriptsButton = new DataJuggler.Win.Controls.Button();
             this.CountLabel = new System.Windows.Forms.Label();
-            this.CountLeftMargin = new System.Windows.Forms.Panel();
+            this.CountLeftMargin = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.YouTubeButton = new System.Windows.Forms.Button();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.Separator6 = new System.Windows.Forms.Panel();
+            this.panel6 = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.Separator6 = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.MainToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.HiddenButton = new System.Windows.Forms.Button();
             this.BuildSourceConnectionStringButton = new System.Windows.Forms.Button();
@@ -65,40 +114,40 @@ namespace DBCompare
             this.SwapButton = new System.Windows.Forms.Button();
             this.CompareDatabasesButton = new System.Windows.Forms.Button();
             this.CreateXmlFileButton = new System.Windows.Forms.Button();
-            this.LeftMarginPanel3 = new System.Windows.Forms.Panel();
-            this.CompareDatabaseTopPanel = new System.Windows.Forms.Panel();
-            this.OptionsPanel = new System.Windows.Forms.Panel();
-            this.RemoteComparePanel = new System.Windows.Forms.Panel();
+            this.LeftMarginPanel3 = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.CompareDatabaseTopPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.OptionsPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.RemoteComparePanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.CreateXmlFileCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             this.RemoteCompareCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.IgnoreDataSyncPanel = new System.Windows.Forms.Panel();
+            this.IgnoreDataSyncPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.IgnoreFirewallRulesCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             this.IgnoreDataSyncCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.TopCheckBoxPanel = new System.Windows.Forms.Panel();
+            this.TopCheckBoxPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.IgnoreIndexesCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             this.StoreConnectionStringsCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
             this.IgnoreDiagramProceduresCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.RightFillerPanel = new System.Windows.Forms.Panel();
-            this.Seperator4 = new System.Windows.Forms.Panel();
-            this.CompareRightColumn = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.SeparatorPanel = new System.Windows.Forms.Panel();
-            this.ButtonTopPanel = new System.Windows.Forms.Panel();
-            this.ButtonBottomPanel = new System.Windows.Forms.Panel();
-            this.VerticalSeparator2 = new System.Windows.Forms.Panel();
-            this.TopSectionPanel = new System.Windows.Forms.Panel();
+            this.RightFillerPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.Seperator4 = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.CompareRightColumn = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.panel1 = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.SeparatorPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.ButtonTopPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.ButtonBottomPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.VerticalSeparator2 = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.TopSectionPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.TargetConnectionStringControl = new DataJuggler.Win.Controls.LabelTextBoxControl();
-            this.VerticalSeparator1 = new System.Windows.Forms.Panel();
-            this.TargetConnectionPanel = new System.Windows.Forms.Panel();
+            this.VerticalSeparator1 = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.TargetConnectionPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.SourceConnectionStringControl = new DataJuggler.Win.Controls.LabelTextBoxControl();
-            this.VerticalSeparator3 = new System.Windows.Forms.Panel();
-            this.InnerBorder = new System.Windows.Forms.Panel();
-            this.MainPanel = new System.Windows.Forms.Panel();
+            this.VerticalSeparator3 = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.InnerBorder = new DataJuggler.Win.Controls.Objects.PanelExtender();
+            this.MainPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.ResultsTextBox = new System.Windows.Forms.TextBox();
-            this.ComparisonReportLabel = new System.Windows.Forms.Label();
-            this.BottomMarginPanel = new System.Windows.Forms.Panel();
             this.GraphPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.Graph = new System.Windows.Forms.ProgressBar();
+            this.ComparisonReportLabel = new System.Windows.Forms.Label();
+            this.BottomMarginPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.YouTubePanel.SuspendLayout();
             this.CompareDatabaseTopPanel.SuspendLayout();
             this.OptionsPanel.SuspendLayout();
@@ -786,8 +835,8 @@ namespace DBCompare
             // MainPanel
             // 
             this.MainPanel.BackColor = System.Drawing.Color.Transparent;
-            this.MainPanel.Controls.Add(this.GraphPanel);
             this.MainPanel.Controls.Add(this.ResultsTextBox);
+            this.MainPanel.Controls.Add(this.GraphPanel);
             this.MainPanel.Controls.Add(this.ComparisonReportLabel);
             this.MainPanel.Controls.Add(this.InnerBorder);
             this.MainPanel.Controls.Add(this.VerticalSeparator3);
@@ -800,14 +849,32 @@ namespace DBCompare
             // 
             // ResultsTextBox
             // 
-            this.ResultsTextBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ResultsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ResultsTextBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ResultsTextBox.Location = new System.Drawing.Point(16, 228);
             this.ResultsTextBox.Multiline = true;
             this.ResultsTextBox.Name = "ResultsTextBox";
             this.ResultsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ResultsTextBox.Size = new System.Drawing.Size(1076, 198);
-            this.ResultsTextBox.TabIndex = 109;
+            this.ResultsTextBox.Size = new System.Drawing.Size(1076, 309);
+            this.ResultsTextBox.TabIndex = 111;
+            // 
+            // GraphPanel
+            // 
+            this.GraphPanel.Controls.Add(this.Graph);
+            this.GraphPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.GraphPanel.Location = new System.Drawing.Point(16, 537);
+            this.GraphPanel.Name = "GraphPanel";
+            this.GraphPanel.Size = new System.Drawing.Size(1076, 36);
+            this.GraphPanel.TabIndex = 110;
+            // 
+            // Graph
+            // 
+            this.Graph.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.Graph.Location = new System.Drawing.Point(0, 13);
+            this.Graph.Name = "Graph";
+            this.Graph.Size = new System.Drawing.Size(1076, 23);
+            this.Graph.TabIndex = 109;
+            this.Graph.Visible = false;
             // 
             // ComparisonReportLabel
             // 
@@ -830,24 +897,6 @@ namespace DBCompare
             this.BottomMarginPanel.Name = "BottomMarginPanel";
             this.BottomMarginPanel.Size = new System.Drawing.Size(1108, 12);
             this.BottomMarginPanel.TabIndex = 26;
-            // 
-            // GraphPanel
-            // 
-            this.GraphPanel.Controls.Add(this.Graph);
-            this.GraphPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.GraphPanel.Location = new System.Drawing.Point(16, 537);
-            this.GraphPanel.Name = "GraphPanel";
-            this.GraphPanel.Size = new System.Drawing.Size(1076, 36);
-            this.GraphPanel.TabIndex = 110;
-            // 
-            // Graph
-            // 
-            this.Graph.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.Graph.Location = new System.Drawing.Point(0, 13);
-            this.Graph.Name = "Graph";
-            this.Graph.Size = new System.Drawing.Size(1076, 23);
-            this.Graph.TabIndex = 109;
-            this.Graph.Visible = false;
             // 
             // MainForm
             // 
@@ -873,7 +922,7 @@ namespace DBCompare
             this.MinimumSize = new System.Drawing.Size(1140, 740);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DB Compare Version 6.2.1";
+            this.Text = "DB Compare Version 6.2.3";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.YouTubePanel.ResumeLayout(false);
             this.CompareDatabaseTopPanel.ResumeLayout(false);
@@ -893,54 +942,7 @@ namespace DBCompare
             #endregion
             
         #endregion
-            private System.Windows.Forms.Panel YouTubePanel;
-            private System.Windows.Forms.Button YouTubeButton;
-            private System.Windows.Forms.Panel panel6;
-            private System.Windows.Forms.Panel Separator6;
-            private System.Windows.Forms.ToolTip MainToolTip;
-        private System.Windows.Forms.Button HiddenButton;
-        private System.Windows.Forms.Panel LeftMarginPanel3;
-        private System.Windows.Forms.Panel CompareDatabaseTopPanel;
-        private System.Windows.Forms.Panel OptionsPanel;
-        private System.Windows.Forms.Panel TopCheckBoxPanel;
-        private System.Windows.Forms.Button SwapButton;
-        private System.Windows.Forms.Panel RightFillerPanel;
-        private System.Windows.Forms.Panel Seperator4;
-        private System.Windows.Forms.Panel CompareRightColumn;
-        private System.Windows.Forms.Panel SeparatorPanel;
-        private System.Windows.Forms.Panel ButtonTopPanel;
-        private System.Windows.Forms.Panel ButtonBottomPanel;
-        private System.Windows.Forms.Panel VerticalSeparator2;
-        private System.Windows.Forms.Panel TopSectionPanel;
-        private DataJuggler.Win.Controls.LabelTextBoxControl TargetConnectionStringControl;
-        private System.Windows.Forms.Button BuildTargetConnectionStringButton;
-        private System.Windows.Forms.Panel VerticalSeparator1;
-        private System.Windows.Forms.Panel TargetConnectionPanel;
-        private DataJuggler.Win.Controls.LabelTextBoxControl SourceConnectionStringControl;
-        private System.Windows.Forms.Button BuildSourceConnectionStringButton;
-        private System.Windows.Forms.Panel VerticalSeparator3;
-        private System.Windows.Forms.Panel InnerBorder;
-        private System.Windows.Forms.Panel MainPanel;
-        private System.Windows.Forms.Label ComparisonReportLabel;
-        private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreDiagramProceduresCheckBox;
-        private System.Windows.Forms.Label CountLabel;
-        private System.Windows.Forms.Panel CountLeftMargin;
-        private System.Windows.Forms.Button CreateXmlFileButton;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button CompareDatabasesButton;
-        private System.Windows.Forms.Panel BottomMarginPanel;
-        private System.Windows.Forms.Panel IgnoreDataSyncPanel;
-        private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreDataSyncCheckBox;
-        private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreFirewallRulesCheckBox;
-        private DataJuggler.Win.Controls.LabelCheckBoxControl StoreConnectionStringsCheckBox;
-        private System.Windows.Forms.Panel RemoteComparePanel;
-        private DataJuggler.Win.Controls.LabelCheckBoxControl CreateXmlFileCheckBox;
-        private DataJuggler.Win.Controls.LabelCheckBoxControl RemoteCompareCheckBox;
-        private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreIndexesCheckBox;
-        private DataJuggler.Win.Controls.Button GenerateScriptsButton;
-        private System.Windows.Forms.TextBox ResultsTextBox;
-        private DataJuggler.Win.Controls.Objects.PanelExtender GraphPanel;
-        private System.Windows.Forms.ProgressBar Graph;
+        
     }
     #endregion
 
