@@ -596,7 +596,15 @@ namespace DBCompare
                 // If the table object exists
                 if (NullHelper.Exists(table))
                 {
-                    sb.Append("/****** Object:  Table [dbo].[");
+                    // Is this a view?
+                    if (table.IsView)
+                    {
+                        sb.Append("/****** Object:  View [dbo].[");
+                    }
+                    else
+                    {
+                        sb.Append("/****** Object:  Table [dbo].[");
+                    }
                     sb.Append(table.Name);
                     sb.Append("]    Script Date: ");
                     sb.Append(DateTime.Now);
@@ -607,8 +615,17 @@ namespace DBCompare
                     sb.Append(ansiNulls);                    
                     sb.Append(quotedIdentifier);
 
-                    // Now create the table
-                    sb.Append("CREATE TABLE [dbo].[");
+                    // Is this a view?
+                    if (table.IsView)
+                    {   
+                        // create the view
+                        sb.Append("CREATE View [dbo].[");
+                    }
+                    else
+                    {
+                        // create the table
+                        sb.Append("CREATE TABLE [dbo].[");
+                    }
                     sb.Append(table.Name);
                     sb.Append("](");
                     sb.Append(newLine);
