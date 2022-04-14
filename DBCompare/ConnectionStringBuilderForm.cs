@@ -12,6 +12,7 @@ using System.Text;
 using System.Windows.Forms;
 using DataJuggler.Net6;
 using DataJuggler.Net6.Connection;
+using DataJuggler.UltimateHelper;
 
 #endregion
 
@@ -167,6 +168,12 @@ namespace DBCompare
             {
                 try
                 {
+                    // Set Focus to another button
+                    HiddenButton.Focus();                    
+                    ConnectingLabel.Visible = true;
+                    Refresh();
+                    Application.DoEvents();
+
                     // set the connectionTest
                     bool connectionTest = false;
 
@@ -176,7 +183,7 @@ namespace DBCompare
                     // test for a connectionString 
                     bool hasConnectionString = (!String.IsNullOrEmpty(connectionString));
 
-                    // if a connection string has been established
+                    // if a connection string text exists
                     if (hasConnectionString)
                     {
                         // set the dataConnector
@@ -193,12 +200,21 @@ namespace DBCompare
                         {
                             // Show success icon
                             PassedImage.Visible = true;
+
+                            // Could not connect
+                            ConnectingLabel.Text = "Connection Passed";
                         }
                         else
                         {
                             // Show a success message
                             FailedImage.Visible = false;
+
+                            // Could not connect
+                            ConnectingLabel.Text = "Connection Failed";
                         }
+
+                        Refresh();
+                        Application.DoEvents();
                         
                         // Start the timer to hide the images in 3 seconds
                         Timer.Start();
@@ -213,6 +229,9 @@ namespace DBCompare
                 {
                     // for debugging only
                     string err = error.ToString();
+
+                    // Could not connect
+                    ConnectingLabel.Text = "Connection Failed";
 
                     // Show a success message
                     MessageBox.Show("A connection to the database count not be estalished.", "Connection Test Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -229,6 +248,7 @@ namespace DBCompare
                 // hide all                
                 FailedImage.Visible = false;
                 PassedImage.Visible = false;
+                ConnectingLabel.Visible = false;
             }
             #endregion
             
@@ -273,7 +293,10 @@ namespace DBCompare
             public void Init()
             {
                 // default to true
-                this.UserCancelled = true;
+                UserCancelled = true;
+
+                // Prepopulate Server Name
+                DatabaseServerTextBox.Text = EnvironmentVariableHelper.GetEnvironmentVariableValue("SQLServerName");
             }
             #endregion
             
@@ -321,6 +344,7 @@ namespace DBCompare
         #endregion
 
         #endregion
+
     }
     #endregion
 

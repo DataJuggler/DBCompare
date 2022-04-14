@@ -530,8 +530,12 @@ namespace DBCompare
 
                 // Append Alter or Add
                 sb.Append(adjustment);
-
+                
+                // Update: Adding brackes around the field name for certain fields needed it (spaces, reserve words)
+                sb.Append("[");
                 sb.Append(field.DBFieldName);
+                sb.Append("]");
+
                 sb.Append(" ");
                 sb.Append(field.DBDataType);
                    
@@ -764,6 +768,44 @@ namespace DBCompare
                     sql = sb.ToString();
                 }
 
+                // return value
+                return sql;
+            }
+            #endregion
+            
+            #region CreateViewSQL(DataTable table)
+            /// <summary>
+            /// returns the View SQL
+            /// </summary>
+            public string CreateViewSQL(DataTable table)
+            {
+                // initial value
+                string sql = "";
+
+                // If the table object exists
+                if (NullHelper.Exists(table))
+                {
+                    SQLDatabaseConnector connector = new SQLDatabaseConnector();
+                    connector.ConnectionString = SourceConnectionStringControl.Text;
+                    connector.Open();
+                    sql = connector.GetViewText(table.Name);
+
+                    // close the connection
+                    connector.Close();
+
+                    // If the sql string exists
+                    if (TextHelper.Exists(sql))
+                    {
+                        // Each view must be in its own block
+                        sql += Environment.NewLine;                        
+                        sql += "Go";
+
+                        // Add a new line twice
+                        sql += Environment.NewLine;                        
+                        sql += Environment.NewLine;
+                    }
+                }
+                
                 // return value
                 return sql;
             }
@@ -1096,13 +1138,23 @@ namespace DBCompare
                 foreach (SchemaDifference difference in Comparison.SchemaDifferences)
                 {
                     if (difference.DifferenceType == DifferenceTypeEnum.TableIsMissing)
-                    {
+                    {  
                         // set the table
                         DataTable table = difference.Table;
 
-                        // create the SQL to create this table
-                        string tableSQL = CreateTableSQL(table);
-                        sb.Append(tableSQL);
+                        // if this table is a view
+                        if (table.IsView)
+                        {
+                            // create the SQL to create this View
+                            string viewSQL = CreateViewSQL(table);
+                            sb.Append(viewSQL);
+                        }
+                        else
+                        {
+                            // create the SQL to create this table
+                            string tableSQL = CreateTableSQL(table);
+                            sb.Append(tableSQL);
+                        }
                     }  
                 }
 

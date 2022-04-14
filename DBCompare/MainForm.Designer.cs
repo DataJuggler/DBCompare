@@ -744,6 +744,7 @@ namespace DBCompare
             this.TargetConnectionStringControl.Editable = true;
             this.TargetConnectionStringControl.Encrypted = false;
             this.TargetConnectionStringControl.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TargetConnectionStringControl.Inititialized = true;
             this.TargetConnectionStringControl.LabelBottomMargin = 2;
             this.TargetConnectionStringControl.LabelColor = System.Drawing.Color.LemonChiffon;
             this.TargetConnectionStringControl.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -793,6 +794,7 @@ namespace DBCompare
             this.SourceConnectionStringControl.Editable = true;
             this.SourceConnectionStringControl.Encrypted = false;
             this.SourceConnectionStringControl.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SourceConnectionStringControl.Inititialized = true;
             this.SourceConnectionStringControl.LabelBottomMargin = 0;
             this.SourceConnectionStringControl.LabelColor = System.Drawing.Color.LemonChiffon;
             this.SourceConnectionStringControl.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -922,7 +924,7 @@ namespace DBCompare
             this.MinimumSize = new System.Drawing.Size(1140, 740);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DB Compare Version 6.2.4";
+            this.Text = "DB Compare Version 6.3.1";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.YouTubePanel.ResumeLayout(false);
             this.CompareDatabaseTopPanel.ResumeLayout(false);

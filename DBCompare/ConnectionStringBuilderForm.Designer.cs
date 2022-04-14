@@ -83,6 +83,8 @@ namespace DBCompare
             this.PassedImage = new System.Windows.Forms.PictureBox();
             this.FailedImage = new System.Windows.Forms.PictureBox();
             this.Timer = new System.Windows.Forms.Timer(this.components);
+            this.HiddenButton = new System.Windows.Forms.Button();
+            this.ConnectingLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PassedImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FailedImage)).BeginInit();
             this.SuspendLayout();
@@ -342,6 +344,35 @@ namespace DBCompare
             this.Timer.Interval = 3000;
             this.Timer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
+            // HiddenButton
+            // 
+            this.HiddenButton.BackColor = System.Drawing.Color.Transparent;
+            this.HiddenButton.BackgroundImage = global::DBCompare.Properties.Resources.DarkButton;
+            this.HiddenButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.HiddenButton.FlatAppearance.BorderSize = 0;
+            this.HiddenButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.HiddenButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.HiddenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.HiddenButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.HiddenButton.ForeColor = System.Drawing.Color.White;
+            this.HiddenButton.Location = new System.Drawing.Point(-328, 426);
+            this.HiddenButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.HiddenButton.Name = "HiddenButton";
+            this.HiddenButton.Size = new System.Drawing.Size(117, 42);
+            this.HiddenButton.TabIndex = 34;
+            this.HiddenButton.Text = "Hidden";
+            this.HiddenButton.UseVisualStyleBackColor = false;
+            // 
+            // ConnectingLabel
+            // 
+            this.ConnectingLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ConnectingLabel.Location = new System.Drawing.Point(148, 431);
+            this.ConnectingLabel.Name = "ConnectingLabel";
+            this.ConnectingLabel.Size = new System.Drawing.Size(396, 37);
+            this.ConnectingLabel.TabIndex = 35;
+            this.ConnectingLabel.Text = "Attempting to connect to database...";
+            this.ConnectingLabel.Visible = false;
+            // 
             // ConnectionStringBuilderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -349,6 +380,8 @@ namespace DBCompare
             this.BackColor = System.Drawing.Color.Linen;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(845, 486);
+            this.Controls.Add(this.ConnectingLabel);
+            this.Controls.Add(this.HiddenButton);
             this.Controls.Add(this.TestDatabaseConnectionButton);
             this.Controls.Add(this.SelectButton);
             this.Controls.Add(this.ConnectionStringTextBox);
@@ -379,10 +412,12 @@ namespace DBCompare
             this.PerformLayout();
 
             }
-            #endregion
-            
         #endregion
-        
+
+        #endregion
+
+        private System.Windows.Forms.Button HiddenButton;
+        private System.Windows.Forms.Label ConnectingLabel;
     }
     #endregion
 
