@@ -27,6 +27,7 @@ namespace DBCompare
         private string message;
         private DataTable table;
         private DataField field;
+        private StoredProcedure procedure;
         private DifferenceTypeEnum differenceType;
         #endregion
 
@@ -71,6 +72,23 @@ namespace DBCompare
             }
             #endregion
             
+            #region HasProcedure
+            /// <summary>
+            /// This property returns true if this object has a 'Procedure'.
+            /// </summary>
+            public bool HasProcedure
+            {
+                get
+                {
+                    // initial value
+                    bool hasProcedure = (this.Procedure != null);
+                    
+                    // return value
+                    return hasProcedure;
+                }
+            }
+            #endregion
+            
             #region HasTable
             /// <summary>
             /// This property returns true if this object has a 'Table'.
@@ -96,6 +114,17 @@ namespace DBCompare
             {
                 get { return message; }
                 set { message = value; }
+            }
+            #endregion
+            
+            #region Procedure
+            /// <summary>
+            /// This property gets or sets the value for 'Procedure'.
+            /// </summary>
+            public StoredProcedure Procedure
+            {
+                get { return procedure; }
+                set { procedure = value; }
             }
             #endregion
             

@@ -224,12 +224,24 @@ namespace DBCompare
 
                     // Get the fieldsSQL
                     string fieldsSQL = GetUpdateFieldsSQL();
+
+                    string storedProceduresSQL = GetUpdateStoredProceduresSQL();
                     
                     // string storedProceduresSQL = on my to do list, but I am busy at work this week.
 
                     // Append each
-                    sb.Append(tablesSQL);
-                    sb.Append(fieldsSQL);
+                    if (TextHelper.Exists(tablesSQL))
+                    {
+                        sb.Append(tablesSQL);
+                    }
+                    if (TextHelper.Exists(fieldsSQL))
+                    {
+                        sb.Append(fieldsSQL);
+                    }
+                    if (TextHelper.Exists(storedProceduresSQL))
+                    {
+                        sb.Append(storedProceduresSQL);
+                    }
                 }
 
                 // get the sql
@@ -783,15 +795,15 @@ namespace DBCompare
                 string sql = "";
 
                 // If the table object exists
-                if (NullHelper.Exists(table))
+                if ((NullHelper.Exists(table)) && (table.IsView))
                 {
-                    SQLDatabaseConnector connector = new SQLDatabaseConnector();
-                    connector.ConnectionString = SourceConnectionStringControl.Text;
-                    connector.Open();
-                    sql = connector.GetViewText(table.Name);
+                    //SQLDatabaseConnector connector = new SQLDatabaseConnector();
+                    //connector.ConnectionString = SourceConnectionStringControl.Text;
+                    //connector.Open();
+                    sql = table.ViewText;
 
                     // close the connection
-                    connector.Close();
+                    // connector.Close();
 
                     // If the sql string exists
                     if (TextHelper.Exists(sql))
@@ -1108,6 +1120,69 @@ namespace DBCompare
                     // set the return value
                     sql = sb.ToString();
                 }
+                
+                // return value
+                return sql;
+            }
+            #endregion
+            
+            #region GetUpdateStoredProceduresSQL()
+            /// <summary>
+            /// returns the Update Stored Procedures SQL
+            /// </summary>
+            public string GetUpdateStoredProceduresSQL()
+            {
+                // initial value
+                string sql = "";
+
+                // local                
+                string storedProcedureText = "";
+
+                // Create a new instance of a 'StringBuilder' object.
+                StringBuilder sb = new StringBuilder();
+
+                // iterate the differences
+                foreach (SchemaDifference difference in Comparison.SchemaDifferences)
+                {
+                    // reset
+                    storedProcedureText = "";
+
+                    // if a StoredProcedure is missing or invalid
+                    if (difference.DifferenceType == DifferenceTypeEnum.StoredProcedureMissingOrInvalid)
+                    {
+                        // if the procedure has been loaded
+                        if (difference.HasProcedure)
+                        {
+                            // Get the text
+                            storedProcedureText = difference.Procedure.Text;
+                        }
+                       
+                        // If the storedProcedureText string exists
+                        if (TextHelper.Exists(storedProcedureText))
+                        {
+                            sb.Append("Drop Procedure ");
+                            sb.Append(difference.Procedure.ProcedureName);
+                            sb.Append(Environment.NewLine);
+                            sb.Append("Go");
+                            sb.Append(Environment.NewLine);
+                            sb.Append(Environment.NewLine);
+
+                            // add the stored procedure text
+                            sb.Append(storedProcedureText);
+
+                            // Each sql item be in its own block
+                            sb.Append(Environment.NewLine);
+                            sb.Append("Go");
+
+                            // Add a new line twice
+                            sb.Append(Environment.NewLine);
+                            sb.Append(Environment.NewLine);
+                        }
+                    }
+                }
+
+                // set the return value
+                sql = sb.ToString();
                 
                 // return value
                 return sql;

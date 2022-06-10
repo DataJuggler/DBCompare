@@ -945,7 +945,7 @@ namespace DBCompare
                                 targetProcedureText = targetProcedureText.Replace("\r\n", " ").Replace("  ", " ").Replace(",", " ");
                             
                                 // Compare Stored Procedure Text
-                                CompareStoredProcedureText(sourceProcedure.ProcedureName, sourceProcedureText, targetProcedureText, comparison);
+                                CompareStoredProcedureText(sourceProcedure.ProcedureName, sourceProcedureText, targetProcedureText, comparison, sourceProcedure);
                             }
                             else if (TextHelper.Exists(sourceProcedureText))
                             {
@@ -955,7 +955,10 @@ namespace DBCompare
                                 // Set the type. Stored procedures are the same for missing or invalid to fix
                                 schemaDifference.DifferenceType = DifferenceTypeEnum.StoredProcedureMissingOrInvalid;
 
-                                // This stored procedure is not valid
+                                // Set the procedure
+                                schemaDifference.Procedure = sourceProcedure;
+
+                                // This stored procedure is not valid                                
                                 schemaDifference.Message = "The stored procedure '" + sourceProcedure.ProcedureName + "' was not found in the target database.";
 
                                 // add
@@ -970,7 +973,11 @@ namespace DBCompare
                             // Set the type. Stored procedures are the same for missing or invalid to fix
                             schemaDifference.DifferenceType = DifferenceTypeEnum.StoredProcedureMissingOrInvalid;
 
+                            // Set the procedure
+                            schemaDifference.Procedure = sourceProcedure;
+
                             // This stored procedure is not valid
+                            // 
                             schemaDifference.Message = "The procedure '" + sourceProcedure.ProcedureName + "' was not found in the target database.";
 
                             // Add this item
@@ -1074,11 +1081,11 @@ namespace DBCompare
             }
             #endregion
             
-            #region CompareStoredProcedureText(string sourceProcedureName, string sourceProcedureText, string targetProcedureText, SchemaComparison comparison)
+            #region CompareStoredProcedureText(string sourceProcedureName, string sourceProcedureText, string targetProcedureText, SchemaComparison comparison, StoredProcedure sourceProcedure)
             /// <summary>
             /// This method returns the Stored Procedure Text
             /// </summary>
-            private void CompareStoredProcedureText(string sourceProcedureName, string sourceProcedureText, string targetProcedureText, SchemaComparison comparison)
+            private void CompareStoredProcedureText(string sourceProcedureName, string sourceProcedureText, string targetProcedureText, SchemaComparison comparison, StoredProcedure sourceProcedure)
             {
                 // locals
                 bool isEqual = true; // (Default to true)
@@ -1157,6 +1164,9 @@ namespace DBCompare
 
                         // Set the DifferentType
                         schemaDifference.DifferenceType = DifferenceTypeEnum.StoredProcedureMissingOrInvalid;
+
+                        // Set the procedure
+                        schemaDifference.Procedure = sourceProcedure;
 
                         // Set the message
                         schemaDifference.Message = "The procedure '" + sourceProcedureName + "' is not valid.";
