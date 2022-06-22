@@ -66,10 +66,10 @@ attempt as a Nuget package.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Net6" Version="6.1.2" />
+    <PackageReference Include="DataJuggler.Net6" Version="6.1.4" />
     <PackageReference Include="DataJuggler.RandomShuffler" Version="6.0.4" />
-    <PackageReference Include="DataJuggler.UltimateHelper" Version="6.0.4" />
-    <PackageReference Include="DataJuggler.Win.Controls" Version="6.2.2" />
+    <PackageReference Include="DataJuggler.UltimateHelper" Version="6.0.6" />
+    <PackageReference Include="DataJuggler.Win.Controls" Version="6.2.4" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.1" />
     <PackageReference Include="XmlMirror.Runtime6" Version="6.0.3" />
   </ItemGroup>

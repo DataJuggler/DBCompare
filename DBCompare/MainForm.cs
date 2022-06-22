@@ -225,10 +225,9 @@ namespace DBCompare
                     // Get the fieldsSQL
                     string fieldsSQL = GetUpdateFieldsSQL();
 
+                    // get updated fields
                     string storedProceduresSQL = GetUpdateStoredProceduresSQL();
                     
-                    // string storedProceduresSQL = on my to do list, but I am busy at work this week.
-
                     // Append each
                     if (TextHelper.Exists(tablesSQL))
                     {
