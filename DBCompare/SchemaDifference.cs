@@ -29,6 +29,8 @@ namespace DBCompare
         private DataField field;
         private StoredProcedure procedure;
         private DifferenceTypeEnum differenceType;
+        private string name;
+        private double _value;
         #endregion
 
         #region Properties
@@ -117,6 +119,18 @@ namespace DBCompare
             }
             #endregion
             
+            #region Name
+            /// <summary>
+            /// This property gets or sets the value for 'Name'.
+            /// This is only used for DefaultValue constraints for now.
+            /// </summary>
+            public string Name
+            {
+                get { return name; }
+                set { name = value; }
+            }
+            #endregion
+            
             #region Procedure
             /// <summary>
             /// This property gets or sets the value for 'Procedure'.
@@ -136,6 +150,17 @@ namespace DBCompare
             {
                 get { return table; }
                 set { table = value; }
+            }
+            #endregion
+            
+            #region Value
+            /// <summary>
+            /// This property gets or sets the value for 'Value'.
+            /// </summary>
+            public double Value
+            {
+                get { return _value; }
+                set { _value = value; }
             }
             #endregion
             

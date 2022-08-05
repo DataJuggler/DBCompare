@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DBCompare.Util;
+using System.Linq;
 
 #endregion
 
@@ -227,6 +228,10 @@ namespace DBCompare
 
                     // get updated fields
                     string storedProceduresSQL = GetUpdateStoredProceduresSQL();
+
+
+                    // Generate the sql for default value constraints not found
+                    string defaultValueConstraintsSQL = GetDefaultValueConstraintsSQL();
                     
                     // Append each
                     if (TextHelper.Exists(tablesSQL))
@@ -240,6 +245,10 @@ namespace DBCompare
                     if (TextHelper.Exists(storedProceduresSQL))
                     {
                         sb.Append(storedProceduresSQL);
+                    }
+                    if (TextHelper.Exists(defaultValueConstraintsSQL))
+                    {
+                        sb.Append(defaultValueConstraintsSQL);
                     }
                 }
 
@@ -1070,6 +1079,94 @@ namespace DBCompare
                     // Show the user a message
                     this.ResultsTextBox.Text = "The target database could not be loaded.";
                 }
+            }
+            #endregion
+            
+            #region GetDefaultValueConstraintsSQL()
+            /// <summary>
+            /// returns the Default Value Constraints SQL
+            /// </summary>
+            public string GetDefaultValueConstraintsSQL()
+            {
+                // initial value
+                string defaultValueConstraintsSQL = "";
+
+                // local
+                string sql = "";
+
+                // if the Comparison.SchemaDifferences exists
+                if ((HasComparison) && (Comparison.HasSchemaDifferences))
+                {
+                    // iterate the SchemaDifferences
+                    foreach (SchemaDifference difference in Comparison.SchemaDifferences)
+                    {
+                        if (difference.DifferenceType == DifferenceTypeEnum.TargetTableHasNoDefaultValueConstraints)
+                        {
+                            // We must create the SQL for all the DefaultValueConstraints for this table
+                            DataTable source = Comparison.SourceDatabase.Tables.FirstOrDefault(x => x.Name == difference.Table.Name);
+
+                            // If the source object exists
+                            if (NullHelper.Exists(source))
+                            {
+                                // generate all DefaultValueConstraints for this table
+
+                                foreach (DefaultValueConstraint constraint in source.DefaultValueConstraints)
+                                {
+                                    // Create the SQL For this update
+                                    sql = "Alter Table " + constraint.TableName + " Add CONSTRAINT " + constraint.ConstraintName + " DEFAULT " + constraint.DefaultValue + " FOR " + constraint.ColumnName + Environment.NewLine + "Go" + Environment.NewLine;
+
+                                    // Add this sql
+                                    defaultValueConstraintsSQL += sql;
+                                }
+                            }
+                        }
+                        else if (difference.DifferenceType == DifferenceTypeEnum.DefaultValueConstraintNotFound)
+                        {
+                            // We must create the SQL for this DefaultValueConstraing
+
+                            // Create the SQL For this update
+                            sql = "Alter Table " + difference.Table + " Add CONSTRAINT " + difference.Name + " DEFAULT " + difference.Value + " FOR " + difference.Field.FieldName + Environment.NewLine + "Go" + Environment.NewLine;
+
+                            // Add this sql
+                            defaultValueConstraintsSQL += sql;
+                        }
+                        else if (difference.DifferenceType == DifferenceTypeEnum.DefaultValueConstraintWrongValue)
+                        {
+                            // We must alter the default value, so we must drop the constraint first and add it back
+
+                            // find the existing target table
+                            DataTable existingTargetTable = Comparison.TargetDatabase.Tables.FirstOrDefault(x => x.Name == difference.Table.Name);
+
+                            // if found
+                            if (NullHelper.Exists(existingTargetTable))
+                            {  
+                                // find the constraint
+                                DefaultValueConstraint existingConstraint = existingTargetTable.DefaultValueConstraints.FirstOrDefault(x => x.ColumnName == difference.Field.FieldName);
+
+                                // If the existingConstraint object exists
+                                if (NullHelper.Exists(existingConstraint))
+                                {
+                                    // get the sql to drop this constraint
+                                    sql = "Alter table " + difference.Table.Name + " drop constraint " +  existingConstraint.ConstraintName + " Go " + Environment.NewLine;
+
+                                    // Set the value so far
+                                    defaultValueConstraintsSQL = sql;
+
+                                    // now we must create the insert statement
+                                    
+                                    // Create the SQL For this update
+                                    sql = "Alter Table " + difference.Table + " Add CONSTRAINT " + difference.Name + " DEFAULT " + difference.Value + " FOR " + difference.Field.FieldName + Environment.NewLine + "Go" + Environment.NewLine;
+
+                                    // Now add this Create Default Value Constraint
+                                    defaultValueConstraintsSQL += sql;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // return value
+                return defaultValueConstraintsSQL;
             }
             #endregion
             

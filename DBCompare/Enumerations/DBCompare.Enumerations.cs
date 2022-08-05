@@ -30,7 +30,7 @@ namespace DBCompare.Enumerations
 		TableIsMissing = 3,
 		StoredProcedureMissingOrInvalid = 5,
 		SourceTableHasNoFields = 6,
-		TargetDatabaseHasNoFields = 7,
+		TargetTableHasNoFields = 7,
 		CheckConstraintNotFound = 10,
 		CheckConstraintNotValid = 11,
 		ForeignKeyNotFound = 20,
@@ -45,7 +45,10 @@ namespace DBCompare.Enumerations
 		TargetDatabaseContainsExtraTable = 60,
 		TargetDatabaseContainsExtraField = 61,
 		TargetDatabaseDoesNotContainAnyFields = 62,
-		SourceDatabaseContainsNoTables = 70
+		SourceDatabaseContainsNoTables = 70,
+		TargetTableHasNoDefaultValueConstraints = 80,
+		DefaultValueConstraintNotFound = 81,
+		DefaultValueConstraintWrongValue = 82
 	}
 	#endregion
 

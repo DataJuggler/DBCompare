@@ -93,6 +93,9 @@ namespace DBCompare
 
                     // Update for Version 2 - Compare Foreign Keys
                     CompareForeignKeys(sourceTable, targetTable, ref comparison);
+
+                    // Update for Version 6.5.0 - Compare Default Values
+                    CompareDefaultValueConstraints(sourceTable, targetTable, ref comparison);
                 }
                 else if (NullHelper.IsNull(targetTable))
                 {
@@ -157,7 +160,7 @@ namespace DBCompare
                     schemaDifference.Table = sourceTable;
 
                     // Set the diff type
-                    schemaDifference.DifferenceType = DifferenceTypeEnum.TargetDatabaseHasNoFields;
+                    schemaDifference.DifferenceType = DifferenceTypeEnum.TargetTableHasNoFields;
 
                     // if the sourceTable is a view
                     if (sourceTable.IsView)
@@ -377,6 +380,103 @@ namespace DBCompare
             }
             #endregion
 
+            #region CompareDefaultValueConstraints(DataTable sourceTable, DataTable targetTable, ref SchemaComparison comparison)
+            /// <summary>
+            /// Compare Default Value Constraints
+            /// </summary>
+            public void CompareDefaultValueConstraints(DataTable sourceTable, DataTable targetTable, ref SchemaComparison comparison)
+            {
+                // locals
+                SchemaDifference difference = null;
+
+                // verify all the objects exist
+                if (NullHelper.Exists(sourceTable, targetTable, comparison))
+                {
+                    // if both tables has DefaultValueConstraints
+                    if (ListHelper.HasOneOrMoreItems(sourceTable.DefaultValueConstraints))
+                    {
+                        // if the target table has one or more
+                        if (ListHelper.HasOneOrMoreItems(targetTable.DefaultValueConstraints))
+                        {
+                            // iterate the DefaultValueConstraints
+                            foreach (DefaultValueConstraint constraint in sourceTable.DefaultValueConstraints)
+                            {
+                                // we must attempt to find this constraint in the targetTable.DefaultValueConstraints
+                                DefaultValueConstraint target = targetTable.DefaultValueConstraints.FirstOrDefault(x => x.ColumnName == constraint.ColumnName);
+
+                                // if the target was found
+                                if (NullHelper.Exists(target))
+                                {
+                                    // if the values do not match
+                                    if (constraint.DefaultValue != target.DefaultValue)
+                                    {
+                                        // Create a SchemaDifference
+                                        difference = new SchemaDifference();
+                                        difference.DifferenceType = DifferenceTypeEnum.DefaultValueConstraintNotFound;
+                                    
+                                        // Find this DataField
+                                        difference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == constraint.ColumnName);
+
+                                        // set the message
+                                        difference.Message = "The Default Value constraint for " + constraint.TableName + "." + constraint.ColumnName + " does not match the source database default value of " + constraint.DefaultValue + ".";
+
+                                        // Set the Table
+                                        difference.Table = sourceTable;
+
+                                        // Set the name (used for generating scripts)
+                                        difference.Name = constraint.ConstraintName;
+
+                                        // Set what the default value should be
+                                        difference.Value = constraint.DefaultValue;
+
+                                        // Add this difference
+                                        comparison.SchemaDifferences.Add(difference);    
+                                    }
+                                }
+                                else
+                                {
+                                    // Create a SchemaDifference
+                                    difference = new SchemaDifference();
+                                    difference.DifferenceType = DifferenceTypeEnum.DefaultValueConstraintNotFound;
+                                    
+                                    // Find this DataField
+                                    difference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == constraint.ColumnName);
+
+                                    // set the message
+                                    difference.Message = "The Default Value constraint was not found for " + constraint.TableName + "." + constraint.ColumnName;
+
+                                    // Set the Table
+                                    difference.Table = sourceTable;
+
+                                    // Set the Field
+                                    difference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == constraint.ColumnName);
+
+                                    // Set the name (used for generating scripts)
+                                    difference.Name = constraint.ConstraintName;
+
+                                    // Add this difference
+                                    comparison.SchemaDifferences.Add(difference);    
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // Create a SchemaDifference
+                            difference = new SchemaDifference();
+                            difference.DifferenceType = DifferenceTypeEnum.TargetTableHasNoDefaultValueConstraints;
+                            difference.Table = sourceTable;
+
+                            // set the message
+                            difference.Message = "The target table '" + targetTable.Name + "', does not contain any default value constraints.";
+
+                            // Add this difference
+                            comparison.SchemaDifferences.Add(difference);    
+                        }
+                    }
+                }
+            }
+            #endregion
+            
             #region CompareFields(DataField sourceField, DataField targetField, ref string failedDescription)
             /// <summary>
             /// This method compares two fields

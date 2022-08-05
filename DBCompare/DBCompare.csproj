@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>6.4.0</Version>
+    <Version>6.5.0</Version>
 	<FileVersion>6.3.0</FileVersion>	
     <PackageId>DataJuggler.DBCompare</PackageId>
     <Authors>DataJuggler</Authors>
@@ -66,7 +66,6 @@ attempt as a Nuget package.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Net6" Version="6.1.4" />
     <PackageReference Include="DataJuggler.RandomShuffler" Version="6.0.4" />
     <PackageReference Include="DataJuggler.UltimateHelper" Version="6.0.6" />
     <PackageReference Include="DataJuggler.Win.Controls" Version="6.2.4" />
@@ -87,6 +86,10 @@ attempt as a Nuget package.</PackageReleaseNotes>
 
   <ItemGroup>
     <None Include="readme.txt" pack="true" PackagePath="." />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataJuggler.Net6\DataJuggler.Net6.csproj" />
   </ItemGroup>
 
   <ItemGroup>
