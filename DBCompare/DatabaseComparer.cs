@@ -639,7 +639,7 @@ namespace DBCompare
                         foreach (ForeignKeyConstraint foreignKey in sourceTable.ForeignKeys)
                         {
                             // Attempt to find this foreign key in the target table
-                            targetForeignKey = ForeignKeyConstraintHelper.FindForeignKey(foreignKey.Name, targetTable);
+                            targetForeignKey = ForeignKeyConstraintHelper.FindForeignKey(foreignKey.ForeignKey, targetTable);
 
                             // if the foreign key was found in the target database
                             if (NullHelper.Exists(targetForeignKey))
@@ -656,6 +656,21 @@ namespace DBCompare
                                     // Add a schemaDifference because the Table name does not match
                                     schemaDifference.Message = "The foreign key " + foreignKey.Name + " has a different value for Table name in the target database.";
 
+                                    // Set the ReferenceTableName
+                                    schemaDifference.ReferenceTableName = foreignKey.ReferencedTable;
+
+                                    // Set the ReferenceColumnName
+                                    schemaDifference.ReferenceColumnName = foreignKey.ReferencedColumn;
+
+                                    // Set the InvalidForeignKeyName so it can be dropped and recreated 
+                                    schemaDifference.InvalidForeignKeyName = targetForeignKey.Name;
+
+                                    // Set the Field
+                                    schemaDifference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == foreignKey.ForeignKey);
+
+                                    // Set the Table
+                                    schemaDifference.Table = sourceTable;
+
                                     // add this item
                                     comparison.SchemaDifferences.Add(schemaDifference);
                                 }
@@ -669,6 +684,21 @@ namespace DBCompare
 
                                     // Add a schemaDifference because the Referenced Table name does not match
                                     schemaDifference.Message = "The foreign key " + foreignKey.Name + " has a different value for Referenced Table name in the target database.";
+
+                                    // Set the Table
+                                    schemaDifference.Table = sourceTable;
+
+                                    // Set the ReferenceTableName
+                                    schemaDifference.ReferenceTableName = foreignKey.ReferencedTable;
+
+                                    // Set the ReferenceColumnName
+                                    schemaDifference.ReferenceColumnName = foreignKey.ReferencedColumn;
+
+                                    // Set the InvalidForeignKeyName so it can be dropped and recreated 
+                                    schemaDifference.InvalidForeignKeyName = targetForeignKey.Name;
+
+                                    // Set the Field
+                                    schemaDifference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == foreignKey.ForeignKey);
 
                                     // add this item
                                     comparison.SchemaDifferences.Add(schemaDifference);
@@ -684,6 +714,21 @@ namespace DBCompare
                                     // Add a schemaDifference because the Referenced Column name does not match
                                     schemaDifference.Message = "The foreign key " + foreignKey.Name + " has a different value for Referenced Column name in the target database.";
 
+                                    // Set the ReferenceTableName
+                                    schemaDifference.ReferenceTableName = foreignKey.ReferencedTable;
+
+                                    // Set the ReferenceColumnName
+                                    schemaDifference.ReferenceColumnName = foreignKey.ReferencedColumn;
+
+                                    // Set the Table
+                                    schemaDifference.Table = sourceTable;
+
+                                    // Set the InvalidForeignKeyName so it can be dropped and recreated 
+                                    schemaDifference.InvalidForeignKeyName = targetForeignKey.Name;
+
+                                    // Set the Field
+                                    schemaDifference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == foreignKey.ForeignKey);
+
                                     // add this item
                                     comparison.SchemaDifferences.Add(schemaDifference);
                                 }
@@ -694,11 +739,23 @@ namespace DBCompare
                                 schemaDifference = new SchemaDifference();
 
                                 // Set DifferenceType
-                                schemaDifference.DifferenceType = DifferenceTypeEnum.ForeignKeyWrongReferencedColumn;
+                                schemaDifference.DifferenceType = DifferenceTypeEnum.ForeignKeyNotFound;
 
                                 // Add a schemaDifference the foreign key does not exist in the target database
                                 schemaDifference.Message = "The foreign key " + foreignKey.Name + " does not exist in the target database.";
-                                
+
+                                // Set the ReferenceTableName
+                                schemaDifference.ReferenceTableName = foreignKey.ReferencedTable;
+
+                                // Set the Table
+                                schemaDifference.Table = sourceTable;
+
+                                // Set the Field
+                                schemaDifference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == foreignKey.ForeignKey);
+
+                                // Set the ReferenceColumnName
+                                schemaDifference.ReferenceColumnName = foreignKey.ReferencedColumn;
+
                                 // add this item
                                 comparison.SchemaDifferences.Add(schemaDifference);  
                             }

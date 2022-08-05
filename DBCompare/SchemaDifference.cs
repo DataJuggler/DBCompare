@@ -31,6 +31,9 @@ namespace DBCompare
         private DifferenceTypeEnum differenceType;
         private string name;
         private double _value;
+        private string referenceTableName;
+        private string referenceColumnName;
+        private string invalidForeignKeyName;
         #endregion
 
         #region Properties
@@ -108,6 +111,17 @@ namespace DBCompare
             }
             #endregion
             
+            #region InvalidForeignKeyName
+            /// <summary>
+            /// This property gets or sets the value for 'InvalidForeignKeyName'.
+            /// </summary>
+            public string InvalidForeignKeyName
+            {
+                get { return invalidForeignKeyName; }
+                set { invalidForeignKeyName = value; }
+            }
+            #endregion
+            
             #region Message
             /// <summary>
             /// This property gets or sets the value for 'Message'.
@@ -139,6 +153,28 @@ namespace DBCompare
             {
                 get { return procedure; }
                 set { procedure = value; }
+            }
+            #endregion
+            
+            #region ReferenceColumnName
+            /// <summary>
+            /// This property gets or sets the value for 'ReferenceColumnName'.
+            /// </summary>
+            public string ReferenceColumnName
+            {
+                get { return referenceColumnName; }
+                set { referenceColumnName = value; }
+            }
+            #endregion
+            
+            #region ReferenceTableName
+            /// <summary>
+            /// This property gets or sets the value for 'ReferenceTableName'.
+            /// </summary>
+            public string ReferenceTableName
+            {
+                get { return referenceTableName; }
+                set { referenceTableName = value; }
             }
             #endregion
             

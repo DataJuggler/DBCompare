@@ -924,7 +924,7 @@ namespace DBCompare
             this.MinimumSize = new System.Drawing.Size(1140, 740);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DB Compare Version 6.5.0";
+            this.Text = "DB Compare Version 6.5.1";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.YouTubePanel.ResumeLayout(false);
             this.CompareDatabaseTopPanel.ResumeLayout(false);

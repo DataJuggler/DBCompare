@@ -229,26 +229,47 @@ namespace DBCompare
                     // get updated fields
                     string storedProceduresSQL = GetUpdateStoredProceduresSQL();
 
-
                     // Generate the sql for default value constraints not found
                     string defaultValueConstraintsSQL = GetDefaultValueConstraintsSQL();
+
+                    // Generate Foreign Keys
+                    string foreignKeyConstraintSQL = GenerateForeignKeyConstraintSQL();
                     
-                    // Append each
+                    // Append each if they exist
+
+                    // If the tablesSQL string exists
                     if (TextHelper.Exists(tablesSQL))
                     {
+                        // add the tablesSQL
                         sb.Append(tablesSQL);
                     }
+
+                    // If the fieldsSQL string exists
                     if (TextHelper.Exists(fieldsSQL))
                     {
+                        // add the fieldsSQL
                         sb.Append(fieldsSQL);
                     }
+
+                    // If the storedProceduresSQL string exists
                     if (TextHelper.Exists(storedProceduresSQL))
                     {
+                        // add the storedProceduresSQL  
                         sb.Append(storedProceduresSQL);
                     }
+
+                    // If the defaultValueConstraintsSQL string exists
                     if (TextHelper.Exists(defaultValueConstraintsSQL))
                     {
+                        // Add the defaultValueConstraintsSQL
                         sb.Append(defaultValueConstraintsSQL);
+                    }
+
+                    // If the foreignKeyConstraintSQL string exists
+                    if (TextHelper.Exists(foreignKeyConstraintSQL))
+                    {
+                        // Add the foreignKeyConstraintSQL
+                        sb.Append(foreignKeyConstraintSQL);
                     }
                 }
 
@@ -525,7 +546,7 @@ namespace DBCompare
             /// <summary>
             /// returns the Field SQL
             /// </summary>
-            public string CreateFieldSQL(DataTable table, DataField field, bool addNew)
+            public static string CreateFieldSQL(DataTable table, DataField field, bool addNew)
             {
                 // initial value
                 string sql = "";
@@ -552,20 +573,20 @@ namespace DBCompare
                 sb.Append(adjustment);
                 
                 // Update: Adding brackes around the field name for certain fields needed it (spaces, reserve words)
-                sb.Append("[");
+                sb.Append('[');
                 sb.Append(field.DBFieldName);
-                sb.Append("]");
+                sb.Append(']');
 
-                sb.Append(" ");
+                sb.Append(' ');
                 sb.Append(field.DBDataType);
                    
                 // if a string
                 if (field.DataType == DataManager.DataTypeEnum.String)
                 {
                     // append the size
-                    sb.Append("(");
+                    sb.Append('(');
                     sb.Append(field.Size);
-                    sb.Append(")");
+                    sb.Append(')');
                 }
 
                 // not handlng identity columns here, because I just can't see that
@@ -603,7 +624,7 @@ namespace DBCompare
             /// <summary>
             /// Create Table SQL
             /// </summary>
-            public string CreateTableSQL(DataTable table)
+            public static string CreateTableSQL(DataTable table)
             {
                 // initial value
                 string sql = "";
@@ -671,7 +692,7 @@ namespace DBCompare
 
                             // Append 8 spaces then Column
                             sb.Append(TextHelper.Indent(8));
-                            sb.Append("[");
+                            sb.Append('[');
                             sb.Append(table.PrimaryKey.DBFieldName);
                             sb.Append("] [");
                             sb.Append(table.PrimaryKey.DBDataType);
@@ -704,7 +725,7 @@ namespace DBCompare
                                 sb.Append(field.DBFieldName);
                                 sb.Append("] [");
                                 sb.Append(field.DBDataType);
-                                sb.Append("]");
+                                sb.Append(']');
 
                                 // if string
                                 if (field.DataType == DataManager.DataTypeEnum.String)
@@ -730,12 +751,12 @@ namespace DBCompare
                                 if (count < table.Fields.Count)
                                 {
                                     // Add a comma
-                                    sb.Append(",");
+                                    sb.Append(',');
                                 }
                                 else if ((count == table.Fields.Count) && (table.HasPrimaryKey) && (table.PrimaryKey.IsAutoIncrement))
                                 {
                                     // Add a comma
-                                    sb.Append(",");
+                                    sb.Append(',');
                                 }
 
                                 // start a new line
@@ -797,7 +818,7 @@ namespace DBCompare
             /// <summary>
             /// returns the View SQL
             /// </summary>
-            public string CreateViewSQL(DataTable table)
+            public static string CreateViewSQL(DataTable table)
             {
                 // initial value
                 string sql = "";
@@ -1082,6 +1103,58 @@ namespace DBCompare
             }
             #endregion
             
+            #region GenerateForeignKeyConstraintSQL()
+            /// <summary>
+            /// returns the Foreign Key Constraint SQL
+            /// </summary>
+            public string GenerateForeignKeyConstraintSQL()
+            {
+                // initial value
+                string generateForeignKeyConstraintSQL = "";
+
+                // local
+                string sql = "";
+
+                  // if the Comparison.SchemaDifferences exists
+                if ((HasComparison) && (Comparison.HasSchemaDifferences))
+                {
+                    // iterate the SchemaDifferences
+                    foreach (SchemaDifference difference in Comparison.SchemaDifferences)
+                    {
+                        if (difference.DifferenceType == DifferenceTypeEnum.ForeignKeyNotFound)
+                        {
+                            // create the foreignKeySQL
+                            sql = "ALTER TABLE " + difference.Table.Name + " ADD FOREIGN KEY (" + difference.Field.FieldName + ") REFERENCES " + difference.ReferenceTableName + "(" + difference.ReferenceColumnName + ")" + Environment.NewLine + "Go" + Environment.NewLine;
+
+                            // append this sql
+                            generateForeignKeyConstraintSQL += sql;
+                        }
+                        else if ((difference.DifferenceType == DifferenceTypeEnum.ForeignKeyWrongReferencedColumn) || (difference.DifferenceType == DifferenceTypeEnum.ForeignKeyWrongTableName))
+                        {
+                            // first we must drop the existing constraint
+                            if (TextHelper.Exists(difference.InvalidForeignKeyName))
+                            {
+                                // drop the foreignKey
+                                sql = "ALTER TABLE " + difference.Table.Name + "DROP Constraint " + difference.InvalidForeignKeyName + Environment.NewLine + "Go" + Environment.NewLine;
+
+                                // append this sql
+                                generateForeignKeyConstraintSQL += sql;
+                            }
+
+                            // create the foreignKeySQL
+                            sql = "ALTER TABLE " + difference.Table.Name + " ADD FOREIGN KEY (" + difference.Field.FieldName + ") REFERENCES " + difference.ReferenceTableName + "(" + difference.ReferenceColumnName + ")" + Environment.NewLine + "Go" + Environment.NewLine;
+
+                            // append this sql
+                            generateForeignKeyConstraintSQL += sql;
+                        }
+                    }
+                }
+                
+                // return value
+                return generateForeignKeyConstraintSQL;
+            }
+            #endregion
+            
             #region GetDefaultValueConstraintsSQL()
             /// <summary>
             /// returns the Default Value Constraints SQL
@@ -1297,7 +1370,7 @@ namespace DBCompare
                 // Create a new instance of a 'StringBuilder' object.
                 StringBuilder sb = new StringBuilder("Use [");
                 sb.Append(Comparison.TargetDatabase.Name);
-                sb.Append("]");
+                sb.Append(']');
                 sb.Append(Environment.NewLine);
                 sb.Append("Go");
                 sb.Append(Environment.NewLine);
