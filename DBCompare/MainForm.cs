@@ -1388,38 +1388,6 @@ namespace DBCompare
                                         line.Text = newLineText;
                                     }
                                 }
-                                else if ((!line.Text.Contains("Values(")) && (ContainsFieldsInParens(line.Text)))
-                                {
-                                    // Replace out fields here for Insert statements
-
-                                    // get the words for this line
-                                    List<Word> words = TextHelper.GetWords(line.Text);
-
-                                    // iterate the words
-                                    if (ListHelper.HasOneOrMoreItems(words))
-                                    {   
-                                        // Iterate the collection of Word objects
-                                        foreach (Word word in words)
-                                        {
-                                            // Increment the value for fieldCount
-                                            fieldCount++;
-
-                                            // if this is after Select
-                                            if (fieldCount > 0)
-                                            {
-                                                // verify this is not already surrounded by a bracket
-                                                if ((!word.Text.StartsWith("[")) || (word.Text.StartsWith("Values(")))
-                                                {
-                                                    // Change the word text
-                                                    word.Text = "[" + word.Text + "]";
-
-                                                    // Text was changed
-                                                    updateRequired = true;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
                             }
                         }
 
@@ -1889,35 +1857,6 @@ namespace DBCompare
 
                 // Create a new instance of a 'CompareInfo' object.
                 this.CompareInfo = new CompareInfo();
-            }
-            #endregion
-            
-            #region ContainsFieldsInParens()
-            /// <summary>
-            /// returns true if a comma delimited list is found in parents, even a list of 1 item without commas.
-            /// </summary>
-            public bool ContainsFieldsInParens(string text)
-            {
-                // initial value
-                bool contains = false;
-
-                // if text exists
-                if (TextHelper.Exists(text))
-                {
-                    // get the indexes needed
-                    int openParenIndex = text.IndexOf("(");
-                    int closeParenIndex = text.IndexOf(")");
-
-                    // if the indexes match
-                    if ((openParenIndex >= 0) && (closeParenIndex > openParenIndex))
-                    {
-                        // set to true
-                        contains = true;
-                    }
-                }
-                
-                // return value
-                return contains;
             }
             #endregion
             
