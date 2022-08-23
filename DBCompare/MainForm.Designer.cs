@@ -178,14 +178,14 @@ namespace DBCompare
             this.SourceTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.SourceTopPanel.Location = new System.Drawing.Point(12, 0);
             this.SourceTopPanel.Name = "SourceTopPanel";
-            this.SourceTopPanel.Size = new System.Drawing.Size(1152, 16);
+            this.SourceTopPanel.Size = new System.Drawing.Size(1212, 16);
             this.SourceTopPanel.TabIndex = 48;
             // 
             // RightMarginPanel
             // 
             this.RightMarginPanel.BackColor = System.Drawing.Color.Transparent;
             this.RightMarginPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.RightMarginPanel.Location = new System.Drawing.Point(1152, 16);
+            this.RightMarginPanel.Location = new System.Drawing.Point(1212, 16);
             this.RightMarginPanel.Name = "RightMarginPanel";
             this.RightMarginPanel.Size = new System.Drawing.Size(12, 673);
             this.RightMarginPanel.TabIndex = 55;
@@ -205,7 +205,7 @@ namespace DBCompare
             this.YouTubePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.YouTubePanel.Location = new System.Drawing.Point(12, 601);
             this.YouTubePanel.Name = "YouTubePanel";
-            this.YouTubePanel.Size = new System.Drawing.Size(1140, 88);
+            this.YouTubePanel.Size = new System.Drawing.Size(1200, 88);
             this.YouTubePanel.TabIndex = 85;
             // 
             // ScriptDropExtrasCheckbox
@@ -297,7 +297,7 @@ namespace DBCompare
             this.YouTubeButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.YouTubeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.YouTubeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.YouTubeButton.Location = new System.Drawing.Point(1012, 4);
+            this.YouTubeButton.Location = new System.Drawing.Point(1072, 4);
             this.YouTubeButton.MaximumSize = new System.Drawing.Size(128, 64);
             this.YouTubeButton.Name = "YouTubeButton";
             this.YouTubeButton.Size = new System.Drawing.Size(128, 64);
@@ -313,7 +313,7 @@ namespace DBCompare
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1140, 4);
+            this.panel6.Size = new System.Drawing.Size(1200, 4);
             this.panel6.TabIndex = 78;
             // 
             // Separator6
@@ -322,7 +322,7 @@ namespace DBCompare
             this.Separator6.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.Separator6.Location = new System.Drawing.Point(12, 589);
             this.Separator6.Name = "Separator6";
-            this.Separator6.Size = new System.Drawing.Size(1140, 12);
+            this.Separator6.Size = new System.Drawing.Size(1200, 12);
             this.Separator6.TabIndex = 87;
             // 
             // HiddenButton
@@ -358,7 +358,7 @@ namespace DBCompare
             this.BuildSourceConnectionStringButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.BuildSourceConnectionStringButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.BuildSourceConnectionStringButton.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.BuildSourceConnectionStringButton.Location = new System.Drawing.Point(1100, 0);
+            this.BuildSourceConnectionStringButton.Location = new System.Drawing.Point(1160, 0);
             this.BuildSourceConnectionStringButton.Margin = new System.Windows.Forms.Padding(0);
             this.BuildSourceConnectionStringButton.MaximumSize = new System.Drawing.Size(40, 0);
             this.BuildSourceConnectionStringButton.Name = "BuildSourceConnectionStringButton";
@@ -383,7 +383,7 @@ namespace DBCompare
             this.BuildTargetConnectionStringButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.BuildTargetConnectionStringButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.BuildTargetConnectionStringButton.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.BuildTargetConnectionStringButton.Location = new System.Drawing.Point(1100, 0);
+            this.BuildTargetConnectionStringButton.Location = new System.Drawing.Point(1160, 0);
             this.BuildTargetConnectionStringButton.Margin = new System.Windows.Forms.Padding(0);
             this.BuildTargetConnectionStringButton.MaximumSize = new System.Drawing.Size(40, 0);
             this.BuildTargetConnectionStringButton.Name = "BuildTargetConnectionStringButton";
@@ -407,7 +407,7 @@ namespace DBCompare
             this.SwapButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.SwapButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SwapButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.SwapButton.Location = new System.Drawing.Point(844, 4);
+            this.SwapButton.Location = new System.Drawing.Point(904, 4);
             this.SwapButton.Margin = new System.Windows.Forms.Padding(0);
             this.SwapButton.MaximumSize = new System.Drawing.Size(64, 64);
             this.SwapButton.MinimumSize = new System.Drawing.Size(64, 64);
@@ -482,7 +482,7 @@ namespace DBCompare
             this.CompareDatabaseTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.CompareDatabaseTopPanel.Location = new System.Drawing.Point(0, 0);
             this.CompareDatabaseTopPanel.Name = "CompareDatabaseTopPanel";
-            this.CompareDatabaseTopPanel.Size = new System.Drawing.Size(1140, 184);
+            this.CompareDatabaseTopPanel.Size = new System.Drawing.Size(1200, 184);
             this.CompareDatabaseTopPanel.TabIndex = 99;
             // 
             // OptionsPanel
@@ -499,7 +499,7 @@ namespace DBCompare
             this.OptionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OptionsPanel.Location = new System.Drawing.Point(0, 88);
             this.OptionsPanel.Name = "OptionsPanel";
-            this.OptionsPanel.Size = new System.Drawing.Size(1140, 96);
+            this.OptionsPanel.Size = new System.Drawing.Size(1200, 96);
             this.OptionsPanel.TabIndex = 69;
             // 
             // RemoteComparePanel
@@ -694,7 +694,7 @@ namespace DBCompare
             // 
             this.RightFillerPanel.BackColor = System.Drawing.Color.Transparent;
             this.RightFillerPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.RightFillerPanel.Location = new System.Drawing.Point(908, 4);
+            this.RightFillerPanel.Location = new System.Drawing.Point(968, 4);
             this.RightFillerPanel.Name = "RightFillerPanel";
             this.RightFillerPanel.Size = new System.Drawing.Size(12, 92);
             this.RightFillerPanel.TabIndex = 80;
@@ -705,7 +705,7 @@ namespace DBCompare
             this.Seperator4.Dock = System.Windows.Forms.DockStyle.Top;
             this.Seperator4.Location = new System.Drawing.Point(0, 0);
             this.Seperator4.Name = "Seperator4";
-            this.Seperator4.Size = new System.Drawing.Size(920, 4);
+            this.Seperator4.Size = new System.Drawing.Size(980, 4);
             this.Seperator4.TabIndex = 78;
             // 
             // CompareRightColumn
@@ -717,7 +717,7 @@ namespace DBCompare
             this.CompareRightColumn.Controls.Add(this.ButtonTopPanel);
             this.CompareRightColumn.Controls.Add(this.ButtonBottomPanel);
             this.CompareRightColumn.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CompareRightColumn.Location = new System.Drawing.Point(920, 0);
+            this.CompareRightColumn.Location = new System.Drawing.Point(980, 0);
             this.CompareRightColumn.Name = "CompareRightColumn";
             this.CompareRightColumn.Size = new System.Drawing.Size(220, 96);
             this.CompareRightColumn.TabIndex = 62;
@@ -762,7 +762,7 @@ namespace DBCompare
             this.VerticalSeparator2.Dock = System.Windows.Forms.DockStyle.Top;
             this.VerticalSeparator2.Location = new System.Drawing.Point(0, 76);
             this.VerticalSeparator2.Name = "VerticalSeparator2";
-            this.VerticalSeparator2.Size = new System.Drawing.Size(1140, 12);
+            this.VerticalSeparator2.Size = new System.Drawing.Size(1200, 12);
             this.VerticalSeparator2.TabIndex = 68;
             // 
             // TopSectionPanel
@@ -773,7 +773,7 @@ namespace DBCompare
             this.TopSectionPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.TopSectionPanel.Location = new System.Drawing.Point(0, 44);
             this.TopSectionPanel.Name = "TopSectionPanel";
-            this.TopSectionPanel.Size = new System.Drawing.Size(1140, 32);
+            this.TopSectionPanel.Size = new System.Drawing.Size(1200, 32);
             this.TopSectionPanel.TabIndex = 60;
             // 
             // TargetConnectionStringControl
@@ -797,7 +797,7 @@ namespace DBCompare
             this.TargetConnectionStringControl.OnTextChangedListener = null;
             this.TargetConnectionStringControl.PasswordMode = false;
             this.TargetConnectionStringControl.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.TargetConnectionStringControl.Size = new System.Drawing.Size(1100, 32);
+            this.TargetConnectionStringControl.Size = new System.Drawing.Size(1160, 32);
             this.TargetConnectionStringControl.TabIndex = 60;
             this.TargetConnectionStringControl.TextBoxBottomMargin = 0;
             this.TargetConnectionStringControl.TextBoxDisabledColor = System.Drawing.Color.LightGray;
@@ -812,7 +812,7 @@ namespace DBCompare
             this.VerticalSeparator1.Dock = System.Windows.Forms.DockStyle.Top;
             this.VerticalSeparator1.Location = new System.Drawing.Point(0, 32);
             this.VerticalSeparator1.Name = "VerticalSeparator1";
-            this.VerticalSeparator1.Size = new System.Drawing.Size(1140, 12);
+            this.VerticalSeparator1.Size = new System.Drawing.Size(1200, 12);
             this.VerticalSeparator1.TabIndex = 59;
             // 
             // TargetConnectionPanel
@@ -823,7 +823,7 @@ namespace DBCompare
             this.TargetConnectionPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.TargetConnectionPanel.Location = new System.Drawing.Point(0, 0);
             this.TargetConnectionPanel.Name = "TargetConnectionPanel";
-            this.TargetConnectionPanel.Size = new System.Drawing.Size(1140, 32);
+            this.TargetConnectionPanel.Size = new System.Drawing.Size(1200, 32);
             this.TargetConnectionPanel.TabIndex = 57;
             // 
             // SourceConnectionStringControl
@@ -847,7 +847,7 @@ namespace DBCompare
             this.SourceConnectionStringControl.OnTextChangedListener = null;
             this.SourceConnectionStringControl.PasswordMode = false;
             this.SourceConnectionStringControl.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.SourceConnectionStringControl.Size = new System.Drawing.Size(1100, 32);
+            this.SourceConnectionStringControl.Size = new System.Drawing.Size(1160, 32);
             this.SourceConnectionStringControl.TabIndex = 58;
             this.SourceConnectionStringControl.TextBoxBottomMargin = 0;
             this.SourceConnectionStringControl.TextBoxDisabledColor = System.Drawing.Color.LightGray;
@@ -862,7 +862,7 @@ namespace DBCompare
             this.VerticalSeparator3.Dock = System.Windows.Forms.DockStyle.Top;
             this.VerticalSeparator3.Location = new System.Drawing.Point(0, 184);
             this.VerticalSeparator3.Name = "VerticalSeparator3";
-            this.VerticalSeparator3.Size = new System.Drawing.Size(1140, 12);
+            this.VerticalSeparator3.Size = new System.Drawing.Size(1200, 12);
             this.VerticalSeparator3.TabIndex = 100;
             // 
             // MainPanel
@@ -877,7 +877,7 @@ namespace DBCompare
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(12, 16);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(1140, 573);
+            this.MainPanel.Size = new System.Drawing.Size(1200, 573);
             this.MainPanel.TabIndex = 102;
             // 
             // ResultsTextBox
@@ -888,7 +888,7 @@ namespace DBCompare
             this.ResultsTextBox.Multiline = true;
             this.ResultsTextBox.Name = "ResultsTextBox";
             this.ResultsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ResultsTextBox.Size = new System.Drawing.Size(1132, 309);
+            this.ResultsTextBox.Size = new System.Drawing.Size(1192, 309);
             this.ResultsTextBox.TabIndex = 111;
             // 
             // GraphPanel
@@ -897,7 +897,7 @@ namespace DBCompare
             this.GraphPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.GraphPanel.Location = new System.Drawing.Point(8, 537);
             this.GraphPanel.Name = "GraphPanel";
-            this.GraphPanel.Size = new System.Drawing.Size(1132, 36);
+            this.GraphPanel.Size = new System.Drawing.Size(1192, 36);
             this.GraphPanel.TabIndex = 110;
             // 
             // Graph
@@ -905,7 +905,7 @@ namespace DBCompare
             this.Graph.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.Graph.Location = new System.Drawing.Point(0, 13);
             this.Graph.Name = "Graph";
-            this.Graph.Size = new System.Drawing.Size(1132, 23);
+            this.Graph.Size = new System.Drawing.Size(1192, 23);
             this.Graph.TabIndex = 109;
             this.Graph.Visible = false;
             // 
@@ -917,7 +917,7 @@ namespace DBCompare
             this.ComparisonReportLabel.ForeColor = System.Drawing.Color.LemonChiffon;
             this.ComparisonReportLabel.Location = new System.Drawing.Point(8, 196);
             this.ComparisonReportLabel.Name = "ComparisonReportLabel";
-            this.ComparisonReportLabel.Size = new System.Drawing.Size(1132, 32);
+            this.ComparisonReportLabel.Size = new System.Drawing.Size(1192, 32);
             this.ComparisonReportLabel.TabIndex = 106;
             this.ComparisonReportLabel.Text = "Comparison Report:";
             this.ComparisonReportLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -937,7 +937,7 @@ namespace DBCompare
             this.BottomMarginPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.BottomMarginPanel.Location = new System.Drawing.Point(12, 689);
             this.BottomMarginPanel.Name = "BottomMarginPanel";
-            this.BottomMarginPanel.Size = new System.Drawing.Size(1152, 12);
+            this.BottomMarginPanel.Size = new System.Drawing.Size(1212, 12);
             this.BottomMarginPanel.TabIndex = 26;
             // 
             // CopiedTimer
@@ -951,7 +951,7 @@ namespace DBCompare
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::DBCompare.Properties.Resources.Deep_Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1164, 701);
+            this.ClientSize = new System.Drawing.Size(1224, 701);
             this.Controls.Add(this.MainPanel);
             this.Controls.Add(this.HiddenButton);
             this.Controls.Add(this.Separator6);
@@ -964,8 +964,8 @@ namespace DBCompare
             this.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1180, 740);
-            this.MinimumSize = new System.Drawing.Size(1180, 740);
+            this.MaximumSize = new System.Drawing.Size(1240, 740);
+            this.MinimumSize = new System.Drawing.Size(1240, 740);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DB Compare Version 6.6.0";

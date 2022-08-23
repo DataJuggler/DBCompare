@@ -418,7 +418,7 @@ namespace DBCompare
                                         difference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == constraint.ColumnName);
 
                                         // set the message
-                                        difference.Message = "The Default Value constraint for " + constraint.TableName + "." + constraint.ColumnName + " does not match the source database default value of " + constraint.DefaultValue + ".";
+                                        difference.Message = "The Default Value constraint for " + constraint.TableName + "." + constraint.ColumnName + " does not match the source default value of " + constraint.DefaultValue + ".";
 
                                         // Set the Table
                                         difference.Table = sourceTable;
