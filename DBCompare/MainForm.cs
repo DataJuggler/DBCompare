@@ -186,6 +186,47 @@ namespace DBCompare
                 Graph.Visible = false;
             }
             #endregion
+
+            #region CopiedTimer_Tick(object sender, EventArgs e)
+            /// <summary>
+            /// event is fired when Copied Timer _ Tick
+            /// </summary>
+            private void CopiedTimer_Tick(object sender, EventArgs e)
+            {
+                // stop the timer
+                CopiedTimer.Stop();
+
+                // Hide the image
+                CopiedImage.Visible = false;
+                ExtraLabel.Visible = false;
+                ScriptDropExtrasCheckbox.Visible = false;
+            }
+            #endregion
+            
+            #region CreateIfProcExists(string procedureName)
+            /// <summary>
+            /// This method creates the line that checks if a stored proc already exists
+            /// </summary>
+            /// <param name="procedureName"></param>
+            /// <returns></returns>
+            private string CreateIfProcExists(string procedureName)
+            {
+                // Create StringBuilder
+                StringBuilder sb = new StringBuilder();
+
+                // Initialize String builder
+                sb.Append("IF EXISTS (select * from syscomments where id = object_id ('");
+
+                // Append Procure Name
+                sb.Append(procedureName);
+
+                // Append close single quote and closing braces
+                sb.Append("'))");
+
+                // return value
+                return sb.ToString();
+            }
+            #endregion
             
             #region CreateXmlFileButton_Click(object sender, EventArgs e)
             /// <summary>
@@ -234,6 +275,16 @@ namespace DBCompare
 
                     // Generate Foreign Keys
                     string foreignKeyConstraintSQL = GenerateForeignKeyConstraintSQL();
+
+                    // local
+                    string dropExtraAssetsSQL = "";
+
+                    // if checked
+                    if (ScriptDropExtrasCheckbox.Checked)
+                    {
+                        // get the sql for the extra assets
+                        dropExtraAssetsSQL = GenerateDropExtraAssetsSQL();
+                    }
                     
                     // Append each if they exist
 
@@ -271,6 +322,13 @@ namespace DBCompare
                         // Add the foreignKeyConstraintSQL
                         sb.Append(foreignKeyConstraintSQL);
                     }
+
+                    // If the dropExtraAssetsSQL string exists
+                    if (TextHelper.Exists(dropExtraAssetsSQL))
+                    {
+                        // append the dropExtraAssetsSQL
+                        sb.Append(dropExtraAssetsSQL);
+                    }
                 }
 
                 // get the sql
@@ -283,7 +341,14 @@ namespace DBCompare
                     Clipboard.SetText(sql);
 
                     // Show a message
-                    MessageBoxHelper.ShowMessage("The sql has been copied to your clipboard.", "SQL Created");
+                    CopiedImage.Visible = true;
+
+                    // Force update
+                    Refresh();
+                    Application.DoEvents();
+
+                    // Now start the timer so the image goes away
+                    CopiedTimer.Start();
                 }
                 else
                 {
@@ -373,6 +438,83 @@ namespace DBCompare
 
                 // refresh
                 this.Refresh();
+            }
+            #endregion
+
+            #region WriteDeleteProcIfExists(string procedureName)
+            /// <summary>
+            /// This method writes the sql needed to check if
+            /// a stored proc already exists, and if yes delete it.
+            /// </summary>
+            /// <param name="procedureName"></param>
+            private string CreateDeleteProcIfExistsSQL(string procedureName)
+            {
+                // initial value
+                string sql = "";
+
+                // Create a new instance of a 'StringBuilder' object.
+                StringBuilder sb = new StringBuilder();
+
+                // Write Comment Check if the procedure already exists
+                sb.Append("-- Check if the procedure already exists");
+                sb.Append(Environment.NewLine);
+
+                // Get If Exists Line
+                string ifExists = CreateIfProcExists(procedureName);
+
+                // If Exists Line
+                sb.Append(ifExists);
+
+                // end the line
+                sb.Append(Environment.NewLine);
+                
+                // add a blank line
+                sb.Append(Environment.NewLine);
+                
+                // Increase Indent
+                sb.Append(TextHelper.Indent(4));
+                
+                // Write Comment Procedure Does Exist, Drop First
+                sb.Append("-- Procedure Does Exist, Drop First");
+
+                // End the line
+                sb.Append(Environment.NewLine);
+	            
+                // add a blank line
+                sb.Append(Environment.NewLine);
+
+                // Increase Indent
+                sb.Append(TextHelper.Indent(4));
+
+                // Write Comment Execute Drop
+                sb.Append("-- Execute Drop");
+
+                // End the line
+                sb.Append(Environment.NewLine);
+
+                 // Increase Indent
+                sb.Append(TextHelper.Indent(4));
+              
+                // Write drop procedure line
+                sb.Append("Drop Procedure " + procedureName);
+                
+                // End the line
+                sb.Append(Environment.NewLine);
+
+                // add a blank line
+                sb.Append(Environment.NewLine);
+
+                // Write Go
+                sb.Append("GO");
+
+                // add a blank line
+                sb.Append(Environment.NewLine);
+
+                // set the return value
+                sql = sb.ToString();
+
+                // return value
+                return sql;
             }
             #endregion
             
@@ -483,6 +625,8 @@ namespace DBCompare
 
                     // Hide
                     GenerateScriptsButton.Visible = false;
+                    ExtraLabel.Visible = false;
+                    ScriptDropExtrasCheckbox.Visible = false;
 
                     // Refresh the UI
                     this.Refresh();
@@ -818,25 +962,58 @@ namespace DBCompare
             /// <summary>
             /// returns the View SQL
             /// </summary>
-            public static string CreateViewSQL(DataTable table)
+            public static string CreateViewSQL(DataTable table, bool alter = false)
             {
                 // initial value
                 string sql = "";
 
+                // local
+                bool replacementMade = false;
+
                 // If the table object exists
                 if ((NullHelper.Exists(table)) && (table.IsView))
                 {
-                    //SQLDatabaseConnector connector = new SQLDatabaseConnector();
-                    //connector.ConnectionString = SourceConnectionStringControl.Text;
-                    //connector.Open();
+                    // get the sql
                     sql = table.ViewText;
-
-                    // close the connection
-                    // connector.Close();
 
                     // If the sql string exists
                     if (TextHelper.Exists(sql))
                     {
+                        // If this is an Alter not a create
+                        if (alter)
+                        {
+                            // string.Replace is case sensitive, so did it this way, not most efficient
+                            List<TextLine> lines = TextHelper.GetTextLines(sql);
+
+                            // If the lines collection exists and has one or more items
+                            if (ListHelper.HasOneOrMoreItems(lines))
+                            {
+                                // Iterate the collection of TextLine objects
+                                foreach (TextLine line in lines)
+                                {
+                                    // if this is the Create view statement
+                                    if (line.Text.ToLower().Contains("create view"))
+                                    {
+                                        // set the text
+                                        line.Text = line.Text.ToLower().Replace("create view", "ALTER VIEW");
+
+                                        // change to alter
+                                        replacementMade = true;
+                                    }
+                                }
+
+                                // if a replacement was made
+                                if (replacementMade)
+                                {
+                                    // get the sql updated
+                                    sql = TextHelper.ExportTextLines(lines);
+                                }
+                            }
+
+                            // turn this into an Alter View
+                            sql = sql.Replace("Create View", "Alter View");
+                        }
+
                         // Each view must be in its own block
                         sql += Environment.NewLine;                        
                         sql += "Go";
@@ -1057,9 +1234,6 @@ namespace DBCompare
                         {
                             // Show the two databases are equal
                             this.ResultsTextBox.Text = "The target database is up to date.";
-                           
-                           // hide the button if up to date
-                           GenerateScriptsButton.Visible = false;
                         }
                         else
                         {
@@ -1085,8 +1259,10 @@ namespace DBCompare
                             // Show the schema differences
                             this.ResultsTextBox.Text = sb.ToString();
 
-                           // Show the button
-                           GenerateScriptsButton.Visible = true;
+                            // Show the button
+                            GenerateScriptsButton.Visible = true;
+                            ExtraLabel.Visible = true;
+                            ScriptDropExtrasCheckbox.Visible = true;
                         }
                     }
                 }
@@ -1100,6 +1276,237 @@ namespace DBCompare
                     // Show the user a message
                     this.ResultsTextBox.Text = "The target database could not be loaded.";
                 }
+            }
+            #endregion
+            
+            #region FixReserveWordsInSelect(string storedProcedureText)
+            /// <summary>
+            /// returns the Reserve Words In Select
+            /// </summary>
+            public string FixReserveWordsInSelect(string storedProcedureText)
+            {
+                // locals
+                char[] delimiters = new char[] { ',' };
+                int index = -1;
+                int lineNumber = 0;
+                int targetLineNumber = 0;
+                int fieldCount = -1;
+                bool updateRequired = false;
+                StringBuilder sb = null;
+
+                // If the storedProcedureText string exists
+                if (TextHelper.Exists(storedProcedureText))
+                {
+                    // get the text lines
+                    List<TextLine> lines = TextHelper.GetTextLines(storedProcedureText);
+
+                    // If the lines collection exists and has one or more items
+                    if (ListHelper.HasOneOrMoreItems(lines))
+                    {
+                        // Iterate the collection of TextLine objects
+                        foreach (TextLine line in lines)
+                        {
+                            // Increment the value for lineNumber
+                            lineNumber++;
+
+                            // Set the lineNumber
+                            line.LineNumber = lineNumber;
+
+                            // get the index of SQL comments
+                            index = line.Text.IndexOf("--");
+
+                            // if the line is not a SQL Comment
+                            if (index < 0)
+                            {
+                                // if this is a select line
+                                if (line.Text.Trim().StartsWith("Select"))
+                                {
+                                    // might be needed
+                                    targetLineNumber = lineNumber;
+
+                                    // get the words for this line
+                                    List<Word> words = TextHelper.GetWords(line.Text);
+
+                                    // iterate the words
+                                    if (ListHelper.HasOneOrMoreItems(words))
+                                    {   
+                                        // Iterate the collection of Word objects
+                                        foreach (Word word in words)
+                                        {
+                                            // Increment the value for fieldCount
+                                            fieldCount++;
+
+                                            // if this is after Select
+                                            if (fieldCount > 0)
+                                            {
+                                                // verify this is not already surrounded by a bracket
+                                                if (!word.Text.StartsWith("["))
+                                                {
+                                                    // Change the word text
+                                                    word.Text = "[" + word.Text + "]";
+
+                                                    // Text was changed
+                                                    updateRequired = true;
+                                                }
+                                            }
+                                        }
+
+                                        // reset
+                                        fieldCount = 0;
+
+                                        // Now rebuild this line
+                                        int indent = TextHelper.GetSpacesCount(line.Text);
+                                        string tab = TextHelper.Indent(indent);
+                                        sb = new StringBuilder(tab);
+
+                                        // Iterate the collection of Word objects
+                                        foreach (Word word in words)
+                                        {
+                                            // Increment the value for fieldCount
+                                            fieldCount++;
+
+                                            // append this word
+                                            sb.Append(word.Text);
+
+                                            // if not the last word
+                                            if ((fieldCount > 1) && (fieldCount < words.Count))
+                                            {
+                                                // add the comma
+                                                sb.Append(", ");
+                                            }
+                                            else if (fieldCount == 1)
+                                            {
+                                                // add a space
+                                                sb.Append(' ');
+                                            }
+                                        }
+
+                                        // Get the new text
+                                        string newLineText = sb.ToString();
+
+                                        // update the text
+                                        line.Text = newLineText;
+                                    }
+                                }
+                            }
+                        }
+
+                        // if the value for updateRequired is true
+                        if (updateRequired)
+                        {
+                            // recreate
+                            sb = new StringBuilder();
+
+                            // Iterate the collection of TextLine objects
+                            foreach (TextLine line in lines)
+                            {
+                                // Add this line
+                                sb.Append(line.Text);
+                                sb.Append(Environment.NewLine);
+                            }
+
+                            // set the return value
+                            storedProcedureText = sb.ToString();
+                        }
+                    }
+                }
+                
+                // return value
+                return storedProcedureText;
+            }
+            #endregion
+            
+            #region GenerateDropExtraAssetsSQL()
+            /// <summary>
+            /// returns the Drop Extra Assets SQL
+            /// </summary>
+            public string GenerateDropExtraAssetsSQL()
+            {
+                // initial value
+                string dropExtraAssetsSQL = "";
+
+                // local
+                string sql = "";
+
+                // Create a new instance of a 'StringBuilder' object.
+                StringBuilder sb = new StringBuilder(Environment.NewLine);
+
+                // iterate the differences
+                foreach (SchemaDifference difference in Comparison.SchemaDifferences)
+                {
+                    switch (difference.DifferenceType)
+                    {
+                        case DifferenceTypeEnum.TargetDatabaseContainsExtraField:
+
+                            // both are required to generate the drop SQL
+                            if ((difference.HasTable) && (difference.HasField))
+                            {
+                                // Get the sql for the drop
+                                sql = "Alter Table " + difference.Table.Name + Environment.NewLine + "Drop Column " + difference.Field.FieldName;
+                                sb.Append(sql);
+                                sb.Append(Environment.NewLine);
+                                sb.Append("GO");
+                                sb.Append(Environment.NewLine);
+                                // Add a blank line
+                                sb.Append(Environment.NewLine);
+                            }
+
+                            // required
+                            break;
+
+                        case DifferenceTypeEnum.TargetDatabaseContainsExtraProcedure:
+
+                            // if the procedure exists
+                            if (difference.HasProcedure)
+                            {
+                                // Create the drop sql
+                                sql = "Drop Procedure " + difference.Procedure.ProcedureName;
+                                sb.Append(sql);
+                                sb.Append(Environment.NewLine);
+                                sb.Append("GO");
+                                sb.Append(Environment.NewLine);
+                                // Add a blank line
+                                sb.Append(Environment.NewLine);
+                            }
+
+                            // required
+                            break;
+
+                        case DifferenceTypeEnum.TargetDatabaseContainsExtraTable:
+
+                            // If the value for the property difference.HasTable is true
+                            if (difference.HasTable)
+                            {
+                                // if a view
+                                if (difference.Table.IsView)
+                                {
+                                    // Create the drop sql
+                                    sql = "Drop View " + difference.Procedure.ProcedureName;                                    
+                                }
+                                else
+                                {
+                                    // Create the drop sql
+                                    sql = "Drop Table " + difference.Procedure.ProcedureName;                                    
+                                }
+
+                                sb.Append(sql);
+                                sb.Append(Environment.NewLine);
+                                sb.Append("GO");
+                                sb.Append(Environment.NewLine);
+                                // Add a blank line
+                                sb.Append(Environment.NewLine);
+                            }
+
+                            // required
+                            break;
+                    }
+                }
+
+                // Get the drop sql
+                dropExtraAssetsSQL = sb.ToString();
+                
+                // return value
+                return dropExtraAssetsSQL;
             }
             #endregion
             
@@ -1263,6 +1670,9 @@ namespace DBCompare
                 // iterate the differences
                 foreach (SchemaDifference difference in Comparison.SchemaDifferences)
                 {
+                    // erase after each difference
+                    fieldSQL = "";
+
                     // set the table and field
                     table = difference.Table;
                     field = difference.Field;
@@ -1270,20 +1680,31 @@ namespace DBCompare
                     // If the 'table' object and the 'field' objects both exist.
                     if (NullHelper.Exists(table, field))
                     {
-                        // if Field 
-                        if (difference.DifferenceType == DifferenceTypeEnum.FieldIsMissing)
+                        // fixing error of trying to add a column to a view
+                        if (!table.IsView)
                         {
-                            // create the SQL to create this field
-                            fieldSQL = CreateFieldSQL(table, field, true);
-                        } 
-                        else if (difference.DifferenceType == DifferenceTypeEnum.FieldInvalid)
-                        {
-                            // create the SQL to create this field
-                            fieldSQL = CreateFieldSQL(table, field, false);                            
-                        }
+                            // if Field 
+                            if (difference.DifferenceType == DifferenceTypeEnum.FieldIsMissing)
+                            {
+                                // create the SQL to create this field
+                                fieldSQL = CreateFieldSQL(table, field, true);
+                            } 
+                            else if (difference.DifferenceType == DifferenceTypeEnum.FieldInvalid)
+                            {
+                                // create the SQL to create this field
+                                fieldSQL = CreateFieldSQL(table, field, false);                            
+                            }
 
-                        // Add the fieldSQL
-                        sb.Append(fieldSQL);                    
+                            if (TextHelper.Exists(fieldSQL))
+                            {
+                                // Add the fieldSQL
+                                sb.Append(fieldSQL);
+                            }
+                        }
+                        else
+                        {
+                            // to do: drop view and recreate it with the new field
+                        }
                     }
 
                     // set the return value
@@ -1324,16 +1745,21 @@ namespace DBCompare
                         {
                             // Get the text
                             storedProcedureText = difference.Procedure.Text;
+
+                            // Fix reserve words by surrounding Select statement with braces
+                            storedProcedureText = FixReserveWordsInSelect(storedProcedureText);
                         }
                        
                         // If the storedProcedureText string exists
                         if (TextHelper.Exists(storedProcedureText))
                         {
-                            sb.Append("Drop Procedure ");
-                            sb.Append(difference.Procedure.ProcedureName);
-                            sb.Append(Environment.NewLine);
-                            sb.Append("Go");
-                            sb.Append(Environment.NewLine);
+                            // get the drop if it exists text
+                            string dropIfExists = CreateDeleteProcIfExistsSQL(difference.Procedure.ProcedureName);
+
+                            // Get the next text
+                            sb.Append(dropIfExists);
+
+                            // Drop the procedure text
                             sb.Append(Environment.NewLine);
 
                             // add the stored procedure text
@@ -1367,6 +1793,9 @@ namespace DBCompare
                 // initial value
                 string sql = "";
 
+                // local
+                string viewSQL = "";
+
                 // Create a new instance of a 'StringBuilder' object.
                 StringBuilder sb = new StringBuilder("Use [");
                 sb.Append(Comparison.TargetDatabase.Name);
@@ -1383,23 +1812,29 @@ namespace DBCompare
                 {
                     if (difference.DifferenceType == DifferenceTypeEnum.TableIsMissing)
                     {  
-                        // set the table
-                        DataTable table = difference.Table;
-
                         // if this table is a view
-                        if (table.IsView)
+                        if (difference.Table.IsView)
                         {
                             // create the SQL to create this View
-                            string viewSQL = CreateViewSQL(table);
+                            viewSQL = CreateViewSQL(difference.Table);
                             sb.Append(viewSQL);
                         }
                         else
                         {
                             // create the SQL to create this table
-                            string tableSQL = CreateTableSQL(table);
+                            string tableSQL = CreateTableSQL(difference.Table);
                             sb.Append(tableSQL);
                         }
-                    }  
+                    }
+                    else if ((difference.DifferenceType == DifferenceTypeEnum.FieldInvalid) || (difference.DifferenceType == DifferenceTypeEnum.FieldIsMissing))
+                    {
+                        if ((difference.HasTable) && (difference.Table.IsView))
+                        {
+                            // create the SQL to create this View
+                            viewSQL = CreateViewSQL(difference.Table, true);
+                            sb.Append(viewSQL);
+                        }
+                    }
                 }
 
                 // get the return value

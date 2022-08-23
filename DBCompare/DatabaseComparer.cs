@@ -1556,8 +1556,8 @@ namespace DBCompare
                             // Set the Table
                             schemaDifference.Table = sourceTable;
 
-                            // Set the Field
-                            schemaDifference.Field = sourceField;
+                            // Set the Field - Had to switch to tempField
+                            schemaDifference.Field = tempField;
 
                             // Set the DifferenceType
                             schemaDifference.DifferenceType = DifferenceTypeEnum.TargetDatabaseContainsExtraField;

@@ -36,8 +36,42 @@ namespace DBCompare
         private string invalidForeignKeyName;
         #endregion
 
+        #region Methods
+
+            #region ToString()
+            /// <summary>
+            /// method returns a String to provide info about this object
+            /// </summary>
+            public override string ToString()
+            {
+                // initial value
+                string toString = base.ToString();
+
+                if ((HasTable) && (HasField))
+                {
+                    // set the return value
+                    toString = DifferenceType.ToString() + " " + this.Table.Name + " " + Field.FieldName;
+                }
+                else if (HasTable)
+                {
+                    // return value
+                    toString = DifferenceType.ToString() + " " + this.Table.Name;
+                }
+                else if (HasField)
+                {
+                    // return value
+                    toString = DifferenceType.ToString() + " " + this.Field.FieldName;
+                }
+
+                // return value
+                return toString;
+            }
+            #endregion
+            
+        #endregion
+
         #region Properties
-        
+
             #region DifferenceType
             /// <summary>
             /// This property gets or sets the value for 'DifferenceType'.

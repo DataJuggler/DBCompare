@@ -63,9 +63,29 @@ namespace DBCompare.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Copied {
+            get {
+                object obj = ResourceManager.GetObject("Copied", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DarkButton {
             get {
                 object obj = ResourceManager.GetObject("DarkButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Deep_Black {
+            get {
+                object obj = ResourceManager.GetObject("Deep Black", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
