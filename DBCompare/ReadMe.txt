@@ -1,4 +1,12 @@
-﻿I just published a video that demonstrates how to use this.
+﻿Update 10.20.2022: This project has been updated to .NET 7.
+You must use Visual Studio 2022 Preview until the full version comes out.
+
+Breaking change: Microsoft.Data.SqlClient version 5.0 (same with 4.0) has encryption turned on by default.
+If your database is not encrypted, you must add Encrypt=false to your connection string.
+If you build your connection string using the Connection String Builder Form, there is an option
+'Turn Off Encryption'.
+
+I just published a video that demonstrates how to use this.
 
 Please like and subscribe to my channel if you find this useful.
 

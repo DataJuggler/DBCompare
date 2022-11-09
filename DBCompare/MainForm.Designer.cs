@@ -149,6 +149,9 @@ namespace DBCompare
             this.InnerBorder = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.BottomMarginPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
             this.CopiedTimer = new System.Windows.Forms.Timer(this.components);
+            this.IgnoreDifferenceStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.IgnoreItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClearItem = new System.Windows.Forms.ToolStripMenuItem();
             this.YouTubePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CopiedImage)).BeginInit();
             this.CompareDatabaseTopPanel.SuspendLayout();
@@ -161,6 +164,7 @@ namespace DBCompare
             this.TargetConnectionPanel.SuspendLayout();
             this.MainPanel.SuspendLayout();
             this.GraphPanel.SuspendLayout();
+            this.IgnoreDifferenceStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // LeftMarginPanel
@@ -890,6 +894,7 @@ namespace DBCompare
             this.ResultsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.ResultsTextBox.Size = new System.Drawing.Size(1192, 309);
             this.ResultsTextBox.TabIndex = 111;
+            this.ResultsTextBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ResultsTextBox_MouseClick);
             // 
             // GraphPanel
             // 
@@ -945,6 +950,26 @@ namespace DBCompare
             this.CopiedTimer.Interval = 3000;
             this.CopiedTimer.Tick += new System.EventHandler(this.CopiedTimer_Tick);
             // 
+            // IgnoreDifferenceStrip
+            // 
+            this.IgnoreDifferenceStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.IgnoreItem,
+            this.ClearItem});
+            this.IgnoreDifferenceStrip.Name = "IgnoreDifferenceStrip";
+            this.IgnoreDifferenceStrip.Size = new System.Drawing.Size(160, 48);
+            // 
+            // IgnoreItem
+            // 
+            this.IgnoreItem.Name = "IgnoreItem";
+            this.IgnoreItem.Size = new System.Drawing.Size(159, 22);
+            this.IgnoreItem.Text = "Ignore";
+            // 
+            // ClearItem
+            // 
+            this.ClearItem.Name = "ClearItem";
+            this.ClearItem.Size = new System.Drawing.Size(159, 22);
+            this.ClearItem.Text = "Clear Ignore List";
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -968,7 +993,7 @@ namespace DBCompare
             this.MinimumSize = new System.Drawing.Size(1240, 740);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DB Compare Version 6.6.1";
+            this.Text = "DB Compare Version 7.0.0";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.YouTubePanel.ResumeLayout(false);
             this.YouTubePanel.PerformLayout();
@@ -984,6 +1009,7 @@ namespace DBCompare
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
             this.GraphPanel.ResumeLayout(false);
+            this.IgnoreDifferenceStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
             }
@@ -996,6 +1022,9 @@ namespace DBCompare
         private System.Windows.Forms.Label ExtraLabel;
         private DataJuggler.Win.Controls.LabelCheckBoxControl ScriptDropExtrasCheckbox;
         private PanelExtender InnerBorder;
+        private System.Windows.Forms.ContextMenuStrip IgnoreDifferenceStrip;
+        private System.Windows.Forms.ToolStripMenuItem IgnoreItem;
+        private System.Windows.Forms.ToolStripMenuItem ClearItem;
     }
     #endregion
 

@@ -52,4 +52,15 @@ namespace DBCompare.Enumerations
 	}
 	#endregion
 
+	#region TrueFalseEnum
+	/// <summary>
+	/// This enum is used to select a True False value in a combo box.
+	/// </summary>
+	public enum TrueFalseEnum : int
+	{
+		False = 0,
+		True = 1
+	}
+	#endregion
+
 }

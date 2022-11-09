@@ -10,9 +10,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using DataJuggler.Net6;
-using DataJuggler.Net6.Connection;
+using DataJuggler.Net7;
+using DataJuggler.Net7.Connection;
 using DataJuggler.UltimateHelper;
+using DBCompare.Enumerations;
 
 #endregion
 
@@ -33,7 +34,7 @@ namespace DBCompare
         
         #region Constructor
         /// <summary>
-        /// This constructor [enter description here].
+        /// Create a new instance of a ConnectionStringBuilderForm object.
         /// </summary>
         public ConnectionStringBuilderForm()
         {
@@ -63,12 +64,12 @@ namespace DBCompare
                 if (connectionInfo.IntegratedSecurity)
                 {
                     // Build the connectionString
-                    connectionString = ConnectionStringHelper.BuildConnectionString(connectionInfo.DatabaseServer, connectionInfo.DatabaseName);
+                    connectionString = ConnectionStringHelper.BuildConnectionString(connectionInfo.DatabaseServer, connectionInfo.DatabaseName, connectionInfo.Encrypt);
                 }
                 else
                 {
                     // Build the connectionString
-                    connectionString = ConnectionStringHelper.BuildConnectionString(connectionInfo.DatabaseServer, connectionInfo.DatabaseName, connectionInfo.DatabaseUserName, connectionInfo.DatabasePassword);
+                    connectionString = ConnectionStringHelper.BuildConnectionString(connectionInfo.DatabaseServer, connectionInfo.DatabaseName, connectionInfo.DatabaseUserName, connectionInfo.DatabasePassword, connectionInfo.Encrypt);
                 }
 
                 // display the connectionString
@@ -272,6 +273,9 @@ namespace DBCompare
                 connectionInfo.DatabaseName = this.DatabaseNameTextBox.Text;
                 connectionInfo.DatabaseServer = this.DatabaseServerTextBox.Text;
                 connectionInfo.IntegratedSecurity = this.WindowsAuthenticationRadioButton.Checked;
+                
+                // by default this is off unless a user selects it
+                connectionInfo.Encrypt = EncryptConnectionComboBox.SelectedIndex == 1;
 
                 // if not Windows Authentication
                 if (!connectionInfo.IntegratedSecurity)
@@ -297,6 +301,12 @@ namespace DBCompare
 
                 // Prepopulate Server Name
                 DatabaseServerTextBox.Text = EnvironmentVariableHelper.GetEnvironmentVariableValue("SQLServerName");
+
+                // For some reason this is the wrong color without this
+                EncryptConnectionComboBox.LoadItems(typeof (TrueFalseEnum));
+                
+                // Select False
+                EncryptConnectionComboBox.SelectedIndex = 0;
             }
             #endregion
             

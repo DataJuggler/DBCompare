@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>6.6.1</Version>
+    <Version>7.0.0-rc1</Version>
 	<FileVersion>6.3.0</FileVersion>	
     <PackageId>DataJuggler.DBCompare</PackageId>
     <Authors>DataJuggler</Authors>
@@ -24,9 +24,10 @@ the latest version.</Description>
     <RepositoryType>Git / Git Hub</RepositoryType>
     <PackageTags>C#, SQL, Database, Compare Schema, Compare Databases, Compare SQL</PackageTags>
     <PackageReleaseNotes>
+		
 		April 13: 2022
 		Version 6.3.0: The Generate Scripts has been updated to create tables, fields and views that are missing.
-		The code I just added to DataJuggler.Net6 to get ViewText, something similar can be used to get the 
+		The code I just added to DataJuggler.Net7 to get ViewText, something similar can be used to get the 
 		stored procedures and functions and that is 98% of what I have to update. Add table relationships and constraints
 		and that should complete most of the Generate Scripts use cases I can think of.
 		
@@ -66,12 +67,12 @@ attempt as a Nuget package.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Net6" Version="6.2.0" />
-    <PackageReference Include="DataJuggler.RandomShuffler" Version="6.0.4" />
-    <PackageReference Include="DataJuggler.UltimateHelper" Version="6.0.6" />
-    <PackageReference Include="DataJuggler.Win.Controls" Version="6.2.4" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="3.0.1" />
-    <PackageReference Include="XmlMirror.Runtime6" Version="6.0.3" />
+    <PackageReference Include="DataJuggler.Net7" Version="7.0.1" />
+    <PackageReference Include="DataJuggler.RandomShuffler" Version="7.0.3" />
+    <PackageReference Include="DataJuggler.UltimateHelper" Version="7.0.0" />
+    <PackageReference Include="DataJuggler.Win.Controls" Version="7.0.0-rc1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0-preview1.22279.3" />
+    <PackageReference Include="XmlMirror.Runtime7" Version="7.0.0-rc1" />
   </ItemGroup>
 
   <ItemGroup>

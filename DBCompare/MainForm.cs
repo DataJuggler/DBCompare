@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using DataJuggler.UltimateHelper;
 using DataJuggler.UltimateHelper.Objects;
-using DataJuggler.Net6;
+using DataJuggler.Net7;
 using DataJuggler.Win.Controls;
 using DataJuggler.Win.Controls.Interfaces;
 using DBCompare.Enumerations;
@@ -15,6 +15,7 @@ using DBCompare.Xml.Writers;
 using System;
 using System.IO;
 using System.Text;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DBCompare.Util;
@@ -36,6 +37,7 @@ namespace DBCompare
         private SecureUserData settings;
         private CompareInfo compareInfo;
         private SchemaComparison comparison;
+        private List<string> ignoreItems;
         private const string XmlFilter = "XML files (*.xml)|*.xml";
         private const string YouTubePath = "https://youtu.be/13HipAOyAqU";
         #endregion
@@ -419,6 +421,22 @@ namespace DBCompare
 
                 // Control how the UI is setup
                 UIControl();
+            }
+            #endregion
+            
+            #region ResultsTextBox_MouseClick(object sender, MouseEventArgs e)
+            /// <summary>
+            /// event is fired when Results Text Box _ Mouse Click
+            /// </summary>
+            private void ResultsTextBox_MouseClick(object sender, MouseEventArgs e)
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    Point p = new Point(800, 600);
+
+                    // Show the items
+                    IgnoreDifferenceStrip.Show(this.ResultsTextBox, p, ToolStripDropDownDirection.Default);
+                }
             }
             #endregion
             
@@ -1857,6 +1875,9 @@ namespace DBCompare
 
                 // Create a new instance of a 'CompareInfo' object.
                 this.CompareInfo = new CompareInfo();
+
+                // Create a new collection of 'string' objects.
+                IgnoreItems = new List<string>();
             }
             #endregion
             
@@ -2335,6 +2356,17 @@ namespace DBCompare
                     // return value
                     return hasSettings;
                 }
+            }
+            #endregion
+            
+            #region IgnoreItems
+            /// <summary>
+            /// This property gets or sets the value for 'IgnoreItems'.
+            /// </summary>
+            public List<string> IgnoreItems
+            {
+                get { return ignoreItems; }
+                set { ignoreItems = value; }
             }
             #endregion
             

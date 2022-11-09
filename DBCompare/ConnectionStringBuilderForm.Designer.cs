@@ -85,6 +85,8 @@ namespace DBCompare
             this.Timer = new System.Windows.Forms.Timer(this.components);
             this.HiddenButton = new System.Windows.Forms.Button();
             this.ConnectingLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.EncryptConnectionComboBox = new DataJuggler.Win.Controls.LabelComboBoxControl();
             ((System.ComponentModel.ISupportInitialize)(this.PassedImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FailedImage)).BeginInit();
             this.SuspendLayout();
@@ -94,7 +96,7 @@ namespace DBCompare
             this.SQLServerAuthenticationRadioButton.AutoSize = true;
             this.SQLServerAuthenticationRadioButton.BackColor = System.Drawing.Color.Transparent;
             this.SQLServerAuthenticationRadioButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SQLServerAuthenticationRadioButton.Location = new System.Drawing.Point(229, 108);
+            this.SQLServerAuthenticationRadioButton.Location = new System.Drawing.Point(229, 168);
             this.SQLServerAuthenticationRadioButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.SQLServerAuthenticationRadioButton.Name = "SQLServerAuthenticationRadioButton";
             this.SQLServerAuthenticationRadioButton.Size = new System.Drawing.Size(184, 22);
@@ -109,7 +111,7 @@ namespace DBCompare
             this.WindowsAuthenticationRadioButton.BackColor = System.Drawing.Color.Transparent;
             this.WindowsAuthenticationRadioButton.Checked = true;
             this.WindowsAuthenticationRadioButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.WindowsAuthenticationRadioButton.Location = new System.Drawing.Point(461, 108);
+            this.WindowsAuthenticationRadioButton.Location = new System.Drawing.Point(461, 168);
             this.WindowsAuthenticationRadioButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.WindowsAuthenticationRadioButton.Name = "WindowsAuthenticationRadioButton";
             this.WindowsAuthenticationRadioButton.Size = new System.Drawing.Size(226, 22);
@@ -121,7 +123,7 @@ namespace DBCompare
             // DatabasePasswordTextBox
             // 
             this.DatabasePasswordTextBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.DatabasePasswordTextBox.Location = new System.Drawing.Point(229, 193);
+            this.DatabasePasswordTextBox.Location = new System.Drawing.Point(229, 253);
             this.DatabasePasswordTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.DatabasePasswordTextBox.Name = "DatabasePasswordTextBox";
             this.DatabasePasswordTextBox.PasswordChar = '*';
@@ -132,7 +134,7 @@ namespace DBCompare
             // DatabaseUserNameTextBox
             // 
             this.DatabaseUserNameTextBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.DatabaseUserNameTextBox.Location = new System.Drawing.Point(229, 148);
+            this.DatabaseUserNameTextBox.Location = new System.Drawing.Point(229, 208);
             this.DatabaseUserNameTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.DatabaseUserNameTextBox.Name = "DatabaseUserNameTextBox";
             this.DatabaseUserNameTextBox.Size = new System.Drawing.Size(585, 27);
@@ -161,7 +163,7 @@ namespace DBCompare
             // 
             this.DatabasePasswordLabel.BackColor = System.Drawing.Color.Transparent;
             this.DatabasePasswordLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.DatabasePasswordLabel.Location = new System.Drawing.Point(19, 197);
+            this.DatabasePasswordLabel.Location = new System.Drawing.Point(19, 257);
             this.DatabasePasswordLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.DatabasePasswordLabel.Name = "DatabasePasswordLabel";
             this.DatabasePasswordLabel.Size = new System.Drawing.Size(208, 27);
@@ -174,7 +176,7 @@ namespace DBCompare
             // 
             this.DatabaseUserNameLabel.BackColor = System.Drawing.Color.Transparent;
             this.DatabaseUserNameLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.DatabaseUserNameLabel.Location = new System.Drawing.Point(19, 152);
+            this.DatabaseUserNameLabel.Location = new System.Drawing.Point(19, 212);
             this.DatabaseUserNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.DatabaseUserNameLabel.Name = "DatabaseUserNameLabel";
             this.DatabaseUserNameLabel.Size = new System.Drawing.Size(208, 27);
@@ -218,7 +220,7 @@ namespace DBCompare
             this.BuildConnectionStringButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BuildConnectionStringButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.BuildConnectionStringButton.ForeColor = System.Drawing.Color.White;
-            this.BuildConnectionStringButton.Location = new System.Drawing.Point(548, 368);
+            this.BuildConnectionStringButton.Location = new System.Drawing.Point(548, 428);
             this.BuildConnectionStringButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.BuildConnectionStringButton.Name = "BuildConnectionStringButton";
             this.BuildConnectionStringButton.Size = new System.Drawing.Size(266, 42);
@@ -240,7 +242,7 @@ namespace DBCompare
             this.CancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CancelButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.CancelButton.ForeColor = System.Drawing.Color.White;
-            this.CancelButton.Location = new System.Drawing.Point(698, 426);
+            this.CancelButton.Location = new System.Drawing.Point(698, 486);
             this.CancelButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(117, 42);
@@ -254,7 +256,7 @@ namespace DBCompare
             // ConnectionStringTextBox
             // 
             this.ConnectionStringTextBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ConnectionStringTextBox.Location = new System.Drawing.Point(229, 238);
+            this.ConnectionStringTextBox.Location = new System.Drawing.Point(229, 298);
             this.ConnectionStringTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ConnectionStringTextBox.Multiline = true;
             this.ConnectionStringTextBox.Name = "ConnectionStringTextBox";
@@ -265,7 +267,7 @@ namespace DBCompare
             // 
             this.ConnectionStringLabel.BackColor = System.Drawing.Color.Transparent;
             this.ConnectionStringLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ConnectionStringLabel.Location = new System.Drawing.Point(19, 238);
+            this.ConnectionStringLabel.Location = new System.Drawing.Point(19, 298);
             this.ConnectionStringLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ConnectionStringLabel.Name = "ConnectionStringLabel";
             this.ConnectionStringLabel.Size = new System.Drawing.Size(208, 27);
@@ -284,7 +286,7 @@ namespace DBCompare
             this.SelectButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SelectButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.SelectButton.ForeColor = System.Drawing.Color.White;
-            this.SelectButton.Location = new System.Drawing.Point(575, 426);
+            this.SelectButton.Location = new System.Drawing.Point(575, 486);
             this.SelectButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.SelectButton.Name = "SelectButton";
             this.SelectButton.Size = new System.Drawing.Size(117, 42);
@@ -306,7 +308,7 @@ namespace DBCompare
             this.TestDatabaseConnectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.TestDatabaseConnectionButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.TestDatabaseConnectionButton.ForeColor = System.Drawing.Color.White;
-            this.TestDatabaseConnectionButton.Location = new System.Drawing.Point(229, 368);
+            this.TestDatabaseConnectionButton.Location = new System.Drawing.Point(229, 428);
             this.TestDatabaseConnectionButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.TestDatabaseConnectionButton.Name = "TestDatabaseConnectionButton";
             this.TestDatabaseConnectionButton.Size = new System.Drawing.Size(315, 42);
@@ -321,7 +323,7 @@ namespace DBCompare
             // 
             this.PassedImage.BackgroundImage = global::DBCompare.Properties.Resources.Success;
             this.PassedImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PassedImage.Location = new System.Drawing.Point(142, 285);
+            this.PassedImage.Location = new System.Drawing.Point(142, 345);
             this.PassedImage.Name = "PassedImage";
             this.PassedImage.Size = new System.Drawing.Size(64, 64);
             this.PassedImage.TabIndex = 32;
@@ -332,7 +334,7 @@ namespace DBCompare
             // 
             this.FailedImage.BackgroundImage = global::DBCompare.Properties.Resources.Failure;
             this.FailedImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.FailedImage.Location = new System.Drawing.Point(142, 285);
+            this.FailedImage.Location = new System.Drawing.Point(142, 345);
             this.FailedImage.Name = "FailedImage";
             this.FailedImage.Size = new System.Drawing.Size(64, 64);
             this.FailedImage.TabIndex = 33;
@@ -366,12 +368,48 @@ namespace DBCompare
             // ConnectingLabel
             // 
             this.ConnectingLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ConnectingLabel.Location = new System.Drawing.Point(148, 431);
+            this.ConnectingLabel.Location = new System.Drawing.Point(148, 491);
             this.ConnectingLabel.Name = "ConnectingLabel";
             this.ConnectingLabel.Size = new System.Drawing.Size(396, 37);
             this.ConnectingLabel.TabIndex = 35;
             this.ConnectingLabel.Text = "Attempting to connect to database...";
             this.ConnectingLabel.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(420, 102);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(338, 54);
+            this.label1.TabIndex = 37;
+            this.label1.Text = "Microsoft.Data.SqlClient 5.0 has encryption turned on by default. If your databas" +
+    "e is not encrypted, leave this as False.";
+            // 
+            // EncryptConnectionComboBox
+            // 
+            this.EncryptConnectionComboBox.BackColor = System.Drawing.Color.Transparent;
+            this.EncryptConnectionComboBox.ComboBoxLeftMargin = 1;
+            this.EncryptConnectionComboBox.ComboBoxText = "";
+            this.EncryptConnectionComboBox.ComoboBoxFont = null;
+            this.EncryptConnectionComboBox.Editable = true;
+            this.EncryptConnectionComboBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.EncryptConnectionComboBox.HideLabel = false;
+            this.EncryptConnectionComboBox.LabelBottomMargin = 0;
+            this.EncryptConnectionComboBox.LabelColor = System.Drawing.Color.Black;
+            this.EncryptConnectionComboBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.EncryptConnectionComboBox.LabelText = "Encrypt:";
+            this.EncryptConnectionComboBox.LabelTopMargin = 0;
+            this.EncryptConnectionComboBox.LabelWidth = 80;
+            this.EncryptConnectionComboBox.List = null;
+            this.EncryptConnectionComboBox.Location = new System.Drawing.Point(148, 114);
+            this.EncryptConnectionComboBox.Name = "EncryptConnectionComboBox";
+            this.EncryptConnectionComboBox.SelectedIndex = -1;
+            this.EncryptConnectionComboBox.SelectedIndexListener = null;
+            this.EncryptConnectionComboBox.Size = new System.Drawing.Size(260, 28);
+            this.EncryptConnectionComboBox.Sorted = true;
+            this.EncryptConnectionComboBox.Source = null;
+            this.EncryptConnectionComboBox.TabIndex = 38;
+            this.EncryptConnectionComboBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Wood;
             // 
             // ConnectionStringBuilderForm
             // 
@@ -379,7 +417,9 @@ namespace DBCompare
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Linen;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(845, 486);
+            this.ClientSize = new System.Drawing.Size(845, 544);
+            this.Controls.Add(this.EncryptConnectionComboBox);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.ConnectingLabel);
             this.Controls.Add(this.HiddenButton);
             this.Controls.Add(this.TestDatabaseConnectionButton);
@@ -418,6 +458,8 @@ namespace DBCompare
 
         private System.Windows.Forms.Button HiddenButton;
         private System.Windows.Forms.Label ConnectingLabel;
+        private System.Windows.Forms.Label label1;
+        private DataJuggler.Win.Controls.LabelComboBoxControl EncryptConnectionComboBox;
     }
     #endregion
 
