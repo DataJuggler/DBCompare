@@ -211,7 +211,7 @@ namespace DBCompare
             /// </summary>
             /// <param name="procedureName"></param>
             /// <returns></returns>
-            private string CreateIfProcExists(string procedureName)
+            private static string CreateIfProcExists(string procedureName)
             {
                 // Create StringBuilder
                 StringBuilder sb = new StringBuilder();
@@ -465,7 +465,7 @@ namespace DBCompare
             /// a stored proc already exists, and if yes delete it.
             /// </summary>
             /// <param name="procedureName"></param>
-            private string CreateDeleteProcIfExistsSQL(string procedureName)
+            private static string CreateDeleteProcIfExistsSQL(string procedureName)
             {
                 // initial value
                 string sql = "";
@@ -1301,7 +1301,7 @@ namespace DBCompare
             /// <summary>
             /// returns the Reserve Words In Select
             /// </summary>
-            public string FixReserveWordsInSelect(string storedProcedureText)
+            public static string FixReserveWordsInSelect(string storedProcedureText)
             {
                 // locals
                 char[] delimiters = new char[] { ',' };
@@ -1932,14 +1932,17 @@ namespace DBCompare
                         // read all the text of the xml file
                         string xmlText = File.ReadAllText(xmlFilePath);
 
-                        // decode the xml text
-                        xmlText = XmlPatternHelper.Decode(xmlText);
+                        // Decoding the text as one line string was not working.
 
-                        // Create a new instance of a 'DatabasesParser' object.
-                        DatabasesParser parser = new DatabasesParser();
+                        // If the xmlText string exists
+                        if (TextHelper.Exists(xmlText))
+                        {
+                            // Create a new instance of a 'DatabasesParser' object.
+                            DatabasesParser parser = new DatabasesParser();
 
-                        // Load the database from xml
-                        database = parser.ParseDatabase(xmlText);
+                            // Load the database from xml
+                            database = parser.ParseDatabase(xmlText);
+                        }
                     }
                 }
                 catch (Exception error)

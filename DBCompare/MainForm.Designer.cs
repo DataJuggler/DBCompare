@@ -15,7 +15,7 @@ namespace DBCompare
     /// </summary>
     partial class MainForm
     {
-        
+
         #region Private Variables
         private System.ComponentModel.IContainer components = null;
         private PanelExtender LeftMarginPanel;
@@ -68,951 +68,948 @@ namespace DBCompare
         private System.Windows.Forms.ProgressBar Graph;
         private System.Windows.Forms.TextBox ResultsTextBox;
         #endregion
-        
+
         #region Methods
-            
-            #region Dispose(bool disposing)
-            /// <summary>
-            /// Clean up any resources being used.
-            /// </summary>
-            /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-            protected override void Dispose(bool disposing)
+
+        #region Dispose(bool disposing)
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
             {
-                if (disposing && (components != null))
-                {
-                    components.Dispose();
-                }
-                base.Dispose(disposing);
+                components.Dispose();
             }
-            #endregion
-            
-            #region InitializeComponent()
-            /// <summary>
-            /// Required method for Designer support - do not modify
-            /// the contents of this method with the code editor.
-            /// </summary>
-            private void InitializeComponent()
-            {
-            this.components = new System.ComponentModel.Container();
+            base.Dispose(disposing);
+        }
+        #endregion
+
+        #region InitializeComponent()
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.LeftMarginPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.SourceTopPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.RightMarginPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.YouTubePanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.ScriptDropExtrasCheckbox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.ExtraLabel = new System.Windows.Forms.Label();
-            this.CopiedImage = new System.Windows.Forms.PictureBox();
-            this.GenerateScriptsButton = new DataJuggler.Win.Controls.Button();
-            this.CountLabel = new System.Windows.Forms.Label();
-            this.CountLeftMargin = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.YouTubeButton = new System.Windows.Forms.Button();
-            this.panel6 = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.Separator6 = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.MainToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.HiddenButton = new System.Windows.Forms.Button();
-            this.BuildSourceConnectionStringButton = new System.Windows.Forms.Button();
-            this.BuildTargetConnectionStringButton = new System.Windows.Forms.Button();
-            this.SwapButton = new System.Windows.Forms.Button();
-            this.CompareDatabasesButton = new System.Windows.Forms.Button();
-            this.CreateXmlFileButton = new System.Windows.Forms.Button();
-            this.CompareDatabaseTopPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.OptionsPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.RemoteComparePanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.CreateXmlFileCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.RemoteCompareCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.IgnoreDataSyncPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.IgnoreFirewallRulesCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.IgnoreDataSyncCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.TopCheckBoxPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.IgnoreIndexesCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.StoreConnectionStringsCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.IgnoreDiagramProceduresCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
-            this.RightFillerPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.Seperator4 = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.CompareRightColumn = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.panel1 = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.SeparatorPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.ButtonTopPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.ButtonBottomPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.VerticalSeparator2 = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.TopSectionPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.TargetConnectionStringControl = new DataJuggler.Win.Controls.LabelTextBoxControl();
-            this.VerticalSeparator1 = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.TargetConnectionPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.SourceConnectionStringControl = new DataJuggler.Win.Controls.LabelTextBoxControl();
-            this.VerticalSeparator3 = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.MainPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.ResultsTextBox = new System.Windows.Forms.TextBox();
-            this.GraphPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.Graph = new System.Windows.Forms.ProgressBar();
-            this.ComparisonReportLabel = new System.Windows.Forms.Label();
-            this.InnerBorder = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.BottomMarginPanel = new DataJuggler.Win.Controls.Objects.PanelExtender();
-            this.CopiedTimer = new System.Windows.Forms.Timer(this.components);
-            this.IgnoreDifferenceStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.IgnoreItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ClearItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.YouTubePanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CopiedImage)).BeginInit();
-            this.CompareDatabaseTopPanel.SuspendLayout();
-            this.OptionsPanel.SuspendLayout();
-            this.RemoteComparePanel.SuspendLayout();
-            this.IgnoreDataSyncPanel.SuspendLayout();
-            this.TopCheckBoxPanel.SuspendLayout();
-            this.CompareRightColumn.SuspendLayout();
-            this.TopSectionPanel.SuspendLayout();
-            this.TargetConnectionPanel.SuspendLayout();
-            this.MainPanel.SuspendLayout();
-            this.GraphPanel.SuspendLayout();
-            this.IgnoreDifferenceStrip.SuspendLayout();
-            this.SuspendLayout();
+            LeftMarginPanel = new PanelExtender();
+            SourceTopPanel = new PanelExtender();
+            RightMarginPanel = new PanelExtender();
+            YouTubePanel = new PanelExtender();
+            ScriptDropExtrasCheckbox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            ExtraLabel = new System.Windows.Forms.Label();
+            CopiedImage = new System.Windows.Forms.PictureBox();
+            GenerateScriptsButton = new DataJuggler.Win.Controls.Button();
+            CountLabel = new System.Windows.Forms.Label();
+            CountLeftMargin = new PanelExtender();
+            YouTubeButton = new System.Windows.Forms.Button();
+            panel6 = new PanelExtender();
+            Separator6 = new PanelExtender();
+            MainToolTip = new System.Windows.Forms.ToolTip(components);
+            HiddenButton = new System.Windows.Forms.Button();
+            BuildSourceConnectionStringButton = new System.Windows.Forms.Button();
+            BuildTargetConnectionStringButton = new System.Windows.Forms.Button();
+            SwapButton = new System.Windows.Forms.Button();
+            CompareDatabasesButton = new System.Windows.Forms.Button();
+            CreateXmlFileButton = new System.Windows.Forms.Button();
+            CompareDatabaseTopPanel = new PanelExtender();
+            OptionsPanel = new PanelExtender();
+            RemoteComparePanel = new PanelExtender();
+            CreateXmlFileCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            RemoteCompareCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            IgnoreDataSyncPanel = new PanelExtender();
+            IgnoreFirewallRulesCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            IgnoreDataSyncCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            TopCheckBoxPanel = new PanelExtender();
+            IgnoreIndexesCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            StoreConnectionStringsCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            IgnoreDiagramProceduresCheckBox = new DataJuggler.Win.Controls.LabelCheckBoxControl();
+            RightFillerPanel = new PanelExtender();
+            Seperator4 = new PanelExtender();
+            CompareRightColumn = new PanelExtender();
+            panel1 = new PanelExtender();
+            SeparatorPanel = new PanelExtender();
+            ButtonTopPanel = new PanelExtender();
+            ButtonBottomPanel = new PanelExtender();
+            VerticalSeparator2 = new PanelExtender();
+            TopSectionPanel = new PanelExtender();
+            TargetConnectionStringControl = new DataJuggler.Win.Controls.LabelTextBoxControl();
+            VerticalSeparator1 = new PanelExtender();
+            TargetConnectionPanel = new PanelExtender();
+            SourceConnectionStringControl = new DataJuggler.Win.Controls.LabelTextBoxControl();
+            VerticalSeparator3 = new PanelExtender();
+            MainPanel = new PanelExtender();
+            ResultsTextBox = new System.Windows.Forms.TextBox();
+            GraphPanel = new PanelExtender();
+            Graph = new System.Windows.Forms.ProgressBar();
+            ComparisonReportLabel = new System.Windows.Forms.Label();
+            InnerBorder = new PanelExtender();
+            BottomMarginPanel = new PanelExtender();
+            CopiedTimer = new System.Windows.Forms.Timer(components);
+            IgnoreDifferenceStrip = new System.Windows.Forms.ContextMenuStrip(components);
+            IgnoreItem = new System.Windows.Forms.ToolStripMenuItem();
+            ClearItem = new System.Windows.Forms.ToolStripMenuItem();
+            YouTubePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)CopiedImage).BeginInit();
+            CompareDatabaseTopPanel.SuspendLayout();
+            OptionsPanel.SuspendLayout();
+            RemoteComparePanel.SuspendLayout();
+            IgnoreDataSyncPanel.SuspendLayout();
+            TopCheckBoxPanel.SuspendLayout();
+            CompareRightColumn.SuspendLayout();
+            TopSectionPanel.SuspendLayout();
+            TargetConnectionPanel.SuspendLayout();
+            MainPanel.SuspendLayout();
+            GraphPanel.SuspendLayout();
+            IgnoreDifferenceStrip.SuspendLayout();
+            SuspendLayout();
             // 
             // LeftMarginPanel
             // 
-            this.LeftMarginPanel.BackColor = System.Drawing.Color.Transparent;
-            this.LeftMarginPanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.LeftMarginPanel.Location = new System.Drawing.Point(0, 0);
-            this.LeftMarginPanel.Name = "LeftMarginPanel";
-            this.LeftMarginPanel.Size = new System.Drawing.Size(12, 701);
-            this.LeftMarginPanel.TabIndex = 24;
+            LeftMarginPanel.BackColor = System.Drawing.Color.Transparent;
+            LeftMarginPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            LeftMarginPanel.Location = new System.Drawing.Point(0, 0);
+            LeftMarginPanel.Name = "LeftMarginPanel";
+            LeftMarginPanel.Size = new System.Drawing.Size(12, 701);
+            LeftMarginPanel.TabIndex = 24;
             // 
             // SourceTopPanel
             // 
-            this.SourceTopPanel.BackColor = System.Drawing.Color.Transparent;
-            this.SourceTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.SourceTopPanel.Location = new System.Drawing.Point(12, 0);
-            this.SourceTopPanel.Name = "SourceTopPanel";
-            this.SourceTopPanel.Size = new System.Drawing.Size(1212, 16);
-            this.SourceTopPanel.TabIndex = 48;
+            SourceTopPanel.BackColor = System.Drawing.Color.Transparent;
+            SourceTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            SourceTopPanel.Location = new System.Drawing.Point(12, 0);
+            SourceTopPanel.Name = "SourceTopPanel";
+            SourceTopPanel.Size = new System.Drawing.Size(1212, 16);
+            SourceTopPanel.TabIndex = 48;
             // 
             // RightMarginPanel
             // 
-            this.RightMarginPanel.BackColor = System.Drawing.Color.Transparent;
-            this.RightMarginPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.RightMarginPanel.Location = new System.Drawing.Point(1212, 16);
-            this.RightMarginPanel.Name = "RightMarginPanel";
-            this.RightMarginPanel.Size = new System.Drawing.Size(12, 673);
-            this.RightMarginPanel.TabIndex = 55;
+            RightMarginPanel.BackColor = System.Drawing.Color.Transparent;
+            RightMarginPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            RightMarginPanel.Location = new System.Drawing.Point(1212, 16);
+            RightMarginPanel.Name = "RightMarginPanel";
+            RightMarginPanel.Size = new System.Drawing.Size(12, 673);
+            RightMarginPanel.TabIndex = 55;
             // 
             // YouTubePanel
             // 
-            this.YouTubePanel.BackColor = System.Drawing.Color.Transparent;
-            this.YouTubePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.YouTubePanel.Controls.Add(this.ScriptDropExtrasCheckbox);
-            this.YouTubePanel.Controls.Add(this.ExtraLabel);
-            this.YouTubePanel.Controls.Add(this.CopiedImage);
-            this.YouTubePanel.Controls.Add(this.GenerateScriptsButton);
-            this.YouTubePanel.Controls.Add(this.CountLabel);
-            this.YouTubePanel.Controls.Add(this.CountLeftMargin);
-            this.YouTubePanel.Controls.Add(this.YouTubeButton);
-            this.YouTubePanel.Controls.Add(this.panel6);
-            this.YouTubePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.YouTubePanel.Location = new System.Drawing.Point(12, 601);
-            this.YouTubePanel.Name = "YouTubePanel";
-            this.YouTubePanel.Size = new System.Drawing.Size(1200, 88);
-            this.YouTubePanel.TabIndex = 85;
+            YouTubePanel.BackColor = System.Drawing.Color.Transparent;
+            YouTubePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            YouTubePanel.Controls.Add(ScriptDropExtrasCheckbox);
+            YouTubePanel.Controls.Add(ExtraLabel);
+            YouTubePanel.Controls.Add(CopiedImage);
+            YouTubePanel.Controls.Add(GenerateScriptsButton);
+            YouTubePanel.Controls.Add(CountLabel);
+            YouTubePanel.Controls.Add(CountLeftMargin);
+            YouTubePanel.Controls.Add(YouTubeButton);
+            YouTubePanel.Controls.Add(panel6);
+            YouTubePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            YouTubePanel.Location = new System.Drawing.Point(12, 601);
+            YouTubePanel.Name = "YouTubePanel";
+            YouTubePanel.Size = new System.Drawing.Size(1200, 88);
+            YouTubePanel.TabIndex = 85;
             // 
             // ScriptDropExtrasCheckbox
             // 
-            this.ScriptDropExtrasCheckbox.BackColor = System.Drawing.Color.Transparent;
-            this.ScriptDropExtrasCheckbox.CheckBoxHorizontalOffSet = 0;
-            this.ScriptDropExtrasCheckbox.CheckBoxVerticalOffSet = 2;
-            this.ScriptDropExtrasCheckbox.CheckChangedListener = null;
-            this.ScriptDropExtrasCheckbox.Checked = false;
-            this.ScriptDropExtrasCheckbox.Editable = true;
-            this.ScriptDropExtrasCheckbox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ScriptDropExtrasCheckbox.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.ScriptDropExtrasCheckbox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.ScriptDropExtrasCheckbox.LabelText = "Script Drop Extras:";
-            this.ScriptDropExtrasCheckbox.LabelWidth = 220;
-            this.ScriptDropExtrasCheckbox.Location = new System.Drawing.Point(97, 58);
-            this.ScriptDropExtrasCheckbox.MaximumSize = new System.Drawing.Size(232, 30);
-            this.ScriptDropExtrasCheckbox.MinimumSize = new System.Drawing.Size(232, 30);
-            this.ScriptDropExtrasCheckbox.Name = "ScriptDropExtrasCheckbox";
-            this.ScriptDropExtrasCheckbox.Size = new System.Drawing.Size(232, 30);
-            this.ScriptDropExtrasCheckbox.TabIndex = 104;
-            this.ScriptDropExtrasCheckbox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
-            this.ScriptDropExtrasCheckbox.Visible = false;
+            ScriptDropExtrasCheckbox.BackColor = System.Drawing.Color.Transparent;
+            ScriptDropExtrasCheckbox.CheckBoxHorizontalOffSet = 0;
+            ScriptDropExtrasCheckbox.CheckBoxVerticalOffSet = 2;
+            ScriptDropExtrasCheckbox.CheckChangedListener = null;
+            ScriptDropExtrasCheckbox.Checked = false;
+            ScriptDropExtrasCheckbox.Editable = true;
+            ScriptDropExtrasCheckbox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            ScriptDropExtrasCheckbox.LabelColor = System.Drawing.Color.LemonChiffon;
+            ScriptDropExtrasCheckbox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            ScriptDropExtrasCheckbox.LabelText = "Script Drop Extras:";
+            ScriptDropExtrasCheckbox.LabelWidth = 220;
+            ScriptDropExtrasCheckbox.Location = new System.Drawing.Point(97, 58);
+            ScriptDropExtrasCheckbox.MaximumSize = new System.Drawing.Size(232, 30);
+            ScriptDropExtrasCheckbox.MinimumSize = new System.Drawing.Size(232, 30);
+            ScriptDropExtrasCheckbox.Name = "ScriptDropExtrasCheckbox";
+            ScriptDropExtrasCheckbox.Size = new System.Drawing.Size(232, 30);
+            ScriptDropExtrasCheckbox.TabIndex = 104;
+            ScriptDropExtrasCheckbox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            ScriptDropExtrasCheckbox.Visible = false;
             // 
             // ExtraLabel
             // 
-            this.ExtraLabel.AutoSize = true;
-            this.ExtraLabel.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.ExtraLabel.Location = new System.Drawing.Point(334, 63);
-            this.ExtraLabel.Name = "ExtraLabel";
-            this.ExtraLabel.Size = new System.Drawing.Size(607, 36);
-            this.ExtraLabel.TabIndex = 105;
-            this.ExtraLabel.Text = "If checked, extra objects found in the target db will be scripted for drop.\r\n\r\n";
-            this.ExtraLabel.Visible = false;
+            ExtraLabel.AutoSize = true;
+            ExtraLabel.ForeColor = System.Drawing.Color.LemonChiffon;
+            ExtraLabel.Location = new System.Drawing.Point(334, 63);
+            ExtraLabel.Name = "ExtraLabel";
+            ExtraLabel.Size = new System.Drawing.Size(607, 36);
+            ExtraLabel.TabIndex = 105;
+            ExtraLabel.Text = "If checked, extra objects found in the target db will be scripted for drop.\r\n\r\n";
+            ExtraLabel.Visible = false;
             // 
             // CopiedImage
             // 
-            this.CopiedImage.BackgroundImage = global::DBCompare.Properties.Resources.Copied;
-            this.CopiedImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.CopiedImage.Location = new System.Drawing.Point(360, 1);
-            this.CopiedImage.Name = "CopiedImage";
-            this.CopiedImage.Size = new System.Drawing.Size(124, 50);
-            this.CopiedImage.TabIndex = 103;
-            this.CopiedImage.TabStop = false;
-            this.CopiedImage.Visible = false;
+            CopiedImage.BackgroundImage = Properties.Resources.Copied;
+            CopiedImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            CopiedImage.Location = new System.Drawing.Point(360, 1);
+            CopiedImage.Name = "CopiedImage";
+            CopiedImage.Size = new System.Drawing.Size(124, 50);
+            CopiedImage.TabIndex = 103;
+            CopiedImage.TabStop = false;
+            CopiedImage.Visible = false;
             // 
             // GenerateScriptsButton
             // 
-            this.GenerateScriptsButton.BackColor = System.Drawing.Color.Transparent;
-            this.GenerateScriptsButton.ButtonText = "Generate Scripts";
-            this.GenerateScriptsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.GenerateScriptsButton.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.GenerateScriptsButton.Location = new System.Drawing.Point(161, 4);
-            this.GenerateScriptsButton.Margin = new System.Windows.Forms.Padding(4);
-            this.GenerateScriptsButton.Name = "GenerateScriptsButton";
-            this.GenerateScriptsButton.Size = new System.Drawing.Size(168, 44);
-            this.GenerateScriptsButton.TabIndex = 102;
-            this.GenerateScriptsButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
-            this.GenerateScriptsButton.Visible = false;
-            this.GenerateScriptsButton.Click += new System.EventHandler(this.GenerateScriptsButton_Click);
+            GenerateScriptsButton.BackColor = System.Drawing.Color.Transparent;
+            GenerateScriptsButton.ButtonText = "Generate Scripts";
+            GenerateScriptsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            GenerateScriptsButton.ForeColor = System.Drawing.Color.LemonChiffon;
+            GenerateScriptsButton.Location = new System.Drawing.Point(161, 4);
+            GenerateScriptsButton.Margin = new System.Windows.Forms.Padding(4);
+            GenerateScriptsButton.Name = "GenerateScriptsButton";
+            GenerateScriptsButton.Size = new System.Drawing.Size(168, 44);
+            GenerateScriptsButton.TabIndex = 102;
+            GenerateScriptsButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            GenerateScriptsButton.Visible = false;
+            GenerateScriptsButton.Click += GenerateScriptsButton_Click;
             // 
             // CountLabel
             // 
-            this.CountLabel.BackColor = System.Drawing.Color.Transparent;
-            this.CountLabel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.CountLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.CountLabel.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.CountLabel.Location = new System.Drawing.Point(16, 4);
-            this.CountLabel.Name = "CountLabel";
-            this.CountLabel.Size = new System.Drawing.Size(126, 84);
-            this.CountLabel.TabIndex = 88;
-            this.CountLabel.Text = "Count: 0";
-            this.CountLabel.Visible = false;
+            CountLabel.BackColor = System.Drawing.Color.Transparent;
+            CountLabel.Dock = System.Windows.Forms.DockStyle.Left;
+            CountLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            CountLabel.ForeColor = System.Drawing.Color.LemonChiffon;
+            CountLabel.Location = new System.Drawing.Point(16, 4);
+            CountLabel.Name = "CountLabel";
+            CountLabel.Size = new System.Drawing.Size(126, 84);
+            CountLabel.TabIndex = 88;
+            CountLabel.Text = "Count: 0";
+            CountLabel.Visible = false;
             // 
             // CountLeftMargin
             // 
-            this.CountLeftMargin.Dock = System.Windows.Forms.DockStyle.Left;
-            this.CountLeftMargin.Location = new System.Drawing.Point(0, 4);
-            this.CountLeftMargin.Name = "CountLeftMargin";
-            this.CountLeftMargin.Size = new System.Drawing.Size(16, 84);
-            this.CountLeftMargin.TabIndex = 87;
+            CountLeftMargin.Dock = System.Windows.Forms.DockStyle.Left;
+            CountLeftMargin.Location = new System.Drawing.Point(0, 4);
+            CountLeftMargin.Name = "CountLeftMargin";
+            CountLeftMargin.Size = new System.Drawing.Size(16, 84);
+            CountLeftMargin.TabIndex = 87;
             // 
             // YouTubeButton
             // 
-            this.YouTubeButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("YouTubeButton.BackgroundImage")));
-            this.YouTubeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.YouTubeButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.YouTubeButton.FlatAppearance.BorderSize = 0;
-            this.YouTubeButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.YouTubeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.YouTubeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.YouTubeButton.Location = new System.Drawing.Point(1072, 4);
-            this.YouTubeButton.MaximumSize = new System.Drawing.Size(128, 64);
-            this.YouTubeButton.Name = "YouTubeButton";
-            this.YouTubeButton.Size = new System.Drawing.Size(128, 64);
-            this.YouTubeButton.TabIndex = 84;
-            this.YouTubeButton.UseVisualStyleBackColor = true;
-            this.YouTubeButton.Click += new System.EventHandler(this.YouTubeButton_Click);
-            this.YouTubeButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
-            this.YouTubeButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+            YouTubeButton.BackgroundImage = (System.Drawing.Image)resources.GetObject("YouTubeButton.BackgroundImage");
+            YouTubeButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            YouTubeButton.Dock = System.Windows.Forms.DockStyle.Right;
+            YouTubeButton.FlatAppearance.BorderSize = 0;
+            YouTubeButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            YouTubeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            YouTubeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            YouTubeButton.Location = new System.Drawing.Point(1072, 4);
+            YouTubeButton.MaximumSize = new System.Drawing.Size(128, 64);
+            YouTubeButton.Name = "YouTubeButton";
+            YouTubeButton.Size = new System.Drawing.Size(128, 64);
+            YouTubeButton.TabIndex = 84;
+            YouTubeButton.UseVisualStyleBackColor = true;
+            YouTubeButton.Click += YouTubeButton_Click;
+            YouTubeButton.MouseEnter += Button_MouseEnter;
+            YouTubeButton.MouseLeave += Button_MouseLeave;
             // 
             // panel6
             // 
-            this.panel6.BackColor = System.Drawing.Color.Transparent;
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel6.Location = new System.Drawing.Point(0, 0);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1200, 4);
-            this.panel6.TabIndex = 78;
+            panel6.BackColor = System.Drawing.Color.Transparent;
+            panel6.Dock = System.Windows.Forms.DockStyle.Top;
+            panel6.Location = new System.Drawing.Point(0, 0);
+            panel6.Name = "panel6";
+            panel6.Size = new System.Drawing.Size(1200, 4);
+            panel6.TabIndex = 78;
             // 
             // Separator6
             // 
-            this.Separator6.BackColor = System.Drawing.Color.Transparent;
-            this.Separator6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.Separator6.Location = new System.Drawing.Point(12, 589);
-            this.Separator6.Name = "Separator6";
-            this.Separator6.Size = new System.Drawing.Size(1200, 12);
-            this.Separator6.TabIndex = 87;
+            Separator6.BackColor = System.Drawing.Color.Transparent;
+            Separator6.Dock = System.Windows.Forms.DockStyle.Bottom;
+            Separator6.Location = new System.Drawing.Point(12, 589);
+            Separator6.Name = "Separator6";
+            Separator6.Size = new System.Drawing.Size(1200, 12);
+            Separator6.TabIndex = 87;
             // 
             // HiddenButton
             // 
-            this.HiddenButton.BackColor = System.Drawing.Color.Transparent;
-            this.HiddenButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.HiddenButton.FlatAppearance.BorderSize = 0;
-            this.HiddenButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.HiddenButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.HiddenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.HiddenButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.HiddenButton.ForeColor = System.Drawing.Color.White;
-            this.HiddenButton.Location = new System.Drawing.Point(-300, 300);
-            this.HiddenButton.MaximumSize = new System.Drawing.Size(220, 36);
-            this.HiddenButton.MinimumSize = new System.Drawing.Size(220, 36);
-            this.HiddenButton.Name = "HiddenButton";
-            this.HiddenButton.Size = new System.Drawing.Size(220, 36);
-            this.HiddenButton.TabIndex = 96;
-            this.HiddenButton.Text = "Create Xml File";
-            this.MainToolTip.SetToolTip(this.HiddenButton, "Perform the database comparison");
-            this.HiddenButton.UseVisualStyleBackColor = false;
-            this.HiddenButton.Visible = false;
+            HiddenButton.BackColor = System.Drawing.Color.Transparent;
+            HiddenButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            HiddenButton.FlatAppearance.BorderSize = 0;
+            HiddenButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            HiddenButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            HiddenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            HiddenButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            HiddenButton.ForeColor = System.Drawing.Color.White;
+            HiddenButton.Location = new System.Drawing.Point(-300, 300);
+            HiddenButton.MaximumSize = new System.Drawing.Size(220, 36);
+            HiddenButton.MinimumSize = new System.Drawing.Size(220, 36);
+            HiddenButton.Name = "HiddenButton";
+            HiddenButton.Size = new System.Drawing.Size(220, 36);
+            HiddenButton.TabIndex = 96;
+            HiddenButton.Text = "Create Xml File";
+            MainToolTip.SetToolTip(HiddenButton, "Perform the database comparison");
+            HiddenButton.UseVisualStyleBackColor = false;
+            HiddenButton.Visible = false;
             // 
             // BuildSourceConnectionStringButton
             // 
-            this.BuildSourceConnectionStringButton.BackColor = System.Drawing.Color.Transparent;
-            this.BuildSourceConnectionStringButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BuildSourceConnectionStringButton.BackgroundImage")));
-            this.BuildSourceConnectionStringButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BuildSourceConnectionStringButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.BuildSourceConnectionStringButton.FlatAppearance.BorderSize = 0;
-            this.BuildSourceConnectionStringButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BuildSourceConnectionStringButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BuildSourceConnectionStringButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BuildSourceConnectionStringButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.BuildSourceConnectionStringButton.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.BuildSourceConnectionStringButton.Location = new System.Drawing.Point(1160, 0);
-            this.BuildSourceConnectionStringButton.Margin = new System.Windows.Forms.Padding(0);
-            this.BuildSourceConnectionStringButton.MaximumSize = new System.Drawing.Size(40, 0);
-            this.BuildSourceConnectionStringButton.Name = "BuildSourceConnectionStringButton";
-            this.BuildSourceConnectionStringButton.Size = new System.Drawing.Size(40, 32);
-            this.BuildSourceConnectionStringButton.TabIndex = 57;
-            this.BuildSourceConnectionStringButton.Text = "...";
-            this.MainToolTip.SetToolTip(this.BuildSourceConnectionStringButton, "Set the source connection string");
-            this.BuildSourceConnectionStringButton.UseVisualStyleBackColor = false;
-            this.BuildSourceConnectionStringButton.Click += new System.EventHandler(this.BuildSourceConnectionStringButton_Click);
-            this.BuildSourceConnectionStringButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
-            this.BuildSourceConnectionStringButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+            BuildSourceConnectionStringButton.BackColor = System.Drawing.Color.Transparent;
+            BuildSourceConnectionStringButton.BackgroundImage = (System.Drawing.Image)resources.GetObject("BuildSourceConnectionStringButton.BackgroundImage");
+            BuildSourceConnectionStringButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            BuildSourceConnectionStringButton.Dock = System.Windows.Forms.DockStyle.Right;
+            BuildSourceConnectionStringButton.FlatAppearance.BorderSize = 0;
+            BuildSourceConnectionStringButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            BuildSourceConnectionStringButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            BuildSourceConnectionStringButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            BuildSourceConnectionStringButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BuildSourceConnectionStringButton.ForeColor = System.Drawing.Color.LemonChiffon;
+            BuildSourceConnectionStringButton.Location = new System.Drawing.Point(1160, 0);
+            BuildSourceConnectionStringButton.Margin = new System.Windows.Forms.Padding(0);
+            BuildSourceConnectionStringButton.MaximumSize = new System.Drawing.Size(40, 0);
+            BuildSourceConnectionStringButton.Name = "BuildSourceConnectionStringButton";
+            BuildSourceConnectionStringButton.Size = new System.Drawing.Size(40, 32);
+            BuildSourceConnectionStringButton.TabIndex = 57;
+            BuildSourceConnectionStringButton.Text = "...";
+            MainToolTip.SetToolTip(BuildSourceConnectionStringButton, "Set the source connection string");
+            BuildSourceConnectionStringButton.UseVisualStyleBackColor = false;
+            BuildSourceConnectionStringButton.Click += BuildSourceConnectionStringButton_Click;
+            BuildSourceConnectionStringButton.MouseEnter += Button_MouseEnter;
+            BuildSourceConnectionStringButton.MouseLeave += Button_MouseLeave;
             // 
             // BuildTargetConnectionStringButton
             // 
-            this.BuildTargetConnectionStringButton.BackColor = System.Drawing.Color.Transparent;
-            this.BuildTargetConnectionStringButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BuildTargetConnectionStringButton.BackgroundImage")));
-            this.BuildTargetConnectionStringButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.BuildTargetConnectionStringButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.BuildTargetConnectionStringButton.FlatAppearance.BorderSize = 0;
-            this.BuildTargetConnectionStringButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.BuildTargetConnectionStringButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.BuildTargetConnectionStringButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BuildTargetConnectionStringButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.BuildTargetConnectionStringButton.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.BuildTargetConnectionStringButton.Location = new System.Drawing.Point(1160, 0);
-            this.BuildTargetConnectionStringButton.Margin = new System.Windows.Forms.Padding(0);
-            this.BuildTargetConnectionStringButton.MaximumSize = new System.Drawing.Size(40, 0);
-            this.BuildTargetConnectionStringButton.Name = "BuildTargetConnectionStringButton";
-            this.BuildTargetConnectionStringButton.Size = new System.Drawing.Size(40, 32);
-            this.BuildTargetConnectionStringButton.TabIndex = 59;
-            this.BuildTargetConnectionStringButton.Text = "...";
-            this.MainToolTip.SetToolTip(this.BuildTargetConnectionStringButton, "Set the target connection string");
-            this.BuildTargetConnectionStringButton.UseVisualStyleBackColor = false;
-            this.BuildTargetConnectionStringButton.Click += new System.EventHandler(this.BuildTargetConnectionStringButton_Click);
-            this.BuildTargetConnectionStringButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
-            this.BuildTargetConnectionStringButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+            BuildTargetConnectionStringButton.BackColor = System.Drawing.Color.Transparent;
+            BuildTargetConnectionStringButton.BackgroundImage = (System.Drawing.Image)resources.GetObject("BuildTargetConnectionStringButton.BackgroundImage");
+            BuildTargetConnectionStringButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            BuildTargetConnectionStringButton.Dock = System.Windows.Forms.DockStyle.Right;
+            BuildTargetConnectionStringButton.FlatAppearance.BorderSize = 0;
+            BuildTargetConnectionStringButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            BuildTargetConnectionStringButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            BuildTargetConnectionStringButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            BuildTargetConnectionStringButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BuildTargetConnectionStringButton.ForeColor = System.Drawing.Color.LemonChiffon;
+            BuildTargetConnectionStringButton.Location = new System.Drawing.Point(1160, 0);
+            BuildTargetConnectionStringButton.Margin = new System.Windows.Forms.Padding(0);
+            BuildTargetConnectionStringButton.MaximumSize = new System.Drawing.Size(40, 0);
+            BuildTargetConnectionStringButton.Name = "BuildTargetConnectionStringButton";
+            BuildTargetConnectionStringButton.Size = new System.Drawing.Size(40, 32);
+            BuildTargetConnectionStringButton.TabIndex = 59;
+            BuildTargetConnectionStringButton.Text = "...";
+            MainToolTip.SetToolTip(BuildTargetConnectionStringButton, "Set the target connection string");
+            BuildTargetConnectionStringButton.UseVisualStyleBackColor = false;
+            BuildTargetConnectionStringButton.Click += BuildTargetConnectionStringButton_Click;
+            BuildTargetConnectionStringButton.MouseEnter += Button_MouseEnter;
+            BuildTargetConnectionStringButton.MouseLeave += Button_MouseLeave;
             // 
             // SwapButton
             // 
-            this.SwapButton.BackColor = System.Drawing.Color.Transparent;
-            this.SwapButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("SwapButton.BackgroundImage")));
-            this.SwapButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.SwapButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.SwapButton.FlatAppearance.BorderSize = 0;
-            this.SwapButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.SwapButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.SwapButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SwapButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.SwapButton.Location = new System.Drawing.Point(904, 4);
-            this.SwapButton.Margin = new System.Windows.Forms.Padding(0);
-            this.SwapButton.MaximumSize = new System.Drawing.Size(64, 64);
-            this.SwapButton.MinimumSize = new System.Drawing.Size(64, 64);
-            this.SwapButton.Name = "SwapButton";
-            this.SwapButton.Size = new System.Drawing.Size(64, 64);
-            this.SwapButton.TabIndex = 81;
-            this.MainToolTip.SetToolTip(this.SwapButton, "Swap the source and target connection strings");
-            this.SwapButton.UseVisualStyleBackColor = false;
-            this.SwapButton.Click += new System.EventHandler(this.SwapButton_Click);
-            this.SwapButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
-            this.SwapButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+            SwapButton.BackColor = System.Drawing.Color.Transparent;
+            SwapButton.BackgroundImage = (System.Drawing.Image)resources.GetObject("SwapButton.BackgroundImage");
+            SwapButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            SwapButton.Dock = System.Windows.Forms.DockStyle.Right;
+            SwapButton.FlatAppearance.BorderSize = 0;
+            SwapButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            SwapButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            SwapButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            SwapButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            SwapButton.Location = new System.Drawing.Point(904, 4);
+            SwapButton.Margin = new System.Windows.Forms.Padding(0);
+            SwapButton.MaximumSize = new System.Drawing.Size(64, 64);
+            SwapButton.MinimumSize = new System.Drawing.Size(64, 64);
+            SwapButton.Name = "SwapButton";
+            SwapButton.Size = new System.Drawing.Size(64, 64);
+            SwapButton.TabIndex = 81;
+            MainToolTip.SetToolTip(SwapButton, "Swap the source and target connection strings");
+            SwapButton.UseVisualStyleBackColor = false;
+            SwapButton.Click += SwapButton_Click;
+            SwapButton.MouseEnter += Button_MouseEnter;
+            SwapButton.MouseLeave += Button_MouseLeave;
             // 
             // CompareDatabasesButton
             // 
-            this.CompareDatabasesButton.BackColor = System.Drawing.Color.Transparent;
-            this.CompareDatabasesButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("CompareDatabasesButton.BackgroundImage")));
-            this.CompareDatabasesButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.CompareDatabasesButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.CompareDatabasesButton.FlatAppearance.BorderSize = 0;
-            this.CompareDatabasesButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.CompareDatabasesButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.CompareDatabasesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CompareDatabasesButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.CompareDatabasesButton.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.CompareDatabasesButton.Location = new System.Drawing.Point(0, 9);
-            this.CompareDatabasesButton.MaximumSize = new System.Drawing.Size(220, 34);
-            this.CompareDatabasesButton.MinimumSize = new System.Drawing.Size(220, 34);
-            this.CompareDatabasesButton.Name = "CompareDatabasesButton";
-            this.CompareDatabasesButton.Size = new System.Drawing.Size(220, 34);
-            this.CompareDatabasesButton.TabIndex = 96;
-            this.CompareDatabasesButton.Text = "Compare Databases";
-            this.MainToolTip.SetToolTip(this.CompareDatabasesButton, "Perform the database comparison");
-            this.CompareDatabasesButton.UseVisualStyleBackColor = false;
-            this.CompareDatabasesButton.Click += new System.EventHandler(this.CompareDatabasesButton_Click);
-            this.CompareDatabasesButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
-            this.CompareDatabasesButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+            CompareDatabasesButton.BackColor = System.Drawing.Color.Transparent;
+            CompareDatabasesButton.BackgroundImage = (System.Drawing.Image)resources.GetObject("CompareDatabasesButton.BackgroundImage");
+            CompareDatabasesButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            CompareDatabasesButton.Dock = System.Windows.Forms.DockStyle.Top;
+            CompareDatabasesButton.FlatAppearance.BorderSize = 0;
+            CompareDatabasesButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            CompareDatabasesButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            CompareDatabasesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CompareDatabasesButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            CompareDatabasesButton.ForeColor = System.Drawing.Color.LemonChiffon;
+            CompareDatabasesButton.Location = new System.Drawing.Point(0, 9);
+            CompareDatabasesButton.MaximumSize = new System.Drawing.Size(220, 34);
+            CompareDatabasesButton.MinimumSize = new System.Drawing.Size(220, 34);
+            CompareDatabasesButton.Name = "CompareDatabasesButton";
+            CompareDatabasesButton.Size = new System.Drawing.Size(220, 34);
+            CompareDatabasesButton.TabIndex = 96;
+            CompareDatabasesButton.Text = "Compare Databases";
+            MainToolTip.SetToolTip(CompareDatabasesButton, "Perform the database comparison");
+            CompareDatabasesButton.UseVisualStyleBackColor = false;
+            CompareDatabasesButton.Click += CompareDatabasesButton_Click;
+            CompareDatabasesButton.MouseEnter += Button_MouseEnter;
+            CompareDatabasesButton.MouseLeave += Button_MouseLeave;
             // 
             // CreateXmlFileButton
             // 
-            this.CreateXmlFileButton.BackColor = System.Drawing.Color.Transparent;
-            this.CreateXmlFileButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("CreateXmlFileButton.BackgroundImage")));
-            this.CreateXmlFileButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.CreateXmlFileButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.CreateXmlFileButton.FlatAppearance.BorderSize = 0;
-            this.CreateXmlFileButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.CreateXmlFileButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.CreateXmlFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CreateXmlFileButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.CreateXmlFileButton.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.CreateXmlFileButton.Location = new System.Drawing.Point(0, 55);
-            this.CreateXmlFileButton.MaximumSize = new System.Drawing.Size(220, 34);
-            this.CreateXmlFileButton.MinimumSize = new System.Drawing.Size(220, 34);
-            this.CreateXmlFileButton.Name = "CreateXmlFileButton";
-            this.CreateXmlFileButton.Size = new System.Drawing.Size(220, 34);
-            this.CreateXmlFileButton.TabIndex = 99;
-            this.CreateXmlFileButton.Text = "Create Xml File";
-            this.MainToolTip.SetToolTip(this.CreateXmlFileButton, "Perform the database comparison");
-            this.CreateXmlFileButton.UseVisualStyleBackColor = false;
-            this.CreateXmlFileButton.Visible = false;
-            this.CreateXmlFileButton.Click += new System.EventHandler(this.CreateXmlFileButton_Click);
-            this.CreateXmlFileButton.MouseEnter += new System.EventHandler(this.Button_MouseEnter);
-            this.CreateXmlFileButton.MouseLeave += new System.EventHandler(this.Button_MouseLeave);
+            CreateXmlFileButton.BackColor = System.Drawing.Color.Transparent;
+            CreateXmlFileButton.BackgroundImage = (System.Drawing.Image)resources.GetObject("CreateXmlFileButton.BackgroundImage");
+            CreateXmlFileButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            CreateXmlFileButton.Dock = System.Windows.Forms.DockStyle.Top;
+            CreateXmlFileButton.FlatAppearance.BorderSize = 0;
+            CreateXmlFileButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            CreateXmlFileButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            CreateXmlFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CreateXmlFileButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            CreateXmlFileButton.ForeColor = System.Drawing.Color.LemonChiffon;
+            CreateXmlFileButton.Location = new System.Drawing.Point(0, 55);
+            CreateXmlFileButton.MaximumSize = new System.Drawing.Size(220, 34);
+            CreateXmlFileButton.MinimumSize = new System.Drawing.Size(220, 34);
+            CreateXmlFileButton.Name = "CreateXmlFileButton";
+            CreateXmlFileButton.Size = new System.Drawing.Size(220, 34);
+            CreateXmlFileButton.TabIndex = 99;
+            CreateXmlFileButton.Text = "Create Xml File";
+            MainToolTip.SetToolTip(CreateXmlFileButton, "Perform the database comparison");
+            CreateXmlFileButton.UseVisualStyleBackColor = false;
+            CreateXmlFileButton.Visible = false;
+            CreateXmlFileButton.Click += CreateXmlFileButton_Click;
+            CreateXmlFileButton.MouseEnter += Button_MouseEnter;
+            CreateXmlFileButton.MouseLeave += Button_MouseLeave;
             // 
             // CompareDatabaseTopPanel
             // 
-            this.CompareDatabaseTopPanel.BackColor = System.Drawing.Color.Transparent;
-            this.CompareDatabaseTopPanel.Controls.Add(this.OptionsPanel);
-            this.CompareDatabaseTopPanel.Controls.Add(this.VerticalSeparator2);
-            this.CompareDatabaseTopPanel.Controls.Add(this.TopSectionPanel);
-            this.CompareDatabaseTopPanel.Controls.Add(this.VerticalSeparator1);
-            this.CompareDatabaseTopPanel.Controls.Add(this.TargetConnectionPanel);
-            this.CompareDatabaseTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.CompareDatabaseTopPanel.Location = new System.Drawing.Point(0, 0);
-            this.CompareDatabaseTopPanel.Name = "CompareDatabaseTopPanel";
-            this.CompareDatabaseTopPanel.Size = new System.Drawing.Size(1200, 184);
-            this.CompareDatabaseTopPanel.TabIndex = 99;
+            CompareDatabaseTopPanel.BackColor = System.Drawing.Color.Transparent;
+            CompareDatabaseTopPanel.Controls.Add(OptionsPanel);
+            CompareDatabaseTopPanel.Controls.Add(VerticalSeparator2);
+            CompareDatabaseTopPanel.Controls.Add(TopSectionPanel);
+            CompareDatabaseTopPanel.Controls.Add(VerticalSeparator1);
+            CompareDatabaseTopPanel.Controls.Add(TargetConnectionPanel);
+            CompareDatabaseTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            CompareDatabaseTopPanel.Location = new System.Drawing.Point(0, 0);
+            CompareDatabaseTopPanel.Name = "CompareDatabaseTopPanel";
+            CompareDatabaseTopPanel.Size = new System.Drawing.Size(1200, 184);
+            CompareDatabaseTopPanel.TabIndex = 99;
             // 
             // OptionsPanel
             // 
-            this.OptionsPanel.BackColor = System.Drawing.Color.Transparent;
-            this.OptionsPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.OptionsPanel.Controls.Add(this.RemoteComparePanel);
-            this.OptionsPanel.Controls.Add(this.IgnoreDataSyncPanel);
-            this.OptionsPanel.Controls.Add(this.TopCheckBoxPanel);
-            this.OptionsPanel.Controls.Add(this.SwapButton);
-            this.OptionsPanel.Controls.Add(this.RightFillerPanel);
-            this.OptionsPanel.Controls.Add(this.Seperator4);
-            this.OptionsPanel.Controls.Add(this.CompareRightColumn);
-            this.OptionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.OptionsPanel.Location = new System.Drawing.Point(0, 88);
-            this.OptionsPanel.Name = "OptionsPanel";
-            this.OptionsPanel.Size = new System.Drawing.Size(1200, 96);
-            this.OptionsPanel.TabIndex = 69;
+            OptionsPanel.BackColor = System.Drawing.Color.Transparent;
+            OptionsPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            OptionsPanel.Controls.Add(RemoteComparePanel);
+            OptionsPanel.Controls.Add(IgnoreDataSyncPanel);
+            OptionsPanel.Controls.Add(TopCheckBoxPanel);
+            OptionsPanel.Controls.Add(SwapButton);
+            OptionsPanel.Controls.Add(RightFillerPanel);
+            OptionsPanel.Controls.Add(Seperator4);
+            OptionsPanel.Controls.Add(CompareRightColumn);
+            OptionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            OptionsPanel.Location = new System.Drawing.Point(0, 88);
+            OptionsPanel.Name = "OptionsPanel";
+            OptionsPanel.Size = new System.Drawing.Size(1200, 96);
+            OptionsPanel.TabIndex = 69;
             // 
             // RemoteComparePanel
             // 
-            this.RemoteComparePanel.Controls.Add(this.CreateXmlFileCheckBox);
-            this.RemoteComparePanel.Controls.Add(this.RemoteCompareCheckBox);
-            this.RemoteComparePanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.RemoteComparePanel.Location = new System.Drawing.Point(0, 66);
-            this.RemoteComparePanel.MaximumSize = new System.Drawing.Size(780, 64);
-            this.RemoteComparePanel.Name = "RemoteComparePanel";
-            this.RemoteComparePanel.Size = new System.Drawing.Size(780, 32);
-            this.RemoteComparePanel.TabIndex = 90;
+            RemoteComparePanel.Controls.Add(CreateXmlFileCheckBox);
+            RemoteComparePanel.Controls.Add(RemoteCompareCheckBox);
+            RemoteComparePanel.Dock = System.Windows.Forms.DockStyle.Top;
+            RemoteComparePanel.Location = new System.Drawing.Point(0, 66);
+            RemoteComparePanel.MaximumSize = new System.Drawing.Size(780, 64);
+            RemoteComparePanel.Name = "RemoteComparePanel";
+            RemoteComparePanel.Size = new System.Drawing.Size(780, 32);
+            RemoteComparePanel.TabIndex = 90;
             // 
             // CreateXmlFileCheckBox
             // 
-            this.CreateXmlFileCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.CreateXmlFileCheckBox.CheckBoxHorizontalOffSet = 0;
-            this.CreateXmlFileCheckBox.CheckBoxVerticalOffSet = 2;
-            this.CreateXmlFileCheckBox.CheckChangedListener = null;
-            this.CreateXmlFileCheckBox.Checked = false;
-            this.CreateXmlFileCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.CreateXmlFileCheckBox.Editable = true;
-            this.CreateXmlFileCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.CreateXmlFileCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.CreateXmlFileCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.CreateXmlFileCheckBox.LabelText = "Create Xml File:";
-            this.CreateXmlFileCheckBox.LabelWidth = 220;
-            this.CreateXmlFileCheckBox.Location = new System.Drawing.Point(300, 0);
-            this.CreateXmlFileCheckBox.MaximumSize = new System.Drawing.Size(232, 30);
-            this.CreateXmlFileCheckBox.MinimumSize = new System.Drawing.Size(232, 30);
-            this.CreateXmlFileCheckBox.Name = "CreateXmlFileCheckBox";
-            this.CreateXmlFileCheckBox.Size = new System.Drawing.Size(232, 30);
-            this.CreateXmlFileCheckBox.TabIndex = 98;
-            this.CreateXmlFileCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            CreateXmlFileCheckBox.BackColor = System.Drawing.Color.Transparent;
+            CreateXmlFileCheckBox.CheckBoxHorizontalOffSet = 0;
+            CreateXmlFileCheckBox.CheckBoxVerticalOffSet = 2;
+            CreateXmlFileCheckBox.CheckChangedListener = null;
+            CreateXmlFileCheckBox.Checked = false;
+            CreateXmlFileCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            CreateXmlFileCheckBox.Editable = true;
+            CreateXmlFileCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            CreateXmlFileCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            CreateXmlFileCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            CreateXmlFileCheckBox.LabelText = "Create Xml File:";
+            CreateXmlFileCheckBox.LabelWidth = 220;
+            CreateXmlFileCheckBox.Location = new System.Drawing.Point(300, 0);
+            CreateXmlFileCheckBox.MaximumSize = new System.Drawing.Size(232, 30);
+            CreateXmlFileCheckBox.MinimumSize = new System.Drawing.Size(232, 30);
+            CreateXmlFileCheckBox.Name = "CreateXmlFileCheckBox";
+            CreateXmlFileCheckBox.Size = new System.Drawing.Size(232, 30);
+            CreateXmlFileCheckBox.TabIndex = 98;
+            CreateXmlFileCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // RemoteCompareCheckBox
             // 
-            this.RemoteCompareCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.RemoteCompareCheckBox.CheckBoxHorizontalOffSet = 0;
-            this.RemoteCompareCheckBox.CheckBoxVerticalOffSet = 2;
-            this.RemoteCompareCheckBox.CheckChangedListener = null;
-            this.RemoteCompareCheckBox.Checked = false;
-            this.RemoteCompareCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.RemoteCompareCheckBox.Editable = true;
-            this.RemoteCompareCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.RemoteCompareCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.RemoteCompareCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.RemoteCompareCheckBox.LabelText = "Remote Compare:";
-            this.RemoteCompareCheckBox.LabelWidth = 280;
-            this.RemoteCompareCheckBox.Location = new System.Drawing.Point(0, 0);
-            this.RemoteCompareCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
-            this.RemoteCompareCheckBox.MinimumSize = new System.Drawing.Size(300, 32);
-            this.RemoteCompareCheckBox.Name = "RemoteCompareCheckBox";
-            this.RemoteCompareCheckBox.Size = new System.Drawing.Size(300, 32);
-            this.RemoteCompareCheckBox.TabIndex = 97;
-            this.RemoteCompareCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            RemoteCompareCheckBox.BackColor = System.Drawing.Color.Transparent;
+            RemoteCompareCheckBox.CheckBoxHorizontalOffSet = 0;
+            RemoteCompareCheckBox.CheckBoxVerticalOffSet = 2;
+            RemoteCompareCheckBox.CheckChangedListener = null;
+            RemoteCompareCheckBox.Checked = false;
+            RemoteCompareCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            RemoteCompareCheckBox.Editable = true;
+            RemoteCompareCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            RemoteCompareCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            RemoteCompareCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            RemoteCompareCheckBox.LabelText = "Remote Compare:";
+            RemoteCompareCheckBox.LabelWidth = 280;
+            RemoteCompareCheckBox.Location = new System.Drawing.Point(0, 0);
+            RemoteCompareCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
+            RemoteCompareCheckBox.MinimumSize = new System.Drawing.Size(300, 32);
+            RemoteCompareCheckBox.Name = "RemoteCompareCheckBox";
+            RemoteCompareCheckBox.Size = new System.Drawing.Size(300, 32);
+            RemoteCompareCheckBox.TabIndex = 97;
+            RemoteCompareCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // IgnoreDataSyncPanel
             // 
-            this.IgnoreDataSyncPanel.Controls.Add(this.IgnoreFirewallRulesCheckBox);
-            this.IgnoreDataSyncPanel.Controls.Add(this.IgnoreDataSyncCheckBox);
-            this.IgnoreDataSyncPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.IgnoreDataSyncPanel.Location = new System.Drawing.Point(0, 34);
-            this.IgnoreDataSyncPanel.MaximumSize = new System.Drawing.Size(780, 64);
-            this.IgnoreDataSyncPanel.Name = "IgnoreDataSyncPanel";
-            this.IgnoreDataSyncPanel.Size = new System.Drawing.Size(780, 32);
-            this.IgnoreDataSyncPanel.TabIndex = 89;
+            IgnoreDataSyncPanel.Controls.Add(IgnoreFirewallRulesCheckBox);
+            IgnoreDataSyncPanel.Controls.Add(IgnoreDataSyncCheckBox);
+            IgnoreDataSyncPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            IgnoreDataSyncPanel.Location = new System.Drawing.Point(0, 34);
+            IgnoreDataSyncPanel.MaximumSize = new System.Drawing.Size(780, 64);
+            IgnoreDataSyncPanel.Name = "IgnoreDataSyncPanel";
+            IgnoreDataSyncPanel.Size = new System.Drawing.Size(780, 32);
+            IgnoreDataSyncPanel.TabIndex = 89;
             // 
             // IgnoreFirewallRulesCheckBox
             // 
-            this.IgnoreFirewallRulesCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.IgnoreFirewallRulesCheckBox.CheckBoxHorizontalOffSet = 0;
-            this.IgnoreFirewallRulesCheckBox.CheckBoxVerticalOffSet = 2;
-            this.IgnoreFirewallRulesCheckBox.CheckChangedListener = null;
-            this.IgnoreFirewallRulesCheckBox.Checked = true;
-            this.IgnoreFirewallRulesCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.IgnoreFirewallRulesCheckBox.Editable = true;
-            this.IgnoreFirewallRulesCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.IgnoreFirewallRulesCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.IgnoreFirewallRulesCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.IgnoreFirewallRulesCheckBox.LabelText = "Ignore Firewall Rules:";
-            this.IgnoreFirewallRulesCheckBox.LabelWidth = 220;
-            this.IgnoreFirewallRulesCheckBox.Location = new System.Drawing.Point(300, 0);
-            this.IgnoreFirewallRulesCheckBox.MaximumSize = new System.Drawing.Size(232, 32);
-            this.IgnoreFirewallRulesCheckBox.MinimumSize = new System.Drawing.Size(232, 32);
-            this.IgnoreFirewallRulesCheckBox.Name = "IgnoreFirewallRulesCheckBox";
-            this.IgnoreFirewallRulesCheckBox.Size = new System.Drawing.Size(232, 32);
-            this.IgnoreFirewallRulesCheckBox.TabIndex = 98;
-            this.IgnoreFirewallRulesCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            IgnoreFirewallRulesCheckBox.BackColor = System.Drawing.Color.Transparent;
+            IgnoreFirewallRulesCheckBox.CheckBoxHorizontalOffSet = 0;
+            IgnoreFirewallRulesCheckBox.CheckBoxVerticalOffSet = 2;
+            IgnoreFirewallRulesCheckBox.CheckChangedListener = null;
+            IgnoreFirewallRulesCheckBox.Checked = true;
+            IgnoreFirewallRulesCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            IgnoreFirewallRulesCheckBox.Editable = true;
+            IgnoreFirewallRulesCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            IgnoreFirewallRulesCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            IgnoreFirewallRulesCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            IgnoreFirewallRulesCheckBox.LabelText = "Ignore Firewall Rules:";
+            IgnoreFirewallRulesCheckBox.LabelWidth = 220;
+            IgnoreFirewallRulesCheckBox.Location = new System.Drawing.Point(300, 0);
+            IgnoreFirewallRulesCheckBox.MaximumSize = new System.Drawing.Size(232, 32);
+            IgnoreFirewallRulesCheckBox.MinimumSize = new System.Drawing.Size(232, 32);
+            IgnoreFirewallRulesCheckBox.Name = "IgnoreFirewallRulesCheckBox";
+            IgnoreFirewallRulesCheckBox.Size = new System.Drawing.Size(232, 32);
+            IgnoreFirewallRulesCheckBox.TabIndex = 98;
+            IgnoreFirewallRulesCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // IgnoreDataSyncCheckBox
             // 
-            this.IgnoreDataSyncCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.IgnoreDataSyncCheckBox.CheckBoxHorizontalOffSet = 0;
-            this.IgnoreDataSyncCheckBox.CheckBoxVerticalOffSet = 2;
-            this.IgnoreDataSyncCheckBox.CheckChangedListener = null;
-            this.IgnoreDataSyncCheckBox.Checked = true;
-            this.IgnoreDataSyncCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.IgnoreDataSyncCheckBox.Editable = true;
-            this.IgnoreDataSyncCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.IgnoreDataSyncCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.IgnoreDataSyncCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.IgnoreDataSyncCheckBox.LabelText = "Ignore SQL DataSync:";
-            this.IgnoreDataSyncCheckBox.LabelWidth = 280;
-            this.IgnoreDataSyncCheckBox.Location = new System.Drawing.Point(0, 0);
-            this.IgnoreDataSyncCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
-            this.IgnoreDataSyncCheckBox.MinimumSize = new System.Drawing.Size(300, 32);
-            this.IgnoreDataSyncCheckBox.Name = "IgnoreDataSyncCheckBox";
-            this.IgnoreDataSyncCheckBox.Size = new System.Drawing.Size(300, 32);
-            this.IgnoreDataSyncCheckBox.TabIndex = 97;
-            this.IgnoreDataSyncCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            IgnoreDataSyncCheckBox.BackColor = System.Drawing.Color.Transparent;
+            IgnoreDataSyncCheckBox.CheckBoxHorizontalOffSet = 0;
+            IgnoreDataSyncCheckBox.CheckBoxVerticalOffSet = 2;
+            IgnoreDataSyncCheckBox.CheckChangedListener = null;
+            IgnoreDataSyncCheckBox.Checked = true;
+            IgnoreDataSyncCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            IgnoreDataSyncCheckBox.Editable = true;
+            IgnoreDataSyncCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            IgnoreDataSyncCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            IgnoreDataSyncCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            IgnoreDataSyncCheckBox.LabelText = "Ignore SQL DataSync:";
+            IgnoreDataSyncCheckBox.LabelWidth = 280;
+            IgnoreDataSyncCheckBox.Location = new System.Drawing.Point(0, 0);
+            IgnoreDataSyncCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
+            IgnoreDataSyncCheckBox.MinimumSize = new System.Drawing.Size(300, 32);
+            IgnoreDataSyncCheckBox.Name = "IgnoreDataSyncCheckBox";
+            IgnoreDataSyncCheckBox.Size = new System.Drawing.Size(300, 32);
+            IgnoreDataSyncCheckBox.TabIndex = 97;
+            IgnoreDataSyncCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // TopCheckBoxPanel
             // 
-            this.TopCheckBoxPanel.Controls.Add(this.IgnoreIndexesCheckBox);
-            this.TopCheckBoxPanel.Controls.Add(this.StoreConnectionStringsCheckBox);
-            this.TopCheckBoxPanel.Controls.Add(this.IgnoreDiagramProceduresCheckBox);
-            this.TopCheckBoxPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TopCheckBoxPanel.Location = new System.Drawing.Point(0, 4);
-            this.TopCheckBoxPanel.MaximumSize = new System.Drawing.Size(780, 30);
-            this.TopCheckBoxPanel.Name = "TopCheckBoxPanel";
-            this.TopCheckBoxPanel.Size = new System.Drawing.Size(780, 30);
-            this.TopCheckBoxPanel.TabIndex = 87;
+            TopCheckBoxPanel.Controls.Add(IgnoreIndexesCheckBox);
+            TopCheckBoxPanel.Controls.Add(StoreConnectionStringsCheckBox);
+            TopCheckBoxPanel.Controls.Add(IgnoreDiagramProceduresCheckBox);
+            TopCheckBoxPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            TopCheckBoxPanel.Location = new System.Drawing.Point(0, 4);
+            TopCheckBoxPanel.MaximumSize = new System.Drawing.Size(780, 30);
+            TopCheckBoxPanel.Name = "TopCheckBoxPanel";
+            TopCheckBoxPanel.Size = new System.Drawing.Size(780, 30);
+            TopCheckBoxPanel.TabIndex = 87;
             // 
             // IgnoreIndexesCheckBox
             // 
-            this.IgnoreIndexesCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.IgnoreIndexesCheckBox.CheckBoxHorizontalOffSet = 0;
-            this.IgnoreIndexesCheckBox.CheckBoxVerticalOffSet = 2;
-            this.IgnoreIndexesCheckBox.CheckChangedListener = null;
-            this.IgnoreIndexesCheckBox.Checked = false;
-            this.IgnoreIndexesCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.IgnoreIndexesCheckBox.Editable = true;
-            this.IgnoreIndexesCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.IgnoreIndexesCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.IgnoreIndexesCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.IgnoreIndexesCheckBox.LabelText = "Ignore Indexes";
-            this.IgnoreIndexesCheckBox.LabelWidth = 220;
-            this.IgnoreIndexesCheckBox.Location = new System.Drawing.Point(532, 0);
-            this.IgnoreIndexesCheckBox.MaximumSize = new System.Drawing.Size(232, 32);
-            this.IgnoreIndexesCheckBox.MinimumSize = new System.Drawing.Size(232, 32);
-            this.IgnoreIndexesCheckBox.Name = "IgnoreIndexesCheckBox";
-            this.IgnoreIndexesCheckBox.Size = new System.Drawing.Size(232, 32);
-            this.IgnoreIndexesCheckBox.TabIndex = 98;
-            this.IgnoreIndexesCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            IgnoreIndexesCheckBox.BackColor = System.Drawing.Color.Transparent;
+            IgnoreIndexesCheckBox.CheckBoxHorizontalOffSet = 0;
+            IgnoreIndexesCheckBox.CheckBoxVerticalOffSet = 2;
+            IgnoreIndexesCheckBox.CheckChangedListener = null;
+            IgnoreIndexesCheckBox.Checked = false;
+            IgnoreIndexesCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            IgnoreIndexesCheckBox.Editable = true;
+            IgnoreIndexesCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            IgnoreIndexesCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            IgnoreIndexesCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            IgnoreIndexesCheckBox.LabelText = "Ignore Indexes";
+            IgnoreIndexesCheckBox.LabelWidth = 220;
+            IgnoreIndexesCheckBox.Location = new System.Drawing.Point(532, 0);
+            IgnoreIndexesCheckBox.MaximumSize = new System.Drawing.Size(232, 32);
+            IgnoreIndexesCheckBox.MinimumSize = new System.Drawing.Size(232, 32);
+            IgnoreIndexesCheckBox.Name = "IgnoreIndexesCheckBox";
+            IgnoreIndexesCheckBox.Size = new System.Drawing.Size(232, 32);
+            IgnoreIndexesCheckBox.TabIndex = 98;
+            IgnoreIndexesCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // StoreConnectionStringsCheckBox
             // 
-            this.StoreConnectionStringsCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.StoreConnectionStringsCheckBox.CheckBoxHorizontalOffSet = 0;
-            this.StoreConnectionStringsCheckBox.CheckBoxVerticalOffSet = 2;
-            this.StoreConnectionStringsCheckBox.CheckChangedListener = null;
-            this.StoreConnectionStringsCheckBox.Checked = true;
-            this.StoreConnectionStringsCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.StoreConnectionStringsCheckBox.Editable = true;
-            this.StoreConnectionStringsCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.StoreConnectionStringsCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.StoreConnectionStringsCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.StoreConnectionStringsCheckBox.LabelText = "Store Conn Strings:";
-            this.StoreConnectionStringsCheckBox.LabelWidth = 220;
-            this.StoreConnectionStringsCheckBox.Location = new System.Drawing.Point(300, 0);
-            this.StoreConnectionStringsCheckBox.MaximumSize = new System.Drawing.Size(232, 32);
-            this.StoreConnectionStringsCheckBox.MinimumSize = new System.Drawing.Size(232, 32);
-            this.StoreConnectionStringsCheckBox.Name = "StoreConnectionStringsCheckBox";
-            this.StoreConnectionStringsCheckBox.Size = new System.Drawing.Size(232, 32);
-            this.StoreConnectionStringsCheckBox.TabIndex = 97;
-            this.StoreConnectionStringsCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            StoreConnectionStringsCheckBox.BackColor = System.Drawing.Color.Transparent;
+            StoreConnectionStringsCheckBox.CheckBoxHorizontalOffSet = 0;
+            StoreConnectionStringsCheckBox.CheckBoxVerticalOffSet = 2;
+            StoreConnectionStringsCheckBox.CheckChangedListener = null;
+            StoreConnectionStringsCheckBox.Checked = true;
+            StoreConnectionStringsCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            StoreConnectionStringsCheckBox.Editable = true;
+            StoreConnectionStringsCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            StoreConnectionStringsCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            StoreConnectionStringsCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            StoreConnectionStringsCheckBox.LabelText = "Store Conn Strings:";
+            StoreConnectionStringsCheckBox.LabelWidth = 220;
+            StoreConnectionStringsCheckBox.Location = new System.Drawing.Point(300, 0);
+            StoreConnectionStringsCheckBox.MaximumSize = new System.Drawing.Size(232, 32);
+            StoreConnectionStringsCheckBox.MinimumSize = new System.Drawing.Size(232, 32);
+            StoreConnectionStringsCheckBox.Name = "StoreConnectionStringsCheckBox";
+            StoreConnectionStringsCheckBox.Size = new System.Drawing.Size(232, 32);
+            StoreConnectionStringsCheckBox.TabIndex = 97;
+            StoreConnectionStringsCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // IgnoreDiagramProceduresCheckBox
             // 
-            this.IgnoreDiagramProceduresCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.IgnoreDiagramProceduresCheckBox.CheckBoxHorizontalOffSet = 0;
-            this.IgnoreDiagramProceduresCheckBox.CheckBoxVerticalOffSet = 2;
-            this.IgnoreDiagramProceduresCheckBox.CheckChangedListener = null;
-            this.IgnoreDiagramProceduresCheckBox.Checked = true;
-            this.IgnoreDiagramProceduresCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.IgnoreDiagramProceduresCheckBox.Editable = true;
-            this.IgnoreDiagramProceduresCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.IgnoreDiagramProceduresCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.IgnoreDiagramProceduresCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.IgnoreDiagramProceduresCheckBox.LabelText = "Ignore Diagram Procedures:";
-            this.IgnoreDiagramProceduresCheckBox.LabelWidth = 280;
-            this.IgnoreDiagramProceduresCheckBox.Location = new System.Drawing.Point(0, 0);
-            this.IgnoreDiagramProceduresCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
-            this.IgnoreDiagramProceduresCheckBox.MinimumSize = new System.Drawing.Size(300, 32);
-            this.IgnoreDiagramProceduresCheckBox.Name = "IgnoreDiagramProceduresCheckBox";
-            this.IgnoreDiagramProceduresCheckBox.Size = new System.Drawing.Size(300, 32);
-            this.IgnoreDiagramProceduresCheckBox.TabIndex = 94;
-            this.IgnoreDiagramProceduresCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            IgnoreDiagramProceduresCheckBox.BackColor = System.Drawing.Color.Transparent;
+            IgnoreDiagramProceduresCheckBox.CheckBoxHorizontalOffSet = 0;
+            IgnoreDiagramProceduresCheckBox.CheckBoxVerticalOffSet = 2;
+            IgnoreDiagramProceduresCheckBox.CheckChangedListener = null;
+            IgnoreDiagramProceduresCheckBox.Checked = true;
+            IgnoreDiagramProceduresCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            IgnoreDiagramProceduresCheckBox.Editable = true;
+            IgnoreDiagramProceduresCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            IgnoreDiagramProceduresCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
+            IgnoreDiagramProceduresCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            IgnoreDiagramProceduresCheckBox.LabelText = "Ignore Diagram Procedures:";
+            IgnoreDiagramProceduresCheckBox.LabelWidth = 280;
+            IgnoreDiagramProceduresCheckBox.Location = new System.Drawing.Point(0, 0);
+            IgnoreDiagramProceduresCheckBox.MaximumSize = new System.Drawing.Size(300, 32);
+            IgnoreDiagramProceduresCheckBox.MinimumSize = new System.Drawing.Size(300, 32);
+            IgnoreDiagramProceduresCheckBox.Name = "IgnoreDiagramProceduresCheckBox";
+            IgnoreDiagramProceduresCheckBox.Size = new System.Drawing.Size(300, 32);
+            IgnoreDiagramProceduresCheckBox.TabIndex = 94;
+            IgnoreDiagramProceduresCheckBox.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // RightFillerPanel
             // 
-            this.RightFillerPanel.BackColor = System.Drawing.Color.Transparent;
-            this.RightFillerPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.RightFillerPanel.Location = new System.Drawing.Point(968, 4);
-            this.RightFillerPanel.Name = "RightFillerPanel";
-            this.RightFillerPanel.Size = new System.Drawing.Size(12, 92);
-            this.RightFillerPanel.TabIndex = 80;
+            RightFillerPanel.BackColor = System.Drawing.Color.Transparent;
+            RightFillerPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            RightFillerPanel.Location = new System.Drawing.Point(968, 4);
+            RightFillerPanel.Name = "RightFillerPanel";
+            RightFillerPanel.Size = new System.Drawing.Size(12, 92);
+            RightFillerPanel.TabIndex = 80;
             // 
             // Seperator4
             // 
-            this.Seperator4.BackColor = System.Drawing.Color.Transparent;
-            this.Seperator4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Seperator4.Location = new System.Drawing.Point(0, 0);
-            this.Seperator4.Name = "Seperator4";
-            this.Seperator4.Size = new System.Drawing.Size(980, 4);
-            this.Seperator4.TabIndex = 78;
+            Seperator4.BackColor = System.Drawing.Color.Transparent;
+            Seperator4.Dock = System.Windows.Forms.DockStyle.Top;
+            Seperator4.Location = new System.Drawing.Point(0, 0);
+            Seperator4.Name = "Seperator4";
+            Seperator4.Size = new System.Drawing.Size(980, 4);
+            Seperator4.TabIndex = 78;
             // 
             // CompareRightColumn
             // 
-            this.CompareRightColumn.Controls.Add(this.CreateXmlFileButton);
-            this.CompareRightColumn.Controls.Add(this.panel1);
-            this.CompareRightColumn.Controls.Add(this.CompareDatabasesButton);
-            this.CompareRightColumn.Controls.Add(this.SeparatorPanel);
-            this.CompareRightColumn.Controls.Add(this.ButtonTopPanel);
-            this.CompareRightColumn.Controls.Add(this.ButtonBottomPanel);
-            this.CompareRightColumn.Dock = System.Windows.Forms.DockStyle.Right;
-            this.CompareRightColumn.Location = new System.Drawing.Point(980, 0);
-            this.CompareRightColumn.Name = "CompareRightColumn";
-            this.CompareRightColumn.Size = new System.Drawing.Size(220, 96);
-            this.CompareRightColumn.TabIndex = 62;
+            CompareRightColumn.Controls.Add(CreateXmlFileButton);
+            CompareRightColumn.Controls.Add(panel1);
+            CompareRightColumn.Controls.Add(CompareDatabasesButton);
+            CompareRightColumn.Controls.Add(SeparatorPanel);
+            CompareRightColumn.Controls.Add(ButtonTopPanel);
+            CompareRightColumn.Controls.Add(ButtonBottomPanel);
+            CompareRightColumn.Dock = System.Windows.Forms.DockStyle.Right;
+            CompareRightColumn.Location = new System.Drawing.Point(980, 0);
+            CompareRightColumn.Name = "CompareRightColumn";
+            CompareRightColumn.Size = new System.Drawing.Size(220, 96);
+            CompareRightColumn.TabIndex = 62;
             // 
             // panel1
             // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 43);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(220, 12);
-            this.panel1.TabIndex = 98;
+            panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            panel1.Location = new System.Drawing.Point(0, 43);
+            panel1.Name = "panel1";
+            panel1.Size = new System.Drawing.Size(220, 12);
+            panel1.TabIndex = 98;
             // 
             // SeparatorPanel
             // 
-            this.SeparatorPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.SeparatorPanel.Location = new System.Drawing.Point(0, 5);
-            this.SeparatorPanel.Name = "SeparatorPanel";
-            this.SeparatorPanel.Size = new System.Drawing.Size(220, 4);
-            this.SeparatorPanel.TabIndex = 93;
+            SeparatorPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            SeparatorPanel.Location = new System.Drawing.Point(0, 5);
+            SeparatorPanel.Name = "SeparatorPanel";
+            SeparatorPanel.Size = new System.Drawing.Size(220, 4);
+            SeparatorPanel.TabIndex = 93;
             // 
             // ButtonTopPanel
             // 
-            this.ButtonTopPanel.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ButtonTopPanel.Location = new System.Drawing.Point(0, 0);
-            this.ButtonTopPanel.Name = "ButtonTopPanel";
-            this.ButtonTopPanel.Size = new System.Drawing.Size(220, 5);
-            this.ButtonTopPanel.TabIndex = 62;
+            ButtonTopPanel.BackColor = System.Drawing.Color.Transparent;
+            ButtonTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            ButtonTopPanel.Location = new System.Drawing.Point(0, 0);
+            ButtonTopPanel.Name = "ButtonTopPanel";
+            ButtonTopPanel.Size = new System.Drawing.Size(220, 5);
+            ButtonTopPanel.TabIndex = 62;
             // 
             // ButtonBottomPanel
             // 
-            this.ButtonBottomPanel.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonBottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ButtonBottomPanel.Location = new System.Drawing.Point(0, 94);
-            this.ButtonBottomPanel.Name = "ButtonBottomPanel";
-            this.ButtonBottomPanel.Size = new System.Drawing.Size(220, 2);
-            this.ButtonBottomPanel.TabIndex = 61;
+            ButtonBottomPanel.BackColor = System.Drawing.Color.Transparent;
+            ButtonBottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            ButtonBottomPanel.Location = new System.Drawing.Point(0, 94);
+            ButtonBottomPanel.Name = "ButtonBottomPanel";
+            ButtonBottomPanel.Size = new System.Drawing.Size(220, 2);
+            ButtonBottomPanel.TabIndex = 61;
             // 
             // VerticalSeparator2
             // 
-            this.VerticalSeparator2.BackColor = System.Drawing.Color.Transparent;
-            this.VerticalSeparator2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.VerticalSeparator2.Location = new System.Drawing.Point(0, 76);
-            this.VerticalSeparator2.Name = "VerticalSeparator2";
-            this.VerticalSeparator2.Size = new System.Drawing.Size(1200, 12);
-            this.VerticalSeparator2.TabIndex = 68;
+            VerticalSeparator2.BackColor = System.Drawing.Color.Transparent;
+            VerticalSeparator2.Dock = System.Windows.Forms.DockStyle.Top;
+            VerticalSeparator2.Location = new System.Drawing.Point(0, 76);
+            VerticalSeparator2.Name = "VerticalSeparator2";
+            VerticalSeparator2.Size = new System.Drawing.Size(1200, 12);
+            VerticalSeparator2.TabIndex = 68;
             // 
             // TopSectionPanel
             // 
-            this.TopSectionPanel.BackColor = System.Drawing.Color.Transparent;
-            this.TopSectionPanel.Controls.Add(this.TargetConnectionStringControl);
-            this.TopSectionPanel.Controls.Add(this.BuildTargetConnectionStringButton);
-            this.TopSectionPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TopSectionPanel.Location = new System.Drawing.Point(0, 44);
-            this.TopSectionPanel.Name = "TopSectionPanel";
-            this.TopSectionPanel.Size = new System.Drawing.Size(1200, 32);
-            this.TopSectionPanel.TabIndex = 60;
+            TopSectionPanel.BackColor = System.Drawing.Color.Transparent;
+            TopSectionPanel.Controls.Add(TargetConnectionStringControl);
+            TopSectionPanel.Controls.Add(BuildTargetConnectionStringButton);
+            TopSectionPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            TopSectionPanel.Location = new System.Drawing.Point(0, 44);
+            TopSectionPanel.Name = "TopSectionPanel";
+            TopSectionPanel.Size = new System.Drawing.Size(1200, 32);
+            TopSectionPanel.TabIndex = 60;
             // 
             // TargetConnectionStringControl
             // 
-            this.TargetConnectionStringControl.BackColor = System.Drawing.Color.Transparent;
-            this.TargetConnectionStringControl.BottomMargin = 0;
-            this.TargetConnectionStringControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TargetConnectionStringControl.Editable = true;
-            this.TargetConnectionStringControl.Encrypted = false;
-            this.TargetConnectionStringControl.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TargetConnectionStringControl.Inititialized = true;
-            this.TargetConnectionStringControl.LabelBottomMargin = 2;
-            this.TargetConnectionStringControl.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.TargetConnectionStringControl.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.TargetConnectionStringControl.LabelText = "Target Conn. String:";
-            this.TargetConnectionStringControl.LabelTopMargin = 4;
-            this.TargetConnectionStringControl.LabelWidth = 208;
-            this.TargetConnectionStringControl.Location = new System.Drawing.Point(0, 0);
-            this.TargetConnectionStringControl.MultiLine = false;
-            this.TargetConnectionStringControl.Name = "TargetConnectionStringControl";
-            this.TargetConnectionStringControl.OnTextChangedListener = null;
-            this.TargetConnectionStringControl.PasswordMode = false;
-            this.TargetConnectionStringControl.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.TargetConnectionStringControl.Size = new System.Drawing.Size(1160, 32);
-            this.TargetConnectionStringControl.TabIndex = 60;
-            this.TargetConnectionStringControl.TextBoxBottomMargin = 0;
-            this.TargetConnectionStringControl.TextBoxDisabledColor = System.Drawing.Color.LightGray;
-            this.TargetConnectionStringControl.TextBoxEditableColor = System.Drawing.Color.White;
-            this.TargetConnectionStringControl.TextBoxFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TargetConnectionStringControl.TextBoxTopMargin = 6;
-            this.TargetConnectionStringControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            TargetConnectionStringControl.BackColor = System.Drawing.Color.Transparent;
+            TargetConnectionStringControl.BottomMargin = 0;
+            TargetConnectionStringControl.Dock = System.Windows.Forms.DockStyle.Top;
+            TargetConnectionStringControl.Editable = true;
+            TargetConnectionStringControl.Encrypted = false;
+            TargetConnectionStringControl.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TargetConnectionStringControl.Inititialized = true;
+            TargetConnectionStringControl.LabelBottomMargin = 2;
+            TargetConnectionStringControl.LabelColor = System.Drawing.Color.LemonChiffon;
+            TargetConnectionStringControl.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            TargetConnectionStringControl.LabelText = "Target Conn. String:";
+            TargetConnectionStringControl.LabelTopMargin = 4;
+            TargetConnectionStringControl.LabelWidth = 208;
+            TargetConnectionStringControl.Location = new System.Drawing.Point(0, 0);
+            TargetConnectionStringControl.MultiLine = false;
+            TargetConnectionStringControl.Name = "TargetConnectionStringControl";
+            TargetConnectionStringControl.OnTextChangedListener = null;
+            TargetConnectionStringControl.PasswordMode = false;
+            TargetConnectionStringControl.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            TargetConnectionStringControl.Size = new System.Drawing.Size(1160, 32);
+            TargetConnectionStringControl.TabIndex = 60;
+            TargetConnectionStringControl.TextBoxBottomMargin = 0;
+            TargetConnectionStringControl.TextBoxDisabledColor = System.Drawing.Color.LightGray;
+            TargetConnectionStringControl.TextBoxEditableColor = System.Drawing.Color.White;
+            TargetConnectionStringControl.TextBoxFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TargetConnectionStringControl.TextBoxTopMargin = 6;
+            TargetConnectionStringControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // VerticalSeparator1
             // 
-            this.VerticalSeparator1.BackColor = System.Drawing.Color.Transparent;
-            this.VerticalSeparator1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.VerticalSeparator1.Location = new System.Drawing.Point(0, 32);
-            this.VerticalSeparator1.Name = "VerticalSeparator1";
-            this.VerticalSeparator1.Size = new System.Drawing.Size(1200, 12);
-            this.VerticalSeparator1.TabIndex = 59;
+            VerticalSeparator1.BackColor = System.Drawing.Color.Transparent;
+            VerticalSeparator1.Dock = System.Windows.Forms.DockStyle.Top;
+            VerticalSeparator1.Location = new System.Drawing.Point(0, 32);
+            VerticalSeparator1.Name = "VerticalSeparator1";
+            VerticalSeparator1.Size = new System.Drawing.Size(1200, 12);
+            VerticalSeparator1.TabIndex = 59;
             // 
             // TargetConnectionPanel
             // 
-            this.TargetConnectionPanel.BackColor = System.Drawing.Color.Transparent;
-            this.TargetConnectionPanel.Controls.Add(this.SourceConnectionStringControl);
-            this.TargetConnectionPanel.Controls.Add(this.BuildSourceConnectionStringButton);
-            this.TargetConnectionPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TargetConnectionPanel.Location = new System.Drawing.Point(0, 0);
-            this.TargetConnectionPanel.Name = "TargetConnectionPanel";
-            this.TargetConnectionPanel.Size = new System.Drawing.Size(1200, 32);
-            this.TargetConnectionPanel.TabIndex = 57;
+            TargetConnectionPanel.BackColor = System.Drawing.Color.Transparent;
+            TargetConnectionPanel.Controls.Add(SourceConnectionStringControl);
+            TargetConnectionPanel.Controls.Add(BuildSourceConnectionStringButton);
+            TargetConnectionPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            TargetConnectionPanel.Location = new System.Drawing.Point(0, 0);
+            TargetConnectionPanel.Name = "TargetConnectionPanel";
+            TargetConnectionPanel.Size = new System.Drawing.Size(1200, 32);
+            TargetConnectionPanel.TabIndex = 57;
             // 
             // SourceConnectionStringControl
             // 
-            this.SourceConnectionStringControl.BackColor = System.Drawing.Color.Transparent;
-            this.SourceConnectionStringControl.BottomMargin = 0;
-            this.SourceConnectionStringControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.SourceConnectionStringControl.Editable = true;
-            this.SourceConnectionStringControl.Encrypted = false;
-            this.SourceConnectionStringControl.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SourceConnectionStringControl.Inititialized = true;
-            this.SourceConnectionStringControl.LabelBottomMargin = 0;
-            this.SourceConnectionStringControl.LabelColor = System.Drawing.Color.LemonChiffon;
-            this.SourceConnectionStringControl.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.SourceConnectionStringControl.LabelText = "Source Conn. String:";
-            this.SourceConnectionStringControl.LabelTopMargin = 4;
-            this.SourceConnectionStringControl.LabelWidth = 208;
-            this.SourceConnectionStringControl.Location = new System.Drawing.Point(0, 0);
-            this.SourceConnectionStringControl.MultiLine = false;
-            this.SourceConnectionStringControl.Name = "SourceConnectionStringControl";
-            this.SourceConnectionStringControl.OnTextChangedListener = null;
-            this.SourceConnectionStringControl.PasswordMode = false;
-            this.SourceConnectionStringControl.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.SourceConnectionStringControl.Size = new System.Drawing.Size(1160, 32);
-            this.SourceConnectionStringControl.TabIndex = 58;
-            this.SourceConnectionStringControl.TextBoxBottomMargin = 0;
-            this.SourceConnectionStringControl.TextBoxDisabledColor = System.Drawing.Color.LightGray;
-            this.SourceConnectionStringControl.TextBoxEditableColor = System.Drawing.Color.White;
-            this.SourceConnectionStringControl.TextBoxFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SourceConnectionStringControl.TextBoxTopMargin = 3;
-            this.SourceConnectionStringControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            SourceConnectionStringControl.BackColor = System.Drawing.Color.Transparent;
+            SourceConnectionStringControl.BottomMargin = 0;
+            SourceConnectionStringControl.Dock = System.Windows.Forms.DockStyle.Top;
+            SourceConnectionStringControl.Editable = true;
+            SourceConnectionStringControl.Encrypted = false;
+            SourceConnectionStringControl.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            SourceConnectionStringControl.Inititialized = true;
+            SourceConnectionStringControl.LabelBottomMargin = 0;
+            SourceConnectionStringControl.LabelColor = System.Drawing.Color.LemonChiffon;
+            SourceConnectionStringControl.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            SourceConnectionStringControl.LabelText = "Source Conn. String:";
+            SourceConnectionStringControl.LabelTopMargin = 4;
+            SourceConnectionStringControl.LabelWidth = 208;
+            SourceConnectionStringControl.Location = new System.Drawing.Point(0, 0);
+            SourceConnectionStringControl.MultiLine = false;
+            SourceConnectionStringControl.Name = "SourceConnectionStringControl";
+            SourceConnectionStringControl.OnTextChangedListener = null;
+            SourceConnectionStringControl.PasswordMode = false;
+            SourceConnectionStringControl.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            SourceConnectionStringControl.Size = new System.Drawing.Size(1160, 32);
+            SourceConnectionStringControl.TabIndex = 58;
+            SourceConnectionStringControl.TextBoxBottomMargin = 0;
+            SourceConnectionStringControl.TextBoxDisabledColor = System.Drawing.Color.LightGray;
+            SourceConnectionStringControl.TextBoxEditableColor = System.Drawing.Color.White;
+            SourceConnectionStringControl.TextBoxFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            SourceConnectionStringControl.TextBoxTopMargin = 3;
+            SourceConnectionStringControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
             // VerticalSeparator3
             // 
-            this.VerticalSeparator3.BackColor = System.Drawing.Color.Transparent;
-            this.VerticalSeparator3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.VerticalSeparator3.Location = new System.Drawing.Point(0, 184);
-            this.VerticalSeparator3.Name = "VerticalSeparator3";
-            this.VerticalSeparator3.Size = new System.Drawing.Size(1200, 12);
-            this.VerticalSeparator3.TabIndex = 100;
+            VerticalSeparator3.BackColor = System.Drawing.Color.Transparent;
+            VerticalSeparator3.Dock = System.Windows.Forms.DockStyle.Top;
+            VerticalSeparator3.Location = new System.Drawing.Point(0, 184);
+            VerticalSeparator3.Name = "VerticalSeparator3";
+            VerticalSeparator3.Size = new System.Drawing.Size(1200, 12);
+            VerticalSeparator3.TabIndex = 100;
             // 
             // MainPanel
             // 
-            this.MainPanel.BackColor = System.Drawing.Color.Transparent;
-            this.MainPanel.Controls.Add(this.ResultsTextBox);
-            this.MainPanel.Controls.Add(this.GraphPanel);
-            this.MainPanel.Controls.Add(this.ComparisonReportLabel);
-            this.MainPanel.Controls.Add(this.InnerBorder);
-            this.MainPanel.Controls.Add(this.VerticalSeparator3);
-            this.MainPanel.Controls.Add(this.CompareDatabaseTopPanel);
-            this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainPanel.Location = new System.Drawing.Point(12, 16);
-            this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(1200, 573);
-            this.MainPanel.TabIndex = 102;
+            MainPanel.BackColor = System.Drawing.Color.Transparent;
+            MainPanel.Controls.Add(ResultsTextBox);
+            MainPanel.Controls.Add(GraphPanel);
+            MainPanel.Controls.Add(ComparisonReportLabel);
+            MainPanel.Controls.Add(InnerBorder);
+            MainPanel.Controls.Add(VerticalSeparator3);
+            MainPanel.Controls.Add(CompareDatabaseTopPanel);
+            MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            MainPanel.Location = new System.Drawing.Point(12, 16);
+            MainPanel.Name = "MainPanel";
+            MainPanel.Size = new System.Drawing.Size(1200, 573);
+            MainPanel.TabIndex = 102;
             // 
             // ResultsTextBox
             // 
-            this.ResultsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ResultsTextBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ResultsTextBox.Location = new System.Drawing.Point(8, 228);
-            this.ResultsTextBox.Multiline = true;
-            this.ResultsTextBox.Name = "ResultsTextBox";
-            this.ResultsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ResultsTextBox.Size = new System.Drawing.Size(1192, 309);
-            this.ResultsTextBox.TabIndex = 111;
-            this.ResultsTextBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ResultsTextBox_MouseClick);
+            ResultsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            ResultsTextBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            ResultsTextBox.Location = new System.Drawing.Point(8, 228);
+            ResultsTextBox.Multiline = true;
+            ResultsTextBox.Name = "ResultsTextBox";
+            ResultsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            ResultsTextBox.Size = new System.Drawing.Size(1192, 309);
+            ResultsTextBox.TabIndex = 111;
+            ResultsTextBox.MouseClick += ResultsTextBox_MouseClick;
             // 
             // GraphPanel
             // 
-            this.GraphPanel.Controls.Add(this.Graph);
-            this.GraphPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.GraphPanel.Location = new System.Drawing.Point(8, 537);
-            this.GraphPanel.Name = "GraphPanel";
-            this.GraphPanel.Size = new System.Drawing.Size(1192, 36);
-            this.GraphPanel.TabIndex = 110;
+            GraphPanel.Controls.Add(Graph);
+            GraphPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            GraphPanel.Location = new System.Drawing.Point(8, 537);
+            GraphPanel.Name = "GraphPanel";
+            GraphPanel.Size = new System.Drawing.Size(1192, 36);
+            GraphPanel.TabIndex = 110;
             // 
             // Graph
             // 
-            this.Graph.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.Graph.Location = new System.Drawing.Point(0, 13);
-            this.Graph.Name = "Graph";
-            this.Graph.Size = new System.Drawing.Size(1192, 23);
-            this.Graph.TabIndex = 109;
-            this.Graph.Visible = false;
+            Graph.Dock = System.Windows.Forms.DockStyle.Bottom;
+            Graph.Location = new System.Drawing.Point(0, 13);
+            Graph.Name = "Graph";
+            Graph.Size = new System.Drawing.Size(1192, 23);
+            Graph.TabIndex = 109;
+            Graph.Visible = false;
             // 
             // ComparisonReportLabel
             // 
-            this.ComparisonReportLabel.BackColor = System.Drawing.Color.Transparent;
-            this.ComparisonReportLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ComparisonReportLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.ComparisonReportLabel.ForeColor = System.Drawing.Color.LemonChiffon;
-            this.ComparisonReportLabel.Location = new System.Drawing.Point(8, 196);
-            this.ComparisonReportLabel.Name = "ComparisonReportLabel";
-            this.ComparisonReportLabel.Size = new System.Drawing.Size(1192, 32);
-            this.ComparisonReportLabel.TabIndex = 106;
-            this.ComparisonReportLabel.Text = "Comparison Report:";
-            this.ComparisonReportLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            ComparisonReportLabel.BackColor = System.Drawing.Color.Transparent;
+            ComparisonReportLabel.Dock = System.Windows.Forms.DockStyle.Top;
+            ComparisonReportLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            ComparisonReportLabel.ForeColor = System.Drawing.Color.LemonChiffon;
+            ComparisonReportLabel.Location = new System.Drawing.Point(8, 196);
+            ComparisonReportLabel.Name = "ComparisonReportLabel";
+            ComparisonReportLabel.Size = new System.Drawing.Size(1192, 32);
+            ComparisonReportLabel.TabIndex = 106;
+            ComparisonReportLabel.Text = "Comparison Report:";
+            ComparisonReportLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // InnerBorder
             // 
-            this.InnerBorder.BackColor = System.Drawing.Color.Transparent;
-            this.InnerBorder.Dock = System.Windows.Forms.DockStyle.Left;
-            this.InnerBorder.Location = new System.Drawing.Point(0, 196);
-            this.InnerBorder.Name = "InnerBorder";
-            this.InnerBorder.Size = new System.Drawing.Size(8, 377);
-            this.InnerBorder.TabIndex = 105;
+            InnerBorder.BackColor = System.Drawing.Color.Transparent;
+            InnerBorder.Dock = System.Windows.Forms.DockStyle.Left;
+            InnerBorder.Location = new System.Drawing.Point(0, 196);
+            InnerBorder.Name = "InnerBorder";
+            InnerBorder.Size = new System.Drawing.Size(8, 377);
+            InnerBorder.TabIndex = 105;
             // 
             // BottomMarginPanel
             // 
-            this.BottomMarginPanel.BackColor = System.Drawing.Color.Transparent;
-            this.BottomMarginPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.BottomMarginPanel.Location = new System.Drawing.Point(12, 689);
-            this.BottomMarginPanel.Name = "BottomMarginPanel";
-            this.BottomMarginPanel.Size = new System.Drawing.Size(1212, 12);
-            this.BottomMarginPanel.TabIndex = 26;
+            BottomMarginPanel.BackColor = System.Drawing.Color.Transparent;
+            BottomMarginPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            BottomMarginPanel.Location = new System.Drawing.Point(12, 689);
+            BottomMarginPanel.Name = "BottomMarginPanel";
+            BottomMarginPanel.Size = new System.Drawing.Size(1212, 12);
+            BottomMarginPanel.TabIndex = 26;
             // 
             // CopiedTimer
             // 
-            this.CopiedTimer.Interval = 3000;
-            this.CopiedTimer.Tick += new System.EventHandler(this.CopiedTimer_Tick);
+            CopiedTimer.Interval = 3000;
+            CopiedTimer.Tick += CopiedTimer_Tick;
             // 
             // IgnoreDifferenceStrip
             // 
-            this.IgnoreDifferenceStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.IgnoreItem,
-            this.ClearItem});
-            this.IgnoreDifferenceStrip.Name = "IgnoreDifferenceStrip";
-            this.IgnoreDifferenceStrip.Size = new System.Drawing.Size(160, 48);
+            IgnoreDifferenceStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { IgnoreItem, ClearItem });
+            IgnoreDifferenceStrip.Name = "IgnoreDifferenceStrip";
+            IgnoreDifferenceStrip.Size = new System.Drawing.Size(160, 48);
             // 
             // IgnoreItem
             // 
-            this.IgnoreItem.Name = "IgnoreItem";
-            this.IgnoreItem.Size = new System.Drawing.Size(159, 22);
-            this.IgnoreItem.Text = "Ignore";
+            IgnoreItem.Name = "IgnoreItem";
+            IgnoreItem.Size = new System.Drawing.Size(159, 22);
+            IgnoreItem.Text = "Ignore";
             // 
             // ClearItem
             // 
-            this.ClearItem.Name = "ClearItem";
-            this.ClearItem.Size = new System.Drawing.Size(159, 22);
-            this.ClearItem.Text = "Clear Ignore List";
+            ClearItem.Name = "ClearItem";
+            ClearItem.Size = new System.Drawing.Size(159, 22);
+            ClearItem.Text = "Clear Ignore List";
             // 
             // MainForm
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.Black;
-            this.BackgroundImage = global::DBCompare.Properties.Resources.Deep_Black;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1224, 701);
-            this.Controls.Add(this.MainPanel);
-            this.Controls.Add(this.HiddenButton);
-            this.Controls.Add(this.Separator6);
-            this.Controls.Add(this.YouTubePanel);
-            this.Controls.Add(this.RightMarginPanel);
-            this.Controls.Add(this.SourceTopPanel);
-            this.Controls.Add(this.BottomMarginPanel);
-            this.Controls.Add(this.LeftMarginPanel);
-            this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1240, 740);
-            this.MinimumSize = new System.Drawing.Size(1240, 740);
-            this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "DB Compare Version 7.0.0";
-            this.Load += new System.EventHandler(this.MainForm_Load);
-            this.YouTubePanel.ResumeLayout(false);
-            this.YouTubePanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CopiedImage)).EndInit();
-            this.CompareDatabaseTopPanel.ResumeLayout(false);
-            this.OptionsPanel.ResumeLayout(false);
-            this.RemoteComparePanel.ResumeLayout(false);
-            this.IgnoreDataSyncPanel.ResumeLayout(false);
-            this.TopCheckBoxPanel.ResumeLayout(false);
-            this.CompareRightColumn.ResumeLayout(false);
-            this.TopSectionPanel.ResumeLayout(false);
-            this.TargetConnectionPanel.ResumeLayout(false);
-            this.MainPanel.ResumeLayout(false);
-            this.MainPanel.PerformLayout();
-            this.GraphPanel.ResumeLayout(false);
-            this.IgnoreDifferenceStrip.ResumeLayout(false);
-            this.ResumeLayout(false);
-
-            }
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            BackColor = System.Drawing.Color.Black;
+            BackgroundImage = Properties.Resources.Deep_Black;
+            BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            ClientSize = new System.Drawing.Size(1224, 701);
+            Controls.Add(MainPanel);
+            Controls.Add(HiddenButton);
+            Controls.Add(Separator6);
+            Controls.Add(YouTubePanel);
+            Controls.Add(RightMarginPanel);
+            Controls.Add(SourceTopPanel);
+            Controls.Add(BottomMarginPanel);
+            Controls.Add(LeftMarginPanel);
+            DoubleBuffered = true;
+            Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            MaximumSize = new System.Drawing.Size(1240, 740);
+            MinimumSize = new System.Drawing.Size(1240, 740);
+            Name = "MainForm";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "DB Compare Version 7.0.0";
+            Load += MainForm_Load;
+            YouTubePanel.ResumeLayout(false);
+            YouTubePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)CopiedImage).EndInit();
+            CompareDatabaseTopPanel.ResumeLayout(false);
+            OptionsPanel.ResumeLayout(false);
+            RemoteComparePanel.ResumeLayout(false);
+            IgnoreDataSyncPanel.ResumeLayout(false);
+            TopCheckBoxPanel.ResumeLayout(false);
+            CompareRightColumn.ResumeLayout(false);
+            TopSectionPanel.ResumeLayout(false);
+            TargetConnectionPanel.ResumeLayout(false);
+            MainPanel.ResumeLayout(false);
+            MainPanel.PerformLayout();
+            GraphPanel.ResumeLayout(false);
+            IgnoreDifferenceStrip.ResumeLayout(false);
+            ResumeLayout(false);
+        }
         #endregion
 
         #endregion

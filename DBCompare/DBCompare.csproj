@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>7.0.0-rc1</Version>
+    <Version>7.0.0</Version>
 	<FileVersion>6.3.0</FileVersion>	
     <PackageId>DataJuggler.DBCompare</PackageId>
     <Authors>DataJuggler</Authors>
@@ -67,12 +67,12 @@ attempt as a Nuget package.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Net7" Version="7.0.1" />
-    <PackageReference Include="DataJuggler.RandomShuffler" Version="7.0.3" />
-    <PackageReference Include="DataJuggler.UltimateHelper" Version="7.0.0" />
-    <PackageReference Include="DataJuggler.Win.Controls" Version="7.0.0-rc1" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0-preview1.22279.3" />
-    <PackageReference Include="XmlMirror.Runtime7" Version="7.0.0-rc1" />
+    <PackageReference Include="DataJuggler.Net7" Version="7.0.2" />
+    <PackageReference Include="DataJuggler.RandomShuffler" Version="7.0.4" />
+    <PackageReference Include="DataJuggler.UltimateHelper" Version="7.1.1" />
+    <PackageReference Include="DataJuggler.Win.Controls" Version="7.1.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />
+    <PackageReference Include="XmlMirror.Runtime7" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
