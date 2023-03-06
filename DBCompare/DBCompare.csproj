@@ -67,7 +67,7 @@ attempt as a Nuget package.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Net7" Version="7.0.2" />
+    <PackageReference Include="DataJuggler.Net7" Version="7.0.3" />
     <PackageReference Include="DataJuggler.RandomShuffler" Version="7.0.4" />
     <PackageReference Include="DataJuggler.UltimateHelper" Version="7.1.1" />
     <PackageReference Include="DataJuggler.Win.Controls" Version="7.1.1" />

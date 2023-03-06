@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DBCompare.Util;
 using System.Linq;
+using System.Runtime.Versioning;
 
 #endregion
 
@@ -30,6 +31,7 @@ namespace DBCompare
     /// <summary>
     /// This class is the MainForm for this application.
     /// </summary>
+    [SupportedOSPlatform("windows")]
     public partial class MainForm : Form, ICheckChangedListener
     {
         
