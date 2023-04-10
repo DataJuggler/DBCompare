@@ -2,18 +2,12 @@
 
 #region using statements
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using DataJuggler.Net7;
 using DataJuggler.Net7.Connection;
 using DataJuggler.UltimateHelper;
 using DBCompare.Enumerations;
+using System;
+using System.Windows.Forms;
 
 #endregion
 
@@ -300,7 +294,7 @@ namespace DBCompare
                 UserCancelled = true;
 
                 // Prepopulate Server Name
-                DatabaseServerTextBox.Text = EnvironmentVariableHelper.GetEnvironmentVariableValue("SQLServerName");
+                DatabaseServerTextBox.Text = EnvironmentVariableHelper.GetEnvironmentVariableValue("SQLServerName", EnvironmentVariableTarget.User);
 
                 // For some reason this is the wrong color without this
                 EncryptConnectionComboBox.LoadItems(typeof (TrueFalseEnum));
