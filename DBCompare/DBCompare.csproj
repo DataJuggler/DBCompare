@@ -58,6 +58,7 @@ attempt as a Nuget package.</PackageReleaseNotes>
     <ApplicationIcon>Database Compare Transparent.ico</ApplicationIcon>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Nullable>disable</Nullable>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -78,6 +79,10 @@ attempt as a Nuget package.</PackageReleaseNotes>
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="Images\Database Compare Transparent.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -86,10 +91,6 @@ attempt as a Nuget package.</PackageReleaseNotes>
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="readme.txt" pack="true" PackagePath="." />
   </ItemGroup>
 
   <ItemGroup>
