@@ -64,7 +64,7 @@ namespace DBCompare
         private DataJuggler.Win.Controls.LabelCheckBoxControl RemoteCompareCheckBox;
         private DataJuggler.Win.Controls.LabelCheckBoxControl IgnoreIndexesCheckBox;
         private DataJuggler.Win.Controls.Button GenerateScriptsButton;
-        private DataJuggler.Win.Controls.Objects.PanelExtender GraphPanel;
+        private PanelExtender GraphPanel;
         private System.Windows.Forms.ProgressBar Graph;
         private System.Windows.Forms.TextBox ResultsTextBox;
         #endregion
@@ -991,7 +991,7 @@ namespace DBCompare
             MinimumSize = new System.Drawing.Size(1240, 740);
             Name = "MainForm";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            Text = "DB Compare Version 7.0.1";
+            Text = "DB Compare Version 7.0.2";
             Load += MainForm_Load;
             YouTubePanel.ResumeLayout(false);
             YouTubePanel.PerformLayout();

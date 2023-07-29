@@ -382,8 +382,7 @@ namespace DBCompare
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(338, 54);
             this.label1.TabIndex = 37;
-            this.label1.Text = "Microsoft.Data.SqlClient 5.0 has encryption turned on by default. If your databas" +
-    "e is not encrypted, leave this as False.";
+            this.label1.Text = "Microsoft.Data.SqlClient 5.0 has encryption turned on by default. If your database is not encrypted, leave this as False.";
             // 
             // EncryptConnectionComboBox
             // 

@@ -721,9 +721,10 @@ namespace DBCompare
             // locals
             string adjustment = "Alter Column ";
 
-            // first line
-            sb.Append("Alter Table ");
+            // fixing bug where table names like User or Sales Records do not work.
+            sb.Append("Alter Table [");
             sb.Append(table.Name);
+            sb.Append("]");
             sb.Append(Environment.NewLine);
 
             // if new
@@ -2239,6 +2240,12 @@ namespace DBCompare
             }
             else if (message == "Progress")
             {
+                if (Graph.Maximum < value)
+                {
+                    // reset
+                    Graph.Maximum = value + 10;
+                }
+
                 // set the value
                 Graph.Value = value;
 
