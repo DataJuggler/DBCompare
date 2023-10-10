@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using DBCompare.Util;
 using System.Linq;
 using System.Runtime.Versioning;
+using System.Diagnostics;
 
 #endregion
 
@@ -544,8 +545,11 @@ namespace DBCompare
         /// </summary>
         private void YouTubeButton_Click(object sender, EventArgs e)
         {
-            // open to my website
-            System.Diagnostics.Process.Start(YouTubePath);
+            // launch to YouTube
+            ProcessStartInfo info = new ProcessStartInfo { FileName = YouTubePath, UseShellExecute = true };
+
+            // launch
+            System.Diagnostics.Process.Start(info);
         }
         #endregion
 
