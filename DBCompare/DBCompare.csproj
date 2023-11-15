@@ -11,7 +11,7 @@
     <Company>DataJuggler</Company>
     <Product>DataJuggler.DBCompare</Product>
     <Description>DB Compare compares two instances of a SQL Server database. This project has been on .Net Framework
-for about 10 or 12 years or more. DB Compare has been updated to .NET6.0, and should run faster.
+for about 10 or 12 years or more. DB Compare has been updated to .NET8.0, and should run faster.
 
 C# Developers - Now you can create a project in a manner of minutes and this way you can stay updated with the latest version.
 
@@ -24,6 +24,8 @@ the latest version.</Description>
     <RepositoryType>Git / Git Hub</RepositoryType>
     <PackageTags>C#, SQL, Database, Compare Schema, Compare Databases, Compare SQL</PackageTags>
     <PackageReleaseNotes>
+		11.15.2023: The project has been updated to .NET 8.
+		
 		July 28, 2023: A bug was found where the graph exceeded the maximum for some reason, so I fixed it to 
 		increase the graph.Maximum by 10 if the value being set exceed the max.
 		

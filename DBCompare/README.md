@@ -3,6 +3,8 @@ DB Compare is used to compare two SQL Server databases and view a report of any 
 
 <a href='https://youtu.be/13HipAOyAqU'>This is the most recent video on YouTube:</a>
 
+Update 11.15.2023: This project has been updated to .NET 8.
+
 Update 10.20.2022: This project has been updated to .NET 7.
 You must use Visual Studio 2022 Preview until the full version comes out.
 
