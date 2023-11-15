@@ -81,10 +81,6 @@ attempt as a Nuget package.</PackageReleaseNotes>
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
     <None Include="Images\Database Compare Transparent.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -108,6 +104,13 @@ attempt as a Nuget package.</PackageReleaseNotes>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
