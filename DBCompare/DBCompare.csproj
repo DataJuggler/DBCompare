@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <Version>7.0.2</Version>
 	<FileVersion>7.0.1</FileVersion>	
@@ -29,7 +29,7 @@ the latest version.</Description>
 		
 		April 13: 2022
 		Version 6.3.0: The Generate Scripts has been updated to create tables, fields and views that are missing.
-		The code I just added to DataJuggler.Net7 to get ViewText, something similar can be used to get the 
+		The code I just added to DataJuggler.NET8 to get ViewText, something similar can be used to get the 
 		stored procedures and functions and that is 98% of what I have to update. Add table relationships and constraints
 		and that should complete most of the Generate Scripts use cases I can think of.
 		
@@ -70,11 +70,11 @@ attempt as a Nuget package.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Net7" Version="7.3.1" />
-    <PackageReference Include="DataJuggler.RandomShuffler" Version="7.0.4" />
-    <PackageReference Include="DataJuggler.UltimateHelper" Version="7.2.4" />
-    <PackageReference Include="DataJuggler.Win.Controls" Version="7.2.1" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+    <PackageReference Include="DataJuggler.Net8" Version="8.0.0" />
+    <PackageReference Include="DataJuggler.RandomShuffler" Version="8.0.0" />
+    <PackageReference Include="DataJuggler.UltimateHelper" Version="8.0.0" />
+    <PackageReference Include="DataJuggler.Win.Controls" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
     <PackageReference Include="XmlMirror.Runtime7" Version="7.0.0" />
   </ItemGroup>
 

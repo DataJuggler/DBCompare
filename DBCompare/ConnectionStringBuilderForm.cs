@@ -2,8 +2,8 @@
 
 #region using statements
 
-using DataJuggler.Net7;
-using DataJuggler.Net7.Connection;
+using DataJuggler.NET8;
+using DataJuggler.NET8.Connection;
 using DataJuggler.UltimateHelper;
 using DBCompare.Enumerations;
 using System;

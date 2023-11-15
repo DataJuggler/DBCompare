@@ -2,7 +2,7 @@
 
 #region using statements
 
-using DataJuggler.Net7;
+using DataJuggler.NET8;
 using System;
 using System.Collections.Generic;
 using XmlMirror.Runtime7.Objects;

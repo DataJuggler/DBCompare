@@ -3,7 +3,7 @@
 #region using statements
 
 using DataJuggler.UltimateHelper;
-using DataJuggler.Net7;
+using DataJuggler.NET8;
 using System;
 using System.Collections.Generic;
 using XmlMirror.Runtime7.Objects;
@@ -146,7 +146,7 @@ namespace DBCompare.Xml.Parsers
                         case "Database.Tables.DataTable.Indexes.DataIndex.IndexType":
 
                             // Set the value for dataIndex.IndexType
-                            dataIndex.IndexType = EnumHelper.GetEnumValue<DataJuggler.Net7.Enumerations.IndexTypeEnum>(xmlNode.FormattedNodeValue, DataJuggler.Net7.Enumerations.IndexTypeEnum.Unknown);
+                            dataIndex.IndexType = EnumHelper.GetEnumValue<DataJuggler.NET8.Enumerations.IndexTypeEnum>(xmlNode.FormattedNodeValue, DataJuggler.NET8.Enumerations.IndexTypeEnum.Unknown);
 
                             // required
                             break;

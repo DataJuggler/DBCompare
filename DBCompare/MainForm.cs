@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using DataJuggler.UltimateHelper;
 using DataJuggler.UltimateHelper.Objects;
-using DataJuggler.Net7;
+using DataJuggler.NET8;
 using DataJuggler.Win.Controls;
 using DataJuggler.Win.Controls.Interfaces;
 using DBCompare.Enumerations;

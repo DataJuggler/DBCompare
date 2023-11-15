@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DataJuggler.Net7;
+using DataJuggler.NET8;
 
 #endregion
 

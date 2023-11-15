@@ -220,9 +220,9 @@ namespace DBCompare
             ScriptDropExtrasCheckbox.CheckChangedListener = null;
             ScriptDropExtrasCheckbox.Checked = false;
             ScriptDropExtrasCheckbox.Editable = true;
-            ScriptDropExtrasCheckbox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            ScriptDropExtrasCheckbox.Font = new System.Drawing.Font("Verdana", 12F);
             ScriptDropExtrasCheckbox.LabelColor = System.Drawing.Color.LemonChiffon;
-            ScriptDropExtrasCheckbox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            ScriptDropExtrasCheckbox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             ScriptDropExtrasCheckbox.LabelText = "Script Drop Extras:";
             ScriptDropExtrasCheckbox.LabelWidth = 220;
             ScriptDropExtrasCheckbox.Location = new System.Drawing.Point(97, 58);
@@ -275,7 +275,7 @@ namespace DBCompare
             // 
             CountLabel.BackColor = System.Drawing.Color.Transparent;
             CountLabel.Dock = System.Windows.Forms.DockStyle.Left;
-            CountLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            CountLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             CountLabel.ForeColor = System.Drawing.Color.LemonChiffon;
             CountLabel.Location = new System.Drawing.Point(16, 4);
             CountLabel.Name = "CountLabel";
@@ -337,7 +337,7 @@ namespace DBCompare
             HiddenButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             HiddenButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             HiddenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            HiddenButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            HiddenButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             HiddenButton.ForeColor = System.Drawing.Color.White;
             HiddenButton.Location = new System.Drawing.Point(-300, 300);
             HiddenButton.MaximumSize = new System.Drawing.Size(220, 36);
@@ -360,7 +360,7 @@ namespace DBCompare
             BuildSourceConnectionStringButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             BuildSourceConnectionStringButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             BuildSourceConnectionStringButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            BuildSourceConnectionStringButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BuildSourceConnectionStringButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold);
             BuildSourceConnectionStringButton.ForeColor = System.Drawing.Color.LemonChiffon;
             BuildSourceConnectionStringButton.Location = new System.Drawing.Point(1160, 0);
             BuildSourceConnectionStringButton.Margin = new System.Windows.Forms.Padding(0);
@@ -385,7 +385,7 @@ namespace DBCompare
             BuildTargetConnectionStringButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             BuildTargetConnectionStringButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             BuildTargetConnectionStringButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            BuildTargetConnectionStringButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            BuildTargetConnectionStringButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold);
             BuildTargetConnectionStringButton.ForeColor = System.Drawing.Color.LemonChiffon;
             BuildTargetConnectionStringButton.Location = new System.Drawing.Point(1160, 0);
             BuildTargetConnectionStringButton.Margin = new System.Windows.Forms.Padding(0);
@@ -410,7 +410,7 @@ namespace DBCompare
             SwapButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             SwapButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             SwapButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            SwapButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            SwapButton.Font = new System.Drawing.Font("Verdana", 14F, System.Drawing.FontStyle.Bold);
             SwapButton.Location = new System.Drawing.Point(904, 4);
             SwapButton.Margin = new System.Windows.Forms.Padding(0);
             SwapButton.MaximumSize = new System.Drawing.Size(64, 64);
@@ -434,7 +434,7 @@ namespace DBCompare
             CompareDatabasesButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             CompareDatabasesButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             CompareDatabasesButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            CompareDatabasesButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            CompareDatabasesButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             CompareDatabasesButton.ForeColor = System.Drawing.Color.LemonChiffon;
             CompareDatabasesButton.Location = new System.Drawing.Point(0, 9);
             CompareDatabasesButton.MaximumSize = new System.Drawing.Size(220, 34);
@@ -459,7 +459,7 @@ namespace DBCompare
             CreateXmlFileButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             CreateXmlFileButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             CreateXmlFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            CreateXmlFileButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            CreateXmlFileButton.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             CreateXmlFileButton.ForeColor = System.Drawing.Color.LemonChiffon;
             CreateXmlFileButton.Location = new System.Drawing.Point(0, 55);
             CreateXmlFileButton.MaximumSize = new System.Drawing.Size(220, 34);
@@ -526,9 +526,9 @@ namespace DBCompare
             CreateXmlFileCheckBox.Checked = false;
             CreateXmlFileCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
             CreateXmlFileCheckBox.Editable = true;
-            CreateXmlFileCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            CreateXmlFileCheckBox.Font = new System.Drawing.Font("Verdana", 12F);
             CreateXmlFileCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            CreateXmlFileCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            CreateXmlFileCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             CreateXmlFileCheckBox.LabelText = "Create Xml File:";
             CreateXmlFileCheckBox.LabelWidth = 220;
             CreateXmlFileCheckBox.Location = new System.Drawing.Point(300, 0);
@@ -548,9 +548,9 @@ namespace DBCompare
             RemoteCompareCheckBox.Checked = false;
             RemoteCompareCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
             RemoteCompareCheckBox.Editable = true;
-            RemoteCompareCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            RemoteCompareCheckBox.Font = new System.Drawing.Font("Verdana", 12F);
             RemoteCompareCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            RemoteCompareCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            RemoteCompareCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             RemoteCompareCheckBox.LabelText = "Remote Compare:";
             RemoteCompareCheckBox.LabelWidth = 280;
             RemoteCompareCheckBox.Location = new System.Drawing.Point(0, 0);
@@ -581,9 +581,9 @@ namespace DBCompare
             IgnoreFirewallRulesCheckBox.Checked = true;
             IgnoreFirewallRulesCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
             IgnoreFirewallRulesCheckBox.Editable = true;
-            IgnoreFirewallRulesCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            IgnoreFirewallRulesCheckBox.Font = new System.Drawing.Font("Verdana", 12F);
             IgnoreFirewallRulesCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            IgnoreFirewallRulesCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            IgnoreFirewallRulesCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             IgnoreFirewallRulesCheckBox.LabelText = "Ignore Firewall Rules:";
             IgnoreFirewallRulesCheckBox.LabelWidth = 220;
             IgnoreFirewallRulesCheckBox.Location = new System.Drawing.Point(300, 0);
@@ -603,9 +603,9 @@ namespace DBCompare
             IgnoreDataSyncCheckBox.Checked = true;
             IgnoreDataSyncCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
             IgnoreDataSyncCheckBox.Editable = true;
-            IgnoreDataSyncCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            IgnoreDataSyncCheckBox.Font = new System.Drawing.Font("Verdana", 12F);
             IgnoreDataSyncCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            IgnoreDataSyncCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            IgnoreDataSyncCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             IgnoreDataSyncCheckBox.LabelText = "Ignore SQL DataSync:";
             IgnoreDataSyncCheckBox.LabelWidth = 280;
             IgnoreDataSyncCheckBox.Location = new System.Drawing.Point(0, 0);
@@ -637,9 +637,9 @@ namespace DBCompare
             IgnoreIndexesCheckBox.Checked = false;
             IgnoreIndexesCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
             IgnoreIndexesCheckBox.Editable = true;
-            IgnoreIndexesCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            IgnoreIndexesCheckBox.Font = new System.Drawing.Font("Verdana", 12F);
             IgnoreIndexesCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            IgnoreIndexesCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            IgnoreIndexesCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             IgnoreIndexesCheckBox.LabelText = "Ignore Indexes";
             IgnoreIndexesCheckBox.LabelWidth = 220;
             IgnoreIndexesCheckBox.Location = new System.Drawing.Point(532, 0);
@@ -659,9 +659,9 @@ namespace DBCompare
             StoreConnectionStringsCheckBox.Checked = true;
             StoreConnectionStringsCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
             StoreConnectionStringsCheckBox.Editable = true;
-            StoreConnectionStringsCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            StoreConnectionStringsCheckBox.Font = new System.Drawing.Font("Verdana", 12F);
             StoreConnectionStringsCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            StoreConnectionStringsCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            StoreConnectionStringsCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             StoreConnectionStringsCheckBox.LabelText = "Store Conn Strings:";
             StoreConnectionStringsCheckBox.LabelWidth = 220;
             StoreConnectionStringsCheckBox.Location = new System.Drawing.Point(300, 0);
@@ -681,9 +681,9 @@ namespace DBCompare
             IgnoreDiagramProceduresCheckBox.Checked = true;
             IgnoreDiagramProceduresCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
             IgnoreDiagramProceduresCheckBox.Editable = true;
-            IgnoreDiagramProceduresCheckBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            IgnoreDiagramProceduresCheckBox.Font = new System.Drawing.Font("Verdana", 12F);
             IgnoreDiagramProceduresCheckBox.LabelColor = System.Drawing.Color.LemonChiffon;
-            IgnoreDiagramProceduresCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            IgnoreDiagramProceduresCheckBox.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             IgnoreDiagramProceduresCheckBox.LabelText = "Ignore Diagram Procedures:";
             IgnoreDiagramProceduresCheckBox.LabelWidth = 280;
             IgnoreDiagramProceduresCheckBox.Location = new System.Drawing.Point(0, 0);
@@ -787,11 +787,11 @@ namespace DBCompare
             TargetConnectionStringControl.Dock = System.Windows.Forms.DockStyle.Top;
             TargetConnectionStringControl.Editable = true;
             TargetConnectionStringControl.Encrypted = false;
-            TargetConnectionStringControl.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TargetConnectionStringControl.Font = new System.Drawing.Font("Verdana", 12F);
             TargetConnectionStringControl.Inititialized = true;
             TargetConnectionStringControl.LabelBottomMargin = 2;
             TargetConnectionStringControl.LabelColor = System.Drawing.Color.LemonChiffon;
-            TargetConnectionStringControl.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            TargetConnectionStringControl.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             TargetConnectionStringControl.LabelText = "Target Conn. String:";
             TargetConnectionStringControl.LabelTopMargin = 4;
             TargetConnectionStringControl.LabelWidth = 208;
@@ -806,7 +806,7 @@ namespace DBCompare
             TargetConnectionStringControl.TextBoxBottomMargin = 0;
             TargetConnectionStringControl.TextBoxDisabledColor = System.Drawing.Color.LightGray;
             TargetConnectionStringControl.TextBoxEditableColor = System.Drawing.Color.White;
-            TargetConnectionStringControl.TextBoxFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TargetConnectionStringControl.TextBoxFont = new System.Drawing.Font("Verdana", 12F);
             TargetConnectionStringControl.TextBoxTopMargin = 6;
             TargetConnectionStringControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
@@ -837,11 +837,11 @@ namespace DBCompare
             SourceConnectionStringControl.Dock = System.Windows.Forms.DockStyle.Top;
             SourceConnectionStringControl.Editable = true;
             SourceConnectionStringControl.Encrypted = false;
-            SourceConnectionStringControl.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            SourceConnectionStringControl.Font = new System.Drawing.Font("Verdana", 12F);
             SourceConnectionStringControl.Inititialized = true;
             SourceConnectionStringControl.LabelBottomMargin = 0;
             SourceConnectionStringControl.LabelColor = System.Drawing.Color.LemonChiffon;
-            SourceConnectionStringControl.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            SourceConnectionStringControl.LabelFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             SourceConnectionStringControl.LabelText = "Source Conn. String:";
             SourceConnectionStringControl.LabelTopMargin = 4;
             SourceConnectionStringControl.LabelWidth = 208;
@@ -856,7 +856,7 @@ namespace DBCompare
             SourceConnectionStringControl.TextBoxBottomMargin = 0;
             SourceConnectionStringControl.TextBoxDisabledColor = System.Drawing.Color.LightGray;
             SourceConnectionStringControl.TextBoxEditableColor = System.Drawing.Color.White;
-            SourceConnectionStringControl.TextBoxFont = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            SourceConnectionStringControl.TextBoxFont = new System.Drawing.Font("Verdana", 12F);
             SourceConnectionStringControl.TextBoxTopMargin = 3;
             SourceConnectionStringControl.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
             // 
@@ -887,7 +887,7 @@ namespace DBCompare
             // ResultsTextBox
             // 
             ResultsTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            ResultsTextBox.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            ResultsTextBox.Font = new System.Drawing.Font("Verdana", 12F);
             ResultsTextBox.Location = new System.Drawing.Point(8, 228);
             ResultsTextBox.Multiline = true;
             ResultsTextBox.Name = "ResultsTextBox";
@@ -918,7 +918,7 @@ namespace DBCompare
             // 
             ComparisonReportLabel.BackColor = System.Drawing.Color.Transparent;
             ComparisonReportLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            ComparisonReportLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            ComparisonReportLabel.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold);
             ComparisonReportLabel.ForeColor = System.Drawing.Color.LemonChiffon;
             ComparisonReportLabel.Location = new System.Drawing.Point(8, 196);
             ComparisonReportLabel.Name = "ComparisonReportLabel";
@@ -984,14 +984,14 @@ namespace DBCompare
             Controls.Add(BottomMarginPanel);
             Controls.Add(LeftMarginPanel);
             DoubleBuffered = true;
-            Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            Font = new System.Drawing.Font("Verdana", 12F);
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MaximumSize = new System.Drawing.Size(1240, 740);
             MinimumSize = new System.Drawing.Size(1240, 740);
             Name = "MainForm";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            Text = "DB Compare Version 7.0.2";
+            Text = "DB Compare Version 8.0.0";
             Load += MainForm_Load;
             YouTubePanel.ResumeLayout(false);
             YouTubePanel.PerformLayout();

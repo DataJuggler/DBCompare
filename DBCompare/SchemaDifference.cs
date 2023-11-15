@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataJuggler.Net7;
+using DataJuggler.NET8;
 using DBCompare.Enumerations;
 
 #endregion
