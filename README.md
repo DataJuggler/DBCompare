@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/DataJuggler/SharedRepo/master/Shared/Images/DBCompare.png" alt="DB Compare" width="640">
+  <img src="https://raw.githubusercontent.com/DataJuggler/SharedRepo/master/Shared/Images/DBCompare.png" alt="DB Compare" width="512" height="512">
 </p>
 
 # DB Compare 10.1.2
