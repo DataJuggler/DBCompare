@@ -2328,6 +2328,10 @@ namespace DBCompare
             // Create a new instance of a 'CompareInfo' object.
             this.CompareInfo = new CompareInfo();
 
+            // Set the version.
+            Version v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            this.Text = $"DB Compare {v.Major}.{v.Minor}.{v.Build}";
+
             // Create a new collection of 'string' objects.
             IgnoreItems = new List<string>();
         }

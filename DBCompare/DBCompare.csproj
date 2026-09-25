@@ -11,12 +11,12 @@
     <Company>DataJuggler</Company>
     <Product>DataJuggler.DBCompare</Product>
     <Description>DB Compare compares two instances of a SQL Server database. This project has been on .Net Framework
-for about 10 or 12 years or more. DB Compare has been updated to .NET8.0, and should run faster.
+for about 10 or 12 years or more. DB Compare has been updated to .NET10.0, and should run faster.
 
 C# Developers - Now you can create a project in a manner of minutes and this way you can stay updated with the latest version.
 
 This product is also a standalone application. Using it as a Nuget package is just a nice way to always have
-the latest version.</Description>
+the latest version.</Description>    
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/DataJuggler/DBCompare</PackageProjectUrl>
     <PackageIcon>Database Compare Transparent.png</PackageIcon>
@@ -24,6 +24,8 @@ the latest version.</Description>
     <RepositoryType>Git / Git Hub</RepositoryType>
     <PackageTags>C#, SQL, Database, Compare Schema, Compare Databases, Compare SQL</PackageTags>
     <PackageReleaseNotes>
+    9.25.2026: Project has been updated to .NET 10, see release notes on the release version for more info.
+
 		11.15.2023: The project has been updated to .NET 8.
 		
 		July 28, 2023: A bug was found where the graph exceeded the maximum for some reason, so I fixed it to 
@@ -69,6 +71,10 @@ attempt as a Nuget package.</PackageReleaseNotes>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <NoWarn>1701;1702;IDE0090;IDE0017;IDE0059;WFO1000;</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>
