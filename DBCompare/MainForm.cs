@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using DataJuggler.UltimateHelper;
 using DataJuggler.UltimateHelper.Objects;
-using DataJuggler.NET8;
+using DataJuggler.NET.Data;
 using DataJuggler.Win.Controls;
 using DataJuggler.Win.Controls.Interfaces;
 using DBCompare.Enumerations;
@@ -256,9 +256,11 @@ namespace DBCompare
             Application.DoEvents();
 
             // locals
-            string message = "-- This script is meant to be a time saver. Use only if the generated sql looks safe for your environment";
-            message += Environment.NewLine + "-- This tool is a work in progress. For now it does tables and fields. Stored Procedures";
-            message += Environment.NewLine + "-- are easy to update, and constraints and indexes are harder to script, so I put them off.";
+            string message = "-- This script is meant to be a time saver. Review it before running, and use it only if it looks safe for your environment.";
+            message += Environment.NewLine + "-- This tool is a work in progress. It scripts tables, fields, stored procedures, default value constraints,";
+            message += Environment.NewLine + "-- indexes, check constraints and foreign keys.";
+            message += Environment.NewLine + "-- Recreating indexes rebuilds them, which can take time and lock large tables. Recreated check constraints and";
+            message += Environment.NewLine + "-- foreign keys use WITH CHECK, so existing rows that violate a constraint will cause that statement to fail.";
             message += Environment.NewLine + "-- By using this script, you acknowledge I am not responsible for any damage to your database.";
             message += Environment.NewLine + "-- Thank you for using DB Compare." + Environment.NewLine + Environment.NewLine + Environment.NewLine + Environment.NewLine;
             StringBuilder sb = new StringBuilder(message);
@@ -269,6 +271,8 @@ namespace DBCompare
                 // Get the tablesSQL
                 string tablesSQL = GetUpdateTablesSQL();
 
+
+
                 // Get the fieldsSQL
                 string fieldsSQL = GetUpdateFieldsSQL();
 
@@ -277,6 +281,12 @@ namespace DBCompare
 
                 // Generate the sql for default value constraints not found
                 string defaultValueConstraintsSQL = GetDefaultValueConstraintsSQL();
+
+                // Generate Indexes (before foreign keys, since a composite foreign key needs its unique key to exist)
+                string indexSQL = GenerateIndexSQL();
+
+                // Generate Check Constraints
+                string checkConstraintSQL = GenerateCheckConstraintSQL();
 
                 // Generate Foreign Keys
                 string foreignKeyConstraintSQL = GenerateForeignKeyConstraintSQL();
@@ -319,6 +329,20 @@ namespace DBCompare
                 {
                     // Add the defaultValueConstraintsSQL
                     sb.Append(defaultValueConstraintsSQL);
+                }
+
+                // If the indexSQL string exists
+                if (TextHelper.Exists(indexSQL))
+                {
+                    // Add the indexSQL
+                    sb.Append(indexSQL);
+                }
+
+                // If the checkConstraintSQL string exists
+                if (TextHelper.Exists(checkConstraintSQL))
+                {
+                    // Add the checkConstraintSQL
+                    sb.Append(checkConstraintSQL);
                 }
 
                 // If the foreignKeyConstraintSQL string exists
@@ -557,6 +581,143 @@ namespace DBCompare
 
         #region Methods
 
+        #region BuildAddDefaultSQL(string tableName, DefaultValueConstraint constraint)
+        /// <summary>
+        /// Builds the ADD CONSTRAINT ... DEFAULT ... FOR sql for the constraint given. Uses the Definition text
+        /// when available; falls back to the numeric DefaultValue for older schemas without a Definition.
+        /// </summary>
+        private string BuildAddDefaultSQL(string tableName, DefaultValueConstraint constraint)
+        {
+            // initial value
+            string sql = "";
+
+            // local
+            string definition = "";
+
+            // if the constraint exists and has a column
+            if ((NullHelper.Exists(constraint)) && (TextHelper.Exists(constraint.ColumnName)))
+            {
+                // prefer the raw definition, e.g. ((1)), (getdate()), ('Pending')
+                if (TextHelper.Exists(constraint.Definition))
+                {
+                    definition = constraint.Definition;
+                }
+                else
+                {
+                    // older schema: numeric value only
+                    definition = "(" + constraint.DefaultValue + ")";
+                }
+
+                // build the sql
+                sql = "ALTER TABLE [" + tableName + "] ADD CONSTRAINT [" + constraint.ConstraintName + "] DEFAULT " + definition + " FOR [" + constraint.ColumnName + "]" + Environment.NewLine + "Go" + Environment.NewLine;
+            }
+
+            // return value
+            return sql;
+        }
+        #endregion
+
+        #region BuildCreateForeignKeySQL(SchemaDifference difference)
+        /// <summary>
+        /// Builds the ADD CONSTRAINT sql for a foreign key. Uses the full ForeignKeyConstraint when
+        /// available (all columns, named, with cascade rules); falls back to the single Field if not.
+        /// </summary>
+        private string BuildCreateForeignKeySQL(SchemaDifference difference)
+        {
+            // initial value
+            string sql = "";
+
+            // locals
+            ForeignKeyConstraint fk = difference.ForeignKey;
+            string tableName = difference.Table.Name;
+            List<ForeignKeyColumnPair> columns = null;
+            string fieldList = "";
+            string referencedList = "";
+
+            // preferred: the full constraint
+            if ((difference.HasForeignKey) && (ListHelper.HasOneOrMoreItems(fk.Columns)))
+            {
+                // columns in order
+                columns = fk.Columns.OrderBy(x => x.Ordinal).ToList();
+
+                // build the column lists
+                fieldList = String.Join(", ", columns.Select(x => "[" + x.FieldName + "]"));
+                referencedList = String.Join(", ", columns.Select(x => "[" + x.ReferencedColumn + "]"));
+
+                // named constraint, all columns, validated against existing rows
+                sql = "ALTER TABLE [" + tableName + "] WITH CHECK ADD CONSTRAINT [" + fk.Name + "] FOREIGN KEY (" + fieldList + ") REFERENCES [" + fk.ReferencedTable + "] (" + referencedList + ")";
+
+                // cascade rules: NO_ACTION is the default, so only script the others (SET_NULL -> SET NULL)
+                if ((TextHelper.Exists(fk.OnDelete)) && (!TextHelper.IsEqual(fk.OnDelete, "NO_ACTION")))
+                {
+                    sql += " ON DELETE " + fk.OnDelete.Replace("_", " ");
+                }
+
+                if ((TextHelper.Exists(fk.OnUpdate)) && (!TextHelper.IsEqual(fk.OnUpdate, "NO_ACTION")))
+                {
+                    sql += " ON UPDATE " + fk.OnUpdate.Replace("_", " ");
+                }
+
+                // add the batch separator
+                sql += Environment.NewLine + "Go" + Environment.NewLine;
+            }
+            // fallback: the old single-field way, only if Field is actually set
+            else if ((difference.HasField) && (TextHelper.Exists(difference.ReferenceTableName, difference.ReferenceColumnName)))
+            {
+                sql = "ALTER TABLE [" + tableName + "] ADD FOREIGN KEY ([" + difference.Field.FieldName + "]) REFERENCES [" + difference.ReferenceTableName + "] ([" + difference.ReferenceColumnName + "])" + Environment.NewLine + "Go" + Environment.NewLine;
+            }
+
+            // return value
+            return sql;
+        }
+        #endregion
+
+        #region BuildCreateIndexSQL(DataIndex index, string tableName, bool isConstraint)
+        /// <summary>
+        /// Builds the CREATE INDEX or ADD CONSTRAINT sql for the index given, including
+        /// column order, sort direction, included columns and filter.
+        /// </summary>
+        private string BuildCreateIndexSQL(DataIndex index, string tableName, bool isConstraint)
+        {
+            // initial value
+            string sql = "";
+
+            // locals
+            string clustered = index.TypeDescription.ToUpper();
+            List<IndexColumn> keyColumns = index.Columns.Where(x => !x.IsIncludedColumn).OrderBy(x => x.Ordinal).ToList();
+            List<IndexColumn> includedColumns = index.Columns.Where(x => x.IsIncludedColumn).ToList();
+            string keyList = String.Join(", ", keyColumns.Select(x => "[" + x.FieldName + "] " + (x.IsDescendingKey ? "DESC" : "ASC")));
+
+            // Primary Key or Unique Constraint
+            if (isConstraint)
+            {
+                sql = "ALTER TABLE [" + tableName + "] ADD CONSTRAINT [" + index.Name + "] " + (index.IsPrimary ? "PRIMARY KEY" : "UNIQUE") + " " + clustered + " (" + keyList + ")";
+            }
+            else
+            {
+                sql = "CREATE " + (index.IsUnique ? "UNIQUE " : "") + clustered + " INDEX [" + index.Name + "] ON [" + tableName + "] (" + keyList + ")";
+
+                // included columns
+                if (includedColumns.Count > 0)
+                {
+                    sql += " INCLUDE (" + String.Join(", ", includedColumns.Select(x => "[" + x.FieldName + "]")) + ")";
+                }
+
+                // filter
+                if ((index.HasFilter) && (TextHelper.Exists(index.FilterDefinition)))
+                {
+                    sql += " WHERE " + index.FilterDefinition;
+                }
+            }
+
+            // add the batch separator
+            sql += Environment.NewLine + "Go" + Environment.NewLine;
+
+            // return value
+            return sql;
+        }
+        #endregion
+
         #region CaptureCompareInfo()
         /// <summary>
         /// This method returns the Compare Info
@@ -789,9 +950,100 @@ namespace DBCompare
         }
         #endregion
 
+        #region CreateTableChildObjectsSQL(DataTable table)
+        /// <summary>
+        /// returns the SQL for a newly created table's default value constraints, check constraints,
+        /// indexes and foreign keys (the primary key is already part of the CREATE TABLE).
+        /// </summary>
+        private string CreateTableChildObjectsSQL(DataTable table)
+        {
+            // initial value
+            StringBuilder sb = new StringBuilder();
+
+            // locals
+            HashSet<string> scripted = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            string checkClause = "";
+
+            // if the table exists
+            if (NullHelper.Exists(table))
+            {
+                // default value constraints
+                if (ListHelper.HasOneOrMoreItems(table.DefaultValueConstraints))
+                {
+                    foreach (DefaultValueConstraint defaultValueConstraint in table.DefaultValueConstraints)
+                    {
+                        sb.Append(BuildAddDefaultSQL(table.Name, defaultValueConstraint));
+                    }
+                }
+
+                // check constraints (a multi-column check loads once per column, so script each name once)
+                if (table.HasCheckConstraints)
+                {
+                    foreach (CheckConstraint checkConstraint in table.CheckConstraints)
+                    {
+                        // if this constraint name has not been scripted yet
+                        if (scripted.Add(checkConstraint.ConstraintName))
+                        {
+                            // the expression
+                            checkClause = XmlPatternHelper.Decode(checkConstraint.CheckClause);
+
+                            // if it exists
+                            if (TextHelper.Exists(checkClause))
+                            {
+                                sb.Append("ALTER TABLE [" + table.Name + "] WITH CHECK ADD CONSTRAINT [" + checkConstraint.ConstraintName + "] CHECK " + checkClause + Environment.NewLine + "Go" + Environment.NewLine);
+                            }
+                        }
+                    }
+                }
+
+                // indexes, except the primary key (already in the CREATE TABLE)
+                if (table.HasIndexes)
+                {
+                    foreach (DataIndex index in table.Indexes)
+                    {
+                        // if this is not the primary key, and it has columns
+                        if ((!index.IsPrimary) && (ListHelper.HasOneOrMoreItems(index.Columns)))
+                        {
+                            // only clustered and nonclustered rowstore indexes are scripted
+                            if ((TextHelper.IsEqual(index.TypeDescription, "CLUSTERED")) || (TextHelper.IsEqual(index.TypeDescription, "NONCLUSTERED")))
+                            {
+                                // unique constraints are scripted as constraints, everything else as indexes
+                                sb.Append(BuildCreateIndexSQL(index, table.Name, index.IsUniqueConstraint));
+                            }
+                            else
+                            {
+                                sb.Append("-- Unable to script " + index.TypeDescription + " index [" + index.Name + "] on [" + table.Name + "]. Script this one manually." + Environment.NewLine);
+                            }
+                        }
+                    }
+                }
+
+                // foreign keys
+                if (ListHelper.HasOneOrMoreItems(table.ForeignKeys))
+                {
+                    foreach (ForeignKeyConstraint foreignKey in table.ForeignKeys)
+                    {
+                        // a temporary difference, so the existing builder can be reused
+                        SchemaDifference tableForeignKey = new SchemaDifference();
+                        tableForeignKey.Table = table;
+                        tableForeignKey.ForeignKey = foreignKey;
+
+                        // add the foreign key
+                        sb.Append(BuildCreateForeignKeySQL(tableForeignKey));
+                    }
+                }
+            }
+
+            // return value
+            return sb.ToString();
+        }
+        #endregion
+
         #region CreateTableSQL(DataTable table)
         /// <summary>
-        /// Create Table SQL
+        /// Create Table SQL. Writes every field in table order (FieldOrdinal), then the primary key constraint,
+        /// built from the table's primary key index (so single, composite, identity or not, clustered or
+        /// nonclustered are all handled). Falls back to the fields marked PrimaryKey if no index information was loaded.
         /// </summary>
         public static string CreateTableSQL(DataTable table)
         {
@@ -805,7 +1057,11 @@ namespace DBCompare
             string onPrimary = ") ON [PRIMARY]" + newLine + go;
             string ansiNulls = "SET ANSI_NULLS ON" + newLine + go;
             string quotedIdentifier = "SET QUOTED_IDENTIFIER ON" + newLine + go;
-            int count = 0;
+            List<string> lines = new List<string>();
+            List<string> keyColumns = new List<string>();
+            StringBuilder line = null;
+            DataIndex primaryIndex = null;
+            string sortDirection = "";
 
             // If the table object exists
             if (NullHelper.Exists(table))
@@ -847,128 +1103,127 @@ namespace DBCompare
                 // if there are fields
                 if (ListHelper.HasOneOrMoreItems(table.Fields))
                 {
-                    // first add the primaryKey(s)
-                    if (table.HasMultiplePrimaryKeys())
+                    // write the fields in table order
+                    List<DataField> orderedFields = table.Fields.OrderBy(x => x.FieldOrdinal).ToList();
+
+                    // write every field, in order, including all primary key fields
+                    foreach (DataField field in orderedFields)
                     {
-                        // to do: Handle multiple primary keys
-                        // I never create these, but sometimes I have to work with client DB's with this
-                        // so it is on my someday list.
-                    }
-                    else if (table.HasPrimaryKey)
-                    {
-                        // this field has been added
-                        count++;
+                        // start this column line
+                        line = new StringBuilder();
 
                         // Append 8 spaces then Column
-                        sb.Append(TextHelper.Indent(8));
-                        sb.Append('[');
-                        sb.Append(table.PrimaryKey.DBFieldName);
-                        sb.Append("] [");
-                        sb.Append(table.PrimaryKey.DBDataType);
-                        sb.Append("] ");
+                        line.Append(TextHelper.Indent(8));
+                        line.Append('[');
+                        line.Append(field.DBFieldName);
+                        line.Append("] [");
+                        line.Append(field.DBDataType);
+                        line.Append(']');
 
-                        // if identity insert
-                        if (table.PrimaryKey.IsAutoIncrement)
+                        // if string
+                        if (field.DataType == DataManager.DataTypeEnum.String)
                         {
-                            // Idenity Primary Key can't be null
-                            sb.Append("IDENTITY(1,1) ");
-                        }
+                            line.Append('(');
 
-                        // add null
-                        sb.Append("not null,");
-
-                        // add a new line
-                        sb.Append(newLine);
-                    }
-
-                    // now iterate the fields
-                    foreach (DataField field in table.Fields)
-                    {
-                        if (!field.PrimaryKey)
-                        {
-                            // set the count
-                            count++;
-
-                            sb.Append(TextHelper.Indent(8));
-                            sb.Append('[');
-                            sb.Append(field.DBFieldName);
-                            sb.Append("] [");
-                            sb.Append(field.DBDataType);
-                            sb.Append(']');
-
-                            // if string
-                            if (field.DataType == DataManager.DataTypeEnum.String)
+                            // max length columns report a size of -1
+                            if (field.Size == -1)
                             {
-                                sb.Append('(');
-                                sb.Append(field.Size);
-                                sb.Append(')');
-                            }
-
-                            // if this field is nullable
-                            if (field.IsNullable)
-                            {
-                                // null
-                                sb.Append(" null");
+                                line.Append("max");
                             }
                             else
                             {
-                                // not null
-                                sb.Append(" not null");
+                                line.Append(field.Size);
                             }
 
-                            // if not the last field
-                            if (count < table.Fields.Count)
-                            {
-                                // Add a comma
-                                sb.Append(',');
-                            }
-                            else if ((count == table.Fields.Count) && (table.HasPrimaryKey) && (table.PrimaryKey.IsAutoIncrement))
-                            {
-                                // Add a comma
-                                sb.Append(',');
-                            }
-
-                            // start a new line
-                            sb.Append(newLine);
+                            line.Append(')');
                         }
-                    }
 
-                    // If the table has an Identity (Auto Number) Primary Key
-                    if ((table.HasPrimaryKey) && (table.PrimaryKey.IsAutoIncrement) && (table.HasIndexes))
-                    {
-                        // First version of this is only for Identity constraints
-
-                        /*
-
-                        CONSTRAINT [PK_ActivityLog] PRIMARY KEY CLUSTERED 
-                        (
-                            [Id] ASC
-                        )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-
-                        */
-
-                        // create the identityConstraint, the only one being handled for now
-                        string endConstraint = "  ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]" + newLine;
-                        string identityConstraint = "  CONSTRAINT [[ConstraintName]] PRIMARY KEY CLUSTERED" + newLine + "  (" + newLine + "    [" + "[ConstraintColumnName]] ASC" + newLine + endConstraint;
-
-
-                        // Create the column
-                        DataField column = table.PrimaryKey;
-
-                        // If the column object exists
-                        if (NullHelper.Exists(column))
+                        // if decimal or numeric, add the precision and scale, e.g. decimal(18,2)
+                        if ((TextHelper.IsEqual(field.DBDataType, "decimal")) || (TextHelper.IsEqual(field.DBDataType, "numeric")))
                         {
-                            // This is the only constraint we are handling, for now
-                            string indexName = table.Indexes[0].Name;
-                            string identity = identityConstraint.Replace("[ConstraintName]", indexName).Replace("[ConstraintColumnName]", column.FieldName);
+                            line.Append('(');
+                            line.Append(field.Precision);
+                            line.Append(',');
+                            line.Append(field.Scale);
+                            line.Append(')');
+                        }
 
-                            // add this
-                            sb.Append(identity);
+                        // if identity
+                        if (field.IsAutoIncrement)
+                        {
+                            line.Append(" IDENTITY(1,1)");
+                        }
+
+                        // primary key fields and identity fields can never be null
+                        if ((field.IsNullable) && (!field.PrimaryKey) && (!field.IsAutoIncrement))
+                        {
+                            line.Append(" null");
+                        }
+                        else
+                        {
+                            line.Append(" not null");
+                        }
+
+                        // add this column
+                        lines.Add(line.ToString());
+                    }
+
+                    // find the primary key index, if indexes were loaded
+                    if (table.HasIndexes)
+                    {
+                        primaryIndex = table.Indexes.FirstOrDefault(x => x.IsPrimary);
+                    }
+
+                    // if the primary key index was found, build the constraint from its key columns (in key order)
+                    if ((NullHelper.Exists(primaryIndex)) && (ListHelper.HasOneOrMoreItems(primaryIndex.Columns)))
+                    {
+                        // iterate the key columns, in key order
+                        foreach (IndexColumn column in primaryIndex.Columns.Where(x => !x.IsIncludedColumn).OrderBy(x => x.Ordinal))
+                        {
+                            // set the sort direction
+                            if (column.IsDescendingKey)
+                            {
+                                sortDirection = "DESC";
+                            }
+                            else
+                            {
+                                sortDirection = "ASC";
+                            }
+
+                            // add this key column
+                            keyColumns.Add("[" + column.FieldName + "] " + sortDirection);
+                        }
+
+                        // add the constraint
+                        lines.Add(TextHelper.Indent(8) + "CONSTRAINT [" + primaryIndex.Name + "] PRIMARY KEY " + primaryIndex.TypeDescription.ToUpper() + " (" + String.Join(", ", keyColumns) + ")");
+                    }
+                    else
+                    {
+                        // fallback: no index information, so use the fields marked as primary key, in table order
+                        foreach (DataField field in orderedFields)
+                        {
+                            // if this field is part of the primary key
+                            if (field.PrimaryKey)
+                            {
+                                // add this key column
+                                keyColumns.Add("[" + field.DBFieldName + "] ASC");
+                            }
+                        }
+
+                        // if there are any
+                        if (keyColumns.Count > 0)
+                        {
+                            // add the constraint, using the conventional name
+                            lines.Add(TextHelper.Indent(8) + "CONSTRAINT [PK_" + table.Name + "] PRIMARY KEY CLUSTERED (" + String.Join(", ", keyColumns) + ")");
                         }
                     }
+
+                    // join every column and the constraint with commas, so the last line never has a trailing comma
+                    sb.Append(String.Join("," + newLine, lines));
+                    sb.Append(newLine);
                 }
 
-                // append the closijng on primary
+                // append the closing on primary
                 sb.Append(onPrimary);
 
                 // Extra Blank Line Separator
@@ -1535,17 +1790,22 @@ namespace DBCompare
         }
         #endregion
 
-        #region GenerateForeignKeyConstraintSQL()
+        #region GenerateCheckConstraintSQL()
         /// <summary>
-        /// returns the Foreign Key Constraint SQL
+        /// returns the Check Constraint SQL. Missing check constraints are added; invalid ones are
+        /// dropped and re-added with the source expression. A check that references more than one
+        /// column loads as one row per column, so each constraint name is only scripted once.
         /// </summary>
-        public string GenerateForeignKeyConstraintSQL()
+        public string GenerateCheckConstraintSQL()
         {
             // initial value
-            string generateForeignKeyConstraintSQL = "";
+            StringBuilder sb = new StringBuilder();
 
-            // local
-            string sql = "";
+            // locals
+            HashSet<string> scripted = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            CheckConstraint checkConstraint = null;
+            string tableName = "";
+            string checkClause = "";
 
             // if the Comparison.SchemaDifferences exists
             if ((HasComparison) && (Comparison.HasSchemaDifferences))
@@ -1553,51 +1813,230 @@ namespace DBCompare
                 // iterate the SchemaDifferences
                 foreach (SchemaDifference difference in Comparison.SchemaDifferences)
                 {
-                    if (difference.DifferenceType == DifferenceTypeEnum.ForeignKeyNotFound)
+                    // only check constraint differences are handled here
+                    if ((difference.DifferenceType != DifferenceTypeEnum.CheckConstraintNotFound) && (difference.DifferenceType != DifferenceTypeEnum.CheckConstraintNotValid))
                     {
-                        // create the foreignKeySQL
-                        sql = "ALTER TABLE " + difference.Table.Name + " ADD FOREIGN KEY (" + difference.Field.FieldName + ") REFERENCES " + difference.ReferenceTableName + "(" + difference.ReferenceColumnName + ")" + Environment.NewLine + "Go" + Environment.NewLine;
-
-                        // append this sql
-                        generateForeignKeyConstraintSQL += sql;
+                        continue;
                     }
-                    else if ((difference.DifferenceType == DifferenceTypeEnum.ForeignKeyWrongReferencedColumn) || (difference.DifferenceType == DifferenceTypeEnum.ForeignKeyWrongTableName))
+
+                    // must have the table and the source check constraint to script it
+                    if ((!difference.HasTable) || (!difference.HasCheckConstraint))
                     {
-                        // first we must drop the existing constraint
-                        if (TextHelper.Exists(difference.InvalidForeignKeyName))
+                        sb.Append("-- Unable to script check constraint: table or constraint information missing." + Environment.NewLine);
+                        continue;
+                    }
+
+                    // set the locals
+                    checkConstraint = difference.CheckConstraint;
+                    tableName = difference.Table.Name;
+                    checkClause = XmlPatternHelper.Decode(checkConstraint.CheckClause);
+
+                    // skip if this constraint was already scripted (multi-column checks load once per column)
+                    if (!scripted.Add(tableName + "." + checkConstraint.ConstraintName))
+                    {
+                        continue;
+                    }
+
+                    // must have an expression to script it
+                    if (!TextHelper.Exists(checkClause))
+                    {
+                        sb.Append("-- Unable to script check constraint [" + checkConstraint.ConstraintName + "] on [" + tableName + "]: no check clause." + Environment.NewLine);
+                        continue;
+                    }
+
+                    // if invalid, drop the existing one first
+                    if (difference.DifferenceType == DifferenceTypeEnum.CheckConstraintNotValid)
+                    {
+                        sb.Append("ALTER TABLE [" + tableName + "] DROP CONSTRAINT [" + checkConstraint.ConstraintName + "]" + Environment.NewLine + "Go" + Environment.NewLine);
+                    }
+
+                    // add it with the source expression (WITH CHECK validates existing rows)
+                    sb.Append("ALTER TABLE [" + tableName + "] WITH CHECK ADD CONSTRAINT [" + checkConstraint.ConstraintName + "] CHECK " + checkClause + Environment.NewLine + "Go" + Environment.NewLine);
+                }
+            }
+
+            // return value
+            return sb.ToString();
+        }
+        #endregion
+
+        #region GenerateForeignKeyConstraintSQL()
+        /// <summary>
+        /// returns the Foreign Key Constraint SQL for foreign key differences on existing tables.
+        /// (Foreign keys for a missing table are scripted with the table, in CreateTableChildObjectsSQL.)
+        /// </summary>
+        public string GenerateForeignKeyConstraintSQL()
+        {
+            // initial value
+            StringBuilder sb = new StringBuilder();
+
+            // locals
+            bool isForeignKeyDifference = false;
+            string tableName = "";
+            string checkState = "";
+            string createSQL = "";
+
+            // if the Comparison.SchemaDifferences exists
+            if ((HasComparison) && (Comparison.HasSchemaDifferences))
+            {
+                // iterate the SchemaDifferences
+                foreach (SchemaDifference difference in Comparison.SchemaDifferences)
+                {
+                    // only foreign key differences are handled here
+                    isForeignKeyDifference = ((difference.DifferenceType == DifferenceTypeEnum.ForeignKeyNotFound) ||
+                                              (difference.DifferenceType == DifferenceTypeEnum.ForeignKeyWrongReferencedColumn) ||
+                                              (difference.DifferenceType == DifferenceTypeEnum.ForeignKeyWrongTableName) ||
+                                              (difference.DifferenceType == DifferenceTypeEnum.ForeignKeyWrongAction) ||
+                                              (difference.DifferenceType == DifferenceTypeEnum.ForeignKeyDisabled));
+
+                    // if this is a foreign key difference with a table
+                    if ((isForeignKeyDifference) && (difference.HasTable))
+                    {
+                        // the table name
+                        tableName = difference.Table.Name;
+
+                        // Disabled / Enabled: no drop needed, just change the check state
+                        if (difference.DifferenceType == DifferenceTypeEnum.ForeignKeyDisabled)
                         {
-                            // drop the foreignKey
-                            sql = "ALTER TABLE " + difference.Table.Name + "DROP Constraint " + difference.InvalidForeignKeyName + Environment.NewLine + "Go" + Environment.NewLine;
+                            // if we have the source constraint and the name
+                            if ((difference.HasForeignKey) && (TextHelper.Exists(difference.InvalidForeignKeyName)))
+                            {
+                                // match the source
+                                if (difference.ForeignKey.IsDisabled)
+                                {
+                                    // disable it
+                                    checkState = "NOCHECK";
+                                }
+                                else
+                                {
+                                    // re-enable it, and re-validate existing rows
+                                    checkState = "WITH CHECK CHECK";
+                                }
 
-                            // append this sql
-                            generateForeignKeyConstraintSQL += sql;
+                                // append this sql
+                                sb.Append("ALTER TABLE [" + tableName + "] " + checkState + " CONSTRAINT [" + difference.InvalidForeignKeyName + "]" + Environment.NewLine + "Go" + Environment.NewLine);
+                            }
                         }
+                        else
+                        {
+                            // for everything except NotFound, drop the existing (wrong) constraint first
+                            if ((difference.DifferenceType != DifferenceTypeEnum.ForeignKeyNotFound) && (TextHelper.Exists(difference.InvalidForeignKeyName)))
+                            {
+                                // append the drop sql
+                                sb.Append("ALTER TABLE [" + tableName + "] DROP CONSTRAINT [" + difference.InvalidForeignKeyName + "]" + Environment.NewLine + "Go" + Environment.NewLine);
+                            }
 
-                        // create the foreignKeySQL
-                        sql = "ALTER TABLE " + difference.Table.Name + " ADD FOREIGN KEY (" + difference.Field.FieldName + ") REFERENCES " + difference.ReferenceTableName + "(" + difference.ReferenceColumnName + ")" + Environment.NewLine + "Go" + Environment.NewLine;
+                            // create the constraint
+                            createSQL = BuildCreateForeignKeySQL(difference);
 
-                        // append this sql
-                        generateForeignKeyConstraintSQL += sql;
+                            // if the create sql was built
+                            if (TextHelper.Exists(createSQL))
+                            {
+                                // append the create sql
+                                sb.Append(createSQL);
+                            }
+                            else
+                            {
+                                // not enough info to script this one; leave a comment instead of crashing
+                                sb.Append("-- Unable to script foreign key for table [" + tableName + "]: column information missing." + Environment.NewLine);
+                            }
+                        }
                     }
                 }
             }
 
             // return value
-            return generateForeignKeyConstraintSQL;
+            return sb.ToString();
+        }
+        #endregion
+
+        #region GenerateIndexSQL()
+        /// <summary>
+        /// returns the Index SQL. Missing indexes are created; invalid indexes are dropped and recreated
+        /// to match the source. Primary keys and unique constraints are scripted as constraints,
+        /// everything else as indexes.
+        /// </summary>
+        public string GenerateIndexSQL()
+        {
+            // initial value
+            StringBuilder sb = new StringBuilder();
+
+            // locals
+            DataIndex index = null;
+            string tableName = "";
+            bool isConstraint = false;
+
+            // if the Comparison.SchemaDifferences exists
+            if ((HasComparison) && (Comparison.HasSchemaDifferences))
+            {
+                // iterate the SchemaDifferences
+                foreach (SchemaDifference difference in Comparison.SchemaDifferences)
+                {
+                    // only index differences are handled here
+                    if ((difference.DifferenceType != DifferenceTypeEnum.IndexNotFound) && (difference.DifferenceType != DifferenceTypeEnum.IndexNotValid))
+                    {
+                        continue;
+                    }
+
+                    // must have the table and the source index to script it
+                    if ((!difference.HasTable) || (!difference.HasIndex) || (!ListHelper.HasOneOrMoreItems(difference.Index.Columns)))
+                    {
+                        sb.Append("-- Unable to script index: table or column information missing." + Environment.NewLine);
+                        continue;
+                    }
+
+                    // set the locals
+                    index = difference.Index;
+                    tableName = difference.Table.Name;
+                    isConstraint = (index.IsPrimary || index.IsUniqueConstraint);
+
+                    // only clustered and nonclustered rowstore indexes are scripted
+                    if ((!TextHelper.IsEqual(index.TypeDescription, "CLUSTERED")) && (!TextHelper.IsEqual(index.TypeDescription, "NONCLUSTERED")))
+                    {
+                        sb.Append("-- Unable to script " + index.TypeDescription + " index [" + index.Name + "] on [" + tableName + "]. Script this one manually." + Environment.NewLine);
+                        continue;
+                    }
+
+                    // if invalid, drop the existing one first
+                    if (difference.DifferenceType == DifferenceTypeEnum.IndexNotValid)
+                    {
+                        if (isConstraint)
+                        {
+                            // primary keys and unique constraints are dropped as constraints
+                            sb.Append("ALTER TABLE [" + tableName + "] DROP CONSTRAINT [" + index.Name + "]" + Environment.NewLine + "Go" + Environment.NewLine);
+                        }
+                        else
+                        {
+                            // regular indexes are dropped as indexes
+                            sb.Append("DROP INDEX [" + index.Name + "] ON [" + tableName + "]" + Environment.NewLine + "Go" + Environment.NewLine);
+                        }
+                    }
+
+                    // create it to match the source
+                    sb.Append(BuildCreateIndexSQL(index, tableName, isConstraint));
+                }
+            }
+
+            // return value
+            return sb.ToString();
         }
         #endregion
 
         #region GetDefaultValueConstraintsSQL()
         /// <summary>
-        /// returns the Default Value Constraints SQL
+        /// returns the Default Value Constraints SQL. Missing defaults are added; wrong defaults are
+        /// dropped (using the target's constraint name, which may differ) and added back.
+        /// Uses the Definition text, so numeric, date, guid and text defaults are all handled.
         /// </summary>
         public string GetDefaultValueConstraintsSQL()
         {
             // initial value
-            string defaultValueConstraintsSQL = "";
+            StringBuilder sb = new StringBuilder();
 
-            // local
-            string sql = "";
+            // locals
+            DefaultValueConstraint constraint = null;
+            string tableName = "";
+            string dropName = "";
 
             // if the Comparison.SchemaDifferences exists
             if ((HasComparison) && (Comparison.HasSchemaDifferences))
@@ -1605,73 +2044,75 @@ namespace DBCompare
                 // iterate the SchemaDifferences
                 foreach (SchemaDifference difference in Comparison.SchemaDifferences)
                 {
+                    // older type: the target table has no defaults, so add all of the source table's defaults
                     if (difference.DifferenceType == DifferenceTypeEnum.TargetTableHasNoDefaultValueConstraints)
                     {
-                        // We must create the SQL for all the DefaultValueConstraints for this table
+                        // must have the table
+                        if (!difference.HasTable)
+                        {
+                            continue;
+                        }
+
+                        // find the source table
                         DataTable source = Comparison.SourceDatabase.Tables.FirstOrDefault(x => x.Name == difference.Table.Name);
 
-                        // If the source object exists
-                        if (NullHelper.Exists(source))
+                        // If the source table and its defaults exist
+                        if ((NullHelper.Exists(source)) && (ListHelper.HasOneOrMoreItems(source.DefaultValueConstraints)))
                         {
-                            // generate all DefaultValueConstraints for this table
-
-                            foreach (DefaultValueConstraint constraint in source.DefaultValueConstraints)
+                            // add each default
+                            foreach (DefaultValueConstraint sourceConstraint in source.DefaultValueConstraints)
                             {
-                                // Create the SQL For this update
-                                sql = "Alter Table " + constraint.TableName + " Add CONSTRAINT " + constraint.ConstraintName + " DEFAULT " + constraint.DefaultValue + " FOR " + constraint.ColumnName + Environment.NewLine + "Go" + Environment.NewLine;
-
-                                // Add this sql
-                                defaultValueConstraintsSQL += sql;
+                                sb.Append(BuildAddDefaultSQL(source.Name, sourceConstraint));
                             }
                         }
+
+                        // done with this difference
+                        continue;
                     }
-                    else if (difference.DifferenceType == DifferenceTypeEnum.DefaultValueConstraintNotFound)
+
+                    // only default value differences are handled below
+                    if ((difference.DifferenceType != DifferenceTypeEnum.DefaultValueConstraintNotFound) && (difference.DifferenceType != DifferenceTypeEnum.DefaultValueConstraintWrongValue))
                     {
-                        // We must create the SQL for this DefaultValueConstraing
-
-                        // Create the SQL For this update
-                        sql = "Alter Table " + difference.Table + " Add CONSTRAINT " + difference.Name + " DEFAULT " + difference.Value + " FOR " + difference.Field.FieldName + Environment.NewLine + "Go" + Environment.NewLine;
-
-                        // Add this sql
-                        defaultValueConstraintsSQL += sql;
+                        continue;
                     }
-                    else if (difference.DifferenceType == DifferenceTypeEnum.DefaultValueConstraintWrongValue)
+
+                    // must have the table and the source constraint to script it
+                    if ((!difference.HasTable) || (!difference.HasDefaultValueConstraint))
                     {
-                        // We must alter the default value, so we must drop the constraint first and add it back
+                        sb.Append("-- Unable to script default value constraint: table or constraint information missing." + Environment.NewLine);
+                        continue;
+                    }
 
-                        // find the existing target table
-                        DataTable existingTargetTable = Comparison.TargetDatabase.Tables.FirstOrDefault(x => x.Name == difference.Table.Name);
+                    // set the locals
+                    constraint = difference.DefaultValueConstraint;
+                    tableName = difference.Table.Name;
 
-                        // if found
-                        if (NullHelper.Exists(existingTargetTable))
+                    // if the value is wrong, drop the target's existing constraint first
+                    if (difference.DifferenceType == DifferenceTypeEnum.DefaultValueConstraintWrongValue)
+                    {
+                        // the target's constraint name (it can differ from the source's)
+                        dropName = difference.InvalidConstraintName;
+
+                        // if the name exists
+                        if (TextHelper.Exists(dropName))
                         {
-                            // find the constraint
-                            DefaultValueConstraint existingConstraint = existingTargetTable.DefaultValueConstraints.FirstOrDefault(x => x.ColumnName == difference.Field.FieldName);
-
-                            // If the existingConstraint object exists
-                            if (NullHelper.Exists(existingConstraint))
-                            {
-                                // get the sql to drop this constraint
-                                sql = "Alter table " + difference.Table.Name + " drop constraint " + existingConstraint.ConstraintName + " Go " + Environment.NewLine;
-
-                                // Set the value so far
-                                defaultValueConstraintsSQL = sql;
-
-                                // now we must create the insert statement
-
-                                // Create the SQL For this update
-                                sql = "Alter Table " + difference.Table + " Add CONSTRAINT " + difference.Name + " DEFAULT " + difference.Value + " FOR " + difference.Field.FieldName + Environment.NewLine + "Go" + Environment.NewLine;
-
-                                // Now add this Create Default Value Constraint
-                                defaultValueConstraintsSQL += sql;
-                            }
+                            sb.Append("ALTER TABLE [" + tableName + "] DROP CONSTRAINT [" + dropName + "]" + Environment.NewLine + "Go" + Environment.NewLine);
+                        }
+                        else
+                        {
+                            // without the name the add would fail, since the column already has a default
+                            sb.Append("-- Unable to drop the existing default for [" + tableName + "].[" + constraint.ColumnName + "]: target constraint name missing." + Environment.NewLine);
+                            continue;
                         }
                     }
+
+                    // add the source default
+                    sb.Append(BuildAddDefaultSQL(tableName, constraint));
                 }
             }
 
             // return value
-            return defaultValueConstraintsSQL;
+            return sb.ToString();
         }
         #endregion
 
@@ -1811,7 +2252,8 @@ namespace DBCompare
 
         #region GetUpdateTablesSQL()
         /// <summary>
-        /// returns the Update Tables SQL
+        /// returns the Update Tables SQL. For a missing table, the table is created (with its primary key),
+        /// followed by its default value constraints, check constraints and indexes, all from the source table.
         /// </summary>
         public string GetUpdateTablesSQL()
         {
@@ -1849,6 +2291,9 @@ namespace DBCompare
                         // create the SQL to create this table
                         string tableSQL = CreateTableSQL(difference.Table);
                         sb.Append(tableSQL);
+
+                        // add the table's child objects from the source
+                        sb.Append(CreateTableChildObjectsSQL(difference.Table));
                     }
                 }
                 else if ((difference.DifferenceType == DifferenceTypeEnum.FieldInvalid) || (difference.DifferenceType == DifferenceTypeEnum.FieldIsMissing))

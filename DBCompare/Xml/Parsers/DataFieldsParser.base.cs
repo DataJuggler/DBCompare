@@ -2,12 +2,12 @@
 
 #region using statements
 
-using DataJuggler.NET8;
+using DataJuggler.NET.Data;
 using DataJuggler.UltimateHelper;
 using System;
 using System.Collections.Generic;
-using XmlMirror.Runtime7.Objects;
-using XmlMirror.Runtime7.Util;
+using XmlMirror.Runtime.NETCore.Objects;
+using XmlMirror.Runtime.NETCore.Util;
 
 #endregion
 
@@ -74,7 +74,7 @@ namespace DBCompare.Xml.Parsers
                         case "Database.Tables.DataTable.Fields.DataField.DataType":
 
                             // Set the value for dataField.DataType
-                            dataField.DataType = EnumHelper.GetEnumValue<DataJuggler.NET8.DataManager.DataTypeEnum>(xmlNode.FormattedNodeValue, DataJuggler.NET8.DataManager.DataTypeEnum.NotSupported);
+                            dataField.DataType = EnumHelper.GetEnumValue<DataJuggler.NET.Data.DataManager.DataTypeEnum>(xmlNode.FormattedNodeValue, DataJuggler.NET.Data.DataManager.DataTypeEnum.NotSupported);
 
                             // required
                             break;

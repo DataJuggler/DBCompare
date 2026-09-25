@@ -60,7 +60,17 @@ https://github.com/DataJuggler/DBCompare
 As will all my open source, they come with triple your money back if you are not happy, after a small $1.50 restocking fee.
 
 
+# Updates
 
+I just realized this Read Me is way out of date. 
+
+# Major Update
+
+9.24.2026
+Version 10.1.0: Claude helped me massively update this project. This app now checks for composite Indexes or Foreign Keys
+that reference more than one field. Also Default Value checks are no longer limited to numerical types, and the 
+generate scripts feature has been massively overhauled. A missing table and all it's indexes, constraints, default values and FK's
+can all be scripted now. 
 
 
 Update 9.12.2019: DBCompare install can not be downloaded here: https://datajuggler.com/Downloads/DBCompare.msi

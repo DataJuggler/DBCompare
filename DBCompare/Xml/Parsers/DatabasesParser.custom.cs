@@ -3,11 +3,11 @@
 #region using statements
 
 using DataJuggler.UltimateHelper;
-using DataJuggler.NET8;
+using DataJuggler.NET.Data;
 using System;
 using System.Collections.Generic;
-using XmlMirror.Runtime7.Objects;
-using XmlMirror.Runtime7.Util;
+using XmlMirror.Runtime.NETCore.Objects;
+using XmlMirror.Runtime.NETCore.Util;
 
 #endregion
 

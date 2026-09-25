@@ -268,6 +268,7 @@ namespace DBCompare
             GenerateScriptsButton.Size = new System.Drawing.Size(168, 44);
             GenerateScriptsButton.TabIndex = 102;
             GenerateScriptsButton.Theme = DataJuggler.Win.Controls.Enumerations.ThemeEnum.Dark;
+            GenerateScriptsButton.UseMnemonic = true;
             GenerateScriptsButton.Visible = false;
             GenerateScriptsButton.Click += GenerateScriptsButton_Click;
             // 

@@ -3,11 +3,11 @@
 #region using statements
 
 using DataJuggler.UltimateHelper;
-using DataJuggler.NET8;
+using DataJuggler.NET.Data;
 using System;
 using System.Collections.Generic;
-using XmlMirror.Runtime7.Objects;
-using XmlMirror.Runtime7.Util;
+using XmlMirror.Runtime.NETCore.Objects;
+using XmlMirror.Runtime.NETCore.Util;
 
 #endregion
 
@@ -146,7 +146,7 @@ namespace DBCompare.Xml.Parsers
                         case "Database.Tables.DataTable.Indexes.DataIndex.IndexType":
 
                             // Set the value for dataIndex.IndexType
-                            dataIndex.IndexType = EnumHelper.GetEnumValue<DataJuggler.NET8.Enumerations.IndexTypeEnum>(xmlNode.FormattedNodeValue, DataJuggler.NET8.Enumerations.IndexTypeEnum.Unknown);
+                            dataIndex.IndexType = EnumHelper.GetEnumValue<DataJuggler.NET.Data.Enumerations.IndexTypeEnum>(xmlNode.FormattedNodeValue, DataJuggler.NET.Data.Enumerations.IndexTypeEnum.Unknown);
 
                             // required
                             break;

@@ -2,7 +2,7 @@
 
 #region using statements
 
-using DataJuggler.NET8;
+using DataJuggler.NET.Data;
 using DataJuggler.UltimateHelper;
 using System;
 using System.Collections.Generic;
@@ -301,7 +301,7 @@ namespace DBCompare
 
             #region CompareCheckConstraintsForTable(DataTable sourceTable, DataTable targetTable, ref SchemaComparison comparison)
             /// <summary>
-            /// This method is sued to compare all the CheckConstraints for a table
+            /// This method is used to compare all the CheckConstraints for a table
             /// </summary>
             /// <param name="sourceTable"></param>
             /// <param name="targetTable"></param>
@@ -311,14 +311,14 @@ namespace DBCompare
                 // verify all the objects exist
                 if (NullHelper.Exists(sourceTable, targetTable, comparison))
                 {
-                     // if the sourceTable Has Check Constraints
+                    // if the sourceTable Has Check Constraints
                     if (sourceTable.HasCheckConstraints)
                     {
                         // local
                         int number = 0;
                         string constraintName = "";
-                        SchemaDifference schemaDifference = new SchemaDifference();
-                        
+                        SchemaDifference schemaDifference = null;
+
                         // iterate the CheckConstraints in the sourceTable
                         foreach (CheckConstraint sourceCheckConstraint in sourceTable.CheckConstraints)
                         {
@@ -326,7 +326,7 @@ namespace DBCompare
                             if (TextHelper.IsEqual(constraintName, sourceCheckConstraint.ConstraintName))
                             {
                                 // Increment the value for number
-                                number++;    
+                                number++;
                             }
                             else
                             {
@@ -352,11 +352,19 @@ namespace DBCompare
                                     // create the schemaDifference
                                     schemaDifference = new SchemaDifference();
 
+                                    // set the difference type
                                     schemaDifference.DifferenceType = DifferenceTypeEnum.CheckConstraintNotValid;
-                                    
-                                    schemaDifference.Message = "The check constraint '" + sourceCheckConstraint.ConstraintName + "' in the target database table '" + targetTable.Name + "' is not valid.";
-                                    
-                                    // Add an entry for this missing Check Constraint
+
+                                    // Set the message, showing both expressions
+                                    schemaDifference.Message = "The check constraint '" + sourceCheckConstraint.ConstraintName + "' in the target database table '" + targetTable.Name + "' is not valid. Source: " + XmlPatternHelper.Decode(sourceCheckConstraint.CheckClause) + "  Target: " + targetCheckConstraint.CheckClause;
+
+                                    // Set the Table
+                                    schemaDifference.Table = sourceTable;
+
+                                    // store the source check constraint, so it can be dropped and recreated
+                                    schemaDifference.CheckConstraint = sourceCheckConstraint;
+
+                                    // add this item
                                     comparison.SchemaDifferences.Add(schemaDifference);
                                 }
                             }
@@ -368,10 +376,16 @@ namespace DBCompare
                                 // set the difference type
                                 schemaDifference.DifferenceType = DifferenceTypeEnum.CheckConstraintNotFound;
 
-                                // Set the message                                
-                                schemaDifference.Message = "The check constraint  '" + sourceCheckConstraint.ConstraintName + "' was not found in the target database table '" + targetTable.Name + "'.";
-                                
-                                // Add an entry for this missing Check Constraint
+                                // Set the message
+                                schemaDifference.Message = "The check constraint '" + sourceCheckConstraint.ConstraintName + "' was not found in the target database table '" + targetTable.Name + "'.";
+
+                                // Set the Table
+                                schemaDifference.Table = sourceTable;
+
+                                // store the source check constraint, so it can be created
+                                schemaDifference.CheckConstraint = sourceCheckConstraint;
+
+                                // add this item
                                 comparison.SchemaDifferences.Add(schemaDifference);
                             }
                         }
@@ -382,68 +396,49 @@ namespace DBCompare
 
             #region CompareDefaultValueConstraints(DataTable sourceTable, DataTable targetTable, ref SchemaComparison comparison)
             /// <summary>
-            /// Compare Default Value Constraints
+            /// Compare Default Value Constraints. Defaults are matched by column (their names are often
+            /// system generated and differ between databases), and compared by their Definition text,
+            /// so numeric, date, guid and text defaults are all handled.
             /// </summary>
             public void CompareDefaultValueConstraints(DataTable sourceTable, DataTable targetTable, ref SchemaComparison comparison)
             {
                 // locals
                 SchemaDifference difference = null;
+                DefaultValueConstraint target = null;
 
                 // verify all the objects exist
                 if (NullHelper.Exists(sourceTable, targetTable, comparison))
                 {
-                    // if both tables has DefaultValueConstraints
+                    // if the source table has DefaultValueConstraints
                     if (ListHelper.HasOneOrMoreItems(sourceTable.DefaultValueConstraints))
                     {
-                        // if the target table has one or more
-                        if (ListHelper.HasOneOrMoreItems(targetTable.DefaultValueConstraints))
+                        // iterate the DefaultValueConstraints
+                        foreach (DefaultValueConstraint constraint in sourceTable.DefaultValueConstraints)
                         {
-                            // iterate the DefaultValueConstraints
-                            foreach (DefaultValueConstraint constraint in sourceTable.DefaultValueConstraints)
+                            // attempt to find the default for this same column in the target table (null safe if the target has none)
+                            target = null;
+
+                            // if the target table has one or more
+                            if (ListHelper.HasOneOrMoreItems(targetTable.DefaultValueConstraints))
                             {
-                                // we must attempt to find this constraint in the targetTable.DefaultValueConstraints
-                                DefaultValueConstraint target = targetTable.DefaultValueConstraints.FirstOrDefault(x => x.ColumnName == constraint.ColumnName);
+                                // find by column
+                                target = targetTable.DefaultValueConstraints.FirstOrDefault(x => TextHelper.IsEqual(x.ColumnName, constraint.ColumnName));
+                            }
 
-                                // if the target was found
-                                if (NullHelper.Exists(target))
-                                {
-                                    // if the values do not match
-                                    if (constraint.DefaultValue != target.DefaultValue)
-                                    {
-                                        // Create a SchemaDifference
-                                        difference = new SchemaDifference();
-                                        difference.DifferenceType = DifferenceTypeEnum.DefaultValueConstraintNotFound;
-                                    
-                                        // Find this DataField
-                                        difference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == constraint.ColumnName);
-
-                                        // set the message
-                                        difference.Message = "The Default Value constraint for " + constraint.TableName + "." + constraint.ColumnName + " does not match the source default value of " + constraint.DefaultValue + ".";
-
-                                        // Set the Table
-                                        difference.Table = sourceTable;
-
-                                        // Set the name (used for generating scripts)
-                                        difference.Name = constraint.ConstraintName;
-
-                                        // Set what the default value should be
-                                        difference.Value = constraint.DefaultValue;
-
-                                        // Add this difference
-                                        comparison.SchemaDifferences.Add(difference);    
-                                    }
-                                }
-                                else
+                            // if the target was found
+                            if (NullHelper.Exists(target))
+                            {
+                                // if the defaults do not match
+                                if (!DefaultsMatch(constraint, target))
                                 {
                                     // Create a SchemaDifference
                                     difference = new SchemaDifference();
-                                    difference.DifferenceType = DifferenceTypeEnum.DefaultValueConstraintNotFound;
-                                    
-                                    // Find this DataField
-                                    difference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == constraint.ColumnName);
 
-                                    // set the message
-                                    difference.Message = "The Default Value constraint was not found for " + constraint.TableName + "." + constraint.ColumnName;
+                                    // wrong value
+                                    difference.DifferenceType = DifferenceTypeEnum.DefaultValueConstraintWrongValue;
+
+                                    // set the message, showing both definitions
+                                    difference.Message = "The default value constraint for " + constraint.TableName + "." + constraint.ColumnName + " is " + target.Definition + " in the target database, but " + constraint.Definition + " in the source database.";
 
                                     // Set the Table
                                     difference.Table = sourceTable;
@@ -454,23 +449,48 @@ namespace DBCompare
                                     // Set the name (used for generating scripts)
                                     difference.Name = constraint.ConstraintName;
 
+                                    // Set what the default value should be (numeric defaults only)
+                                    difference.Value = constraint.DefaultValue;
+
+                                    // store the source constraint, so it can be scripted from its Definition
+                                    difference.DefaultValueConstraint = constraint;
+
+                                    // the target's existing constraint name, which may differ from the source's, so it can be dropped
+                                    difference.InvalidConstraintName = target.ConstraintName;
+
                                     // Add this difference
-                                    comparison.SchemaDifferences.Add(difference);    
+                                    comparison.SchemaDifferences.Add(difference);
                                 }
                             }
-                        }
-                        else
-                        {
-                            // Create a SchemaDifference
-                            difference = new SchemaDifference();
-                            difference.DifferenceType = DifferenceTypeEnum.TargetTableHasNoDefaultValueConstraints;
-                            difference.Table = sourceTable;
+                            else
+                            {
+                                // Create a SchemaDifference
+                                difference = new SchemaDifference();
 
-                            // set the message
-                            difference.Message = "The target table '" + targetTable.Name + "', does not contain any default value constraints.";
+                                // not found
+                                difference.DifferenceType = DifferenceTypeEnum.DefaultValueConstraintNotFound;
 
-                            // Add this difference
-                            comparison.SchemaDifferences.Add(difference);    
+                                // set the message
+                                difference.Message = "The default value constraint " + constraint.Definition + " was not found for " + constraint.TableName + "." + constraint.ColumnName + " in the target database.";
+
+                                // Set the Table
+                                difference.Table = sourceTable;
+
+                                // Set the Field
+                                difference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == constraint.ColumnName);
+
+                                // Set the name (used for generating scripts)
+                                difference.Name = constraint.ConstraintName;
+
+                                // Set what the default value should be (numeric defaults only)
+                                difference.Value = constraint.DefaultValue;
+
+                                // store the source constraint, so it can be scripted from its Definition
+                                difference.DefaultValueConstraint = constraint;
+
+                                // Add this difference
+                                comparison.SchemaDifferences.Add(difference);
+                            }
                         }
                     }
                 }
@@ -618,7 +638,10 @@ namespace DBCompare
 
             #region CompareForeignKeys(DataTable sourceTable, DataTable targetTable, ref SchemaComparison comparison)
             /// <summary>
-            /// This method is used to compare the foreign keys for a table
+            /// This method compares the ForeignKeys between the sourceTable and targetTable.
+            /// A composite foreign key is compared as one unit — Table, ReferencedTable, and 
+            /// every column pair in Columns — not one row per column. If the structure matches,
+            /// the cascade rules (ON DELETE / ON UPDATE) and enabled state are compared.
             /// </summary>
             /// <param name="sourceTable"></param>
             /// <param name="targetTable"></param>
@@ -627,23 +650,30 @@ namespace DBCompare
             {
                 // locals
                 ForeignKeyConstraint targetForeignKey = null;
+                ForeignKeyColumnPair targetColumn = null;
+                ForeignKeyColumnPair firstColumn = null;
                 SchemaDifference schemaDifference = null;
+                int differenceCount = 0;
 
                 // verify all the objects exist
                 if (NullHelper.Exists(sourceTable, targetTable, comparison))
                 {
-                    // if both tables have foreign keys
+                    // if the sourceTable has foreign keys
                     if (ListHelper.HasOneOrMoreItems(sourceTable.ForeignKeys))
                     {
                         // iterate the foreignKeys for the sourceTable
                         foreach (ForeignKeyConstraint foreignKey in sourceTable.ForeignKeys)
                         {
-                            // Attempt to find this foreign key in the target table
-                            targetForeignKey = ForeignKeyConstraintHelper.FindForeignKey(foreignKey.ForeignKey, targetTable);
+                            // Attempt to find this foreign key in the target table, by name — 
+                            // one object per constraint name, composite or not, so this is unambiguous
+                            targetForeignKey = ForeignKeyConstraintHelper.FindForeignKey(foreignKey.Name, targetTable);
 
                             // if the foreign key was found in the target database
                             if (NullHelper.Exists(targetForeignKey))
                             {
+                                // remember how many differences exist before checking this foreign key
+                                differenceCount = comparison.SchemaDifferences.Count;
+
                                 // compare the table name (should always be true)
                                 if (!TextHelper.IsEqual(foreignKey.Table, targetForeignKey.Table))
                                 {
@@ -659,17 +689,14 @@ namespace DBCompare
                                     // Set the ReferenceTableName
                                     schemaDifference.ReferenceTableName = foreignKey.ReferencedTable;
 
-                                    // Set the ReferenceColumnName
-                                    schemaDifference.ReferenceColumnName = foreignKey.ReferencedColumn;
+                                    // Set the Table
+                                    schemaDifference.Table = sourceTable;
 
                                     // Set the InvalidForeignKeyName so it can be dropped and recreated 
                                     schemaDifference.InvalidForeignKeyName = targetForeignKey.Name;
 
-                                    // Set the Field
-                                    schemaDifference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == foreignKey.ForeignKey);
-
-                                    // Set the Table
-                                    schemaDifference.Table = sourceTable;
+                                    // store the full source constraint, so it can be scripted with all its columns
+                                    schemaDifference.ForeignKey = foreignKey;
 
                                     // add this item
                                     comparison.SchemaDifferences.Add(schemaDifference);
@@ -691,19 +718,16 @@ namespace DBCompare
                                     // Set the ReferenceTableName
                                     schemaDifference.ReferenceTableName = foreignKey.ReferencedTable;
 
-                                    // Set the ReferenceColumnName
-                                    schemaDifference.ReferenceColumnName = foreignKey.ReferencedColumn;
-
                                     // Set the InvalidForeignKeyName so it can be dropped and recreated 
                                     schemaDifference.InvalidForeignKeyName = targetForeignKey.Name;
 
-                                    // Set the Field
-                                    schemaDifference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == foreignKey.ForeignKey);
+                                    // store the full source constraint, so it can be scripted with all its columns
+                                    schemaDifference.ForeignKey = foreignKey;
 
                                     // add this item
                                     comparison.SchemaDifferences.Add(schemaDifference);
                                 }
-                                else if (!TextHelper.IsEqual(foreignKey.ReferencedColumn, targetForeignKey.ReferencedColumn))
+                                else if (foreignKey.Columns.Count != targetForeignKey.Columns.Count)
                                 {
                                     // Create a new instance of a 'SchemaDifference' object.
                                     schemaDifference = new SchemaDifference();
@@ -711,30 +735,152 @@ namespace DBCompare
                                     // Set DifferenceType
                                     schemaDifference.DifferenceType = DifferenceTypeEnum.ForeignKeyWrongReferencedColumn;
 
-                                    // Add a schemaDifference because the Referenced Column name does not match
-                                    schemaDifference.Message = "The foreign key " + foreignKey.Name + " has a different value for Referenced Column name in the target database.";
-
-                                    // Set the ReferenceTableName
-                                    schemaDifference.ReferenceTableName = foreignKey.ReferencedTable;
-
-                                    // Set the ReferenceColumnName
-                                    schemaDifference.ReferenceColumnName = foreignKey.ReferencedColumn;
+                                    // Add a schemaDifference because this composite key has a different number of columns
+                                    schemaDifference.Message = "The foreign key " + foreignKey.Name + " has " + foreignKey.Columns.Count + " column(s) in the source database, but " + targetForeignKey.Columns.Count + " in the target database.";
 
                                     // Set the Table
                                     schemaDifference.Table = sourceTable;
 
+                                    // Set the ReferenceTableName
+                                    schemaDifference.ReferenceTableName = foreignKey.ReferencedTable;
+
                                     // Set the InvalidForeignKeyName so it can be dropped and recreated 
                                     schemaDifference.InvalidForeignKeyName = targetForeignKey.Name;
 
-                                    // Set the Field
-                                    schemaDifference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == foreignKey.ForeignKey);
+                                    // store the full source constraint, so it can be scripted with all its columns
+                                    schemaDifference.ForeignKey = foreignKey;
 
                                     // add this item
                                     comparison.SchemaDifferences.Add(schemaDifference);
                                 }
+                                else
+                                {
+                                    // iterate every column pair in this constraint, matched to the target by Ordinal value
+                                    foreach (ForeignKeyColumnPair sourceColumn in foreignKey.Columns)
+                                    {
+                                        // find the column at this same ordinal in the target — matched by value, not list position
+                                        targetColumn = targetForeignKey.Columns.FirstOrDefault(x => x.Ordinal == sourceColumn.Ordinal);
+
+                                        // if a column at this ordinal exists in the target
+                                        if (NullHelper.Exists(targetColumn))
+                                        {
+                                            // if the FieldName or ReferencedColumn differs for this column pair
+                                            if ((!TextHelper.IsEqual(sourceColumn.FieldName, targetColumn.FieldName)) || (!TextHelper.IsEqual(sourceColumn.ReferencedColumn, targetColumn.ReferencedColumn)))
+                                            {
+                                                // Create a new instance of a 'SchemaDifference' object.
+                                                schemaDifference = new SchemaDifference();
+
+                                                // Set DifferenceType
+                                                schemaDifference.DifferenceType = DifferenceTypeEnum.ForeignKeyWrongReferencedColumn;
+
+                                                // Add a schemaDifference because this column pair does not match
+                                                schemaDifference.Message = "The foreign key " + foreignKey.Name + " has a different column mapping at position " + sourceColumn.Ordinal + " in the target database.";
+
+                                                // Set the ReferenceTableName
+                                                schemaDifference.ReferenceTableName = foreignKey.ReferencedTable;
+
+                                                // Set the ReferenceColumnName
+                                                schemaDifference.ReferenceColumnName = sourceColumn.ReferencedColumn;
+
+                                                // Set the Table
+                                                schemaDifference.Table = sourceTable;
+
+                                                // Set the InvalidForeignKeyName so it can be dropped and recreated 
+                                                schemaDifference.InvalidForeignKeyName = targetForeignKey.Name;
+
+                                                // Set the Field
+                                                schemaDifference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == sourceColumn.FieldName);
+
+                                                // store the full source constraint, so it can be scripted with all its columns
+                                                schemaDifference.ForeignKey = foreignKey;
+
+                                                // add this item
+                                                comparison.SchemaDifferences.Add(schemaDifference);
+
+                                                // one drop / recreate fixes the whole constraint, so stop here
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                // if no structural difference was found, compare the cascade rules and enabled state
+                                if (comparison.SchemaDifferences.Count == differenceCount)
+                                {
+                                    // locals
+                                    List<string> reasons = new List<string>();
+
+                                    // ON DELETE
+                                    if (!TextHelper.IsEqual(foreignKey.OnDelete, targetForeignKey.OnDelete))
+                                    {
+                                        reasons.Add("ON DELETE " + foreignKey.OnDelete + " in the source database, but " + targetForeignKey.OnDelete + " in the target database");
+                                    }
+
+                                    // ON UPDATE
+                                    if (!TextHelper.IsEqual(foreignKey.OnUpdate, targetForeignKey.OnUpdate))
+                                    {
+                                        reasons.Add("ON UPDATE " + foreignKey.OnUpdate + " in the source database, but " + targetForeignKey.OnUpdate + " in the target database");
+                                    }
+
+                                    // if the cascade rules differ
+                                    if (reasons.Count > 0)
+                                    {
+                                        // Create a new instance of a 'SchemaDifference' object.
+                                        schemaDifference = new SchemaDifference();
+
+                                        // Set DifferenceType
+                                        schemaDifference.DifferenceType = DifferenceTypeEnum.ForeignKeyWrongAction;
+
+                                        // Set the message
+                                        schemaDifference.Message = "The foreign key " + foreignKey.Name + " has " + String.Join(" and ", reasons) + ".";
+
+                                        // Set the Table
+                                        schemaDifference.Table = sourceTable;
+
+                                        // Set the ReferenceTableName
+                                        schemaDifference.ReferenceTableName = foreignKey.ReferencedTable;
+
+                                        // Set the InvalidForeignKeyName so it can be dropped and recreated
+                                        schemaDifference.InvalidForeignKeyName = targetForeignKey.Name;
+
+                                        // store the full source constraint, so it can be scripted with its cascade rules
+                                        schemaDifference.ForeignKey = foreignKey;
+
+                                        // add this item
+                                        comparison.SchemaDifferences.Add(schemaDifference);
+                                    }
+
+                                    // if the enabled state differs
+                                    if (foreignKey.IsDisabled != targetForeignKey.IsDisabled)
+                                    {
+                                        // Create a new instance of a 'SchemaDifference' object.
+                                        schemaDifference = new SchemaDifference();
+
+                                        // Set DifferenceType
+                                        schemaDifference.DifferenceType = DifferenceTypeEnum.ForeignKeyDisabled;
+
+                                        // Set the message
+                                        schemaDifference.Message = "The foreign key " + foreignKey.Name + " is " + (foreignKey.IsDisabled ? "disabled" : "enabled") + " in the source database, but " + (targetForeignKey.IsDisabled ? "disabled" : "enabled") + " in the target database.";
+
+                                        // Set the Table
+                                        schemaDifference.Table = sourceTable;
+
+                                        // Set the InvalidForeignKeyName
+                                        schemaDifference.InvalidForeignKeyName = targetForeignKey.Name;
+
+                                        // store the full source constraint
+                                        schemaDifference.ForeignKey = foreignKey;
+
+                                        // add this item
+                                        comparison.SchemaDifferences.Add(schemaDifference);
+                                    }
+                                }
                             }
                             else
                             {
+                                // find column 1 — every constraint has at least one column pair
+                                firstColumn = foreignKey.Columns.FirstOrDefault(x => x.Ordinal == 1);
+
                                 // Create a new instance of a 'SchemaDifference' object.
                                 schemaDifference = new SchemaDifference();
 
@@ -750,11 +896,18 @@ namespace DBCompare
                                 // Set the Table
                                 schemaDifference.Table = sourceTable;
 
-                                // Set the Field
-                                schemaDifference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == foreignKey.ForeignKey);
+                                // store the full source constraint, so a missing composite FK is recreated with all its columns
+                                schemaDifference.ForeignKey = foreignKey;
 
-                                // Set the ReferenceColumnName
-                                schemaDifference.ReferenceColumnName = foreignKey.ReferencedColumn;
+                                // if column 1 exists
+                                if (NullHelper.Exists(firstColumn))
+                                {
+                                    // Set the ReferenceColumnName (column 1, for the not-found case)
+                                    schemaDifference.ReferenceColumnName = firstColumn.ReferencedColumn;
+
+                                    // Set the Field
+                                    schemaDifference.Field = sourceTable.Fields.FirstOrDefault(x => x.FieldName == firstColumn.FieldName);
+                                }
 
                                 // add this item
                                 comparison.SchemaDifferences.Add(schemaDifference);  
@@ -950,70 +1103,145 @@ namespace DBCompare
             
             #region CompareIndexes(DataIndex sourceIndex, DataIndex targetIndex)
             /// <summary>
-            /// This method returns the Indexes
+            /// This method compares the sourceIndex and targetIndex, and returns a
+            /// ComparisonResponse describing whether they match and, if not, every reason why.
+            /// Key columns are compared by position; included columns are compared as a set,
+            /// since their order does not matter (and they all have key_ordinal 0).
             /// </summary>
-            private bool CompareIndexes(DataIndex sourceIndex, DataIndex targetIndex)
+            private ComparisonResponse CompareIndexes(DataIndex sourceIndex, DataIndex targetIndex)
             {
                 // initial value
-                bool isValid = false;
+                ComparisonResponse response = new ComparisonResponse();
+
+                // locals
+                List<string> reasons = new List<string>();
 
                 // if both indexes exist
-                if (NullHelper.Exists(sourceDatabase, targetIndex))
+                if (NullHelper.Exists(sourceIndex, targetIndex))
                 {
-                    // set isValid to true
-                    isValid = true;
-
-                    // if the names do not match
+                    // name
                     if (sourceIndex.Name != targetIndex.Name)
                     {
-                        // not valid
-                        isValid = false;
+                        reasons.Add("The index name '" + sourceIndex.Name + "' does not match the target index name '" + targetIndex.Name + "'.");
                     }
-                    else if (sourceIndex.IsUniqueConstraint != targetIndex.IsUniqueConstraint)
+
+                    // IsUniqueConstraint
+                    if (sourceIndex.IsUniqueConstraint != targetIndex.IsUniqueConstraint)
                     {
-                        // not valid
-                        isValid = false;
+                        reasons.Add("The index '" + sourceIndex.Name + "' has a different value for IsUniqueConstraint in the target database.");
                     }
-                    else if (sourceIndex.IsPrimary != targetIndex.IsPrimary)
+
+                    // IsPrimary
+                    if (sourceIndex.IsPrimary != targetIndex.IsPrimary)
                     {
-                        // not valid
-                        isValid = false;
+                        reasons.Add("The index '" + sourceIndex.Name + "' has a different value for IsPrimary in the target database.");
                     }
-                    else if (sourceIndex.Clustered != targetIndex.Clustered)
+
+                    // IsUnique (DIFF #6)
+                    if (sourceIndex.IsUnique != targetIndex.IsUnique)
                     {
-                        // not valid
-                        isValid = false;
+                        reasons.Add("The index '" + sourceIndex.Name + "' is " + (sourceIndex.IsUnique ? "unique" : "not unique") + " in the source database, but " + (targetIndex.IsUnique ? "unique" : "not unique") + " in the target database.");
                     }
-                    else if (sourceIndex.IgnoreDuplicateKey != targetIndex.IgnoreDuplicateKey)
+
+                    // Clustered / Nonclustered / Columnstore etc. (DIFF #11) - uses type_desc, since Clustered is never set by the loader
+                    if (!String.Equals(sourceIndex.TypeDescription, targetIndex.TypeDescription, StringComparison.OrdinalIgnoreCase))
                     {
-                        // not valid
-                        isValid = false;
+                        reasons.Add("The index '" + sourceIndex.Name + "' is " + sourceIndex.TypeDescription + " in the source database, but " + targetIndex.TypeDescription + " in the target database.");
+                    }
+
+                    // IgnoreDuplicateKey
+                    if (sourceIndex.IgnoreDuplicateKey != targetIndex.IgnoreDuplicateKey)
+                    {
+                        reasons.Add("The index '" + sourceIndex.Name + "' has a different value for IgnoreDuplicateKey in the target database.");
+                    }
+
+                    // IsDisabled
+                    if (sourceIndex.IsDisabled != targetIndex.IsDisabled)
+                    {
+                        reasons.Add("The index '" + sourceIndex.Name + "' is " + (sourceIndex.IsDisabled ? "disabled" : "enabled") + " in the source database, but " + (targetIndex.IsDisabled ? "disabled" : "enabled") + " in the target database.");
+                    }
+
+                    // Filter (DIFF #7)
+                    string sourceFilter = (sourceIndex.HasFilter ? (sourceIndex.FilterDefinition ?? "") : "").Trim();
+                    string targetFilter = (targetIndex.HasFilter ? (targetIndex.FilterDefinition ?? "") : "").Trim();
+
+                    if (!String.Equals(sourceFilter, targetFilter, StringComparison.OrdinalIgnoreCase))
+                    {
+                        reasons.Add("The index '" + sourceIndex.Name + "' has filter '" + (sourceFilter.Length > 0 ? sourceFilter : "(none)") + "' in the source database, but '" + (targetFilter.Length > 0 ? targetFilter : "(none)") + "' in the target database.");
+                    }
+
+                    // split the columns into key columns (ordered) and included columns (unordered)
+                    List<IndexColumn> sourceKeys = sourceIndex.Columns.Where(x => !x.IsIncludedColumn).OrderBy(x => x.Ordinal).ToList();
+                    List<IndexColumn> targetKeys = targetIndex.Columns.Where(x => !x.IsIncludedColumn).OrderBy(x => x.Ordinal).ToList();
+
+                    // Key columns (DIFF #1, #3, #4, #5)
+                    if (sourceKeys.Count != targetKeys.Count)
+                    {
+                        reasons.Add("The index '" + sourceIndex.Name + "' has " + sourceKeys.Count + " key column(s) in the source database, but " + targetKeys.Count + " in the target database.");
+                    }
+                    else
+                    {
+                        // compare each key column by position
+                        for (int x = 0; x < sourceKeys.Count; x++)
+                        {
+                            if (!TextHelper.IsEqual(sourceKeys[x].FieldName, targetKeys[x].FieldName))
+                            {
+                                reasons.Add("The index '" + sourceIndex.Name + "' has a different column at position " + (x + 1) + " (" + sourceKeys[x].FieldName + " vs " + targetKeys[x].FieldName + ") in the target database.");
+                            }
+                            else if (sourceKeys[x].IsDescendingKey != targetKeys[x].IsDescendingKey)
+                            {
+                                reasons.Add("The index '" + sourceIndex.Name + "' has a different sort direction for column '" + sourceKeys[x].FieldName + "' (" + (sourceKeys[x].IsDescendingKey ? "DESC" : "ASC") + " vs " + (targetKeys[x].IsDescendingKey ? "DESC" : "ASC") + ") in the target database.");
+                            }
+                        }
+                    }
+
+                    // Included columns, compared as a set (DIFF #8)
+                    List<string> sourceIncluded = sourceIndex.Columns.Where(x => x.IsIncludedColumn).Select(x => x.FieldName).ToList();
+                    List<string> targetIncluded = targetIndex.Columns.Where(x => x.IsIncludedColumn).Select(x => x.FieldName).ToList();
+
+                    foreach (string fieldName in targetIncluded.Except(sourceIncluded, StringComparer.OrdinalIgnoreCase))
+                    {
+                        reasons.Add("The index '" + sourceIndex.Name + "' has included column '" + fieldName + "' in the target database that is not in the source database.");
+                    }
+
+                    foreach (string fieldName in sourceIncluded.Except(targetIncluded, StringComparer.OrdinalIgnoreCase))
+                    {
+                        reasons.Add("The index '" + sourceIndex.Name + "' is missing included column '" + fieldName + "' in the target database.");
                     }
                 }
-                else if (NullHelper.Exists(sourceDatabase))
+                else if (NullHelper.Exists(sourceIndex))
                 {
-                    // Not valid
+                    reasons.Add("The index '" + sourceIndex.Name + "' does not exist in the target database.");
                 }
                 else if (NullHelper.Exists(targetIndex))
                 {
-                    // Not valid
+                    reasons.Add("An index exists in the target database that does not exist in the source database.");
+                }
+
+                // set the response
+                response.Valid = (reasons.Count == 0);
+
+                // if not valid, combine every reason found
+                if (!response.Valid)
+                {
+                    response.InvalidReason = String.Join(Environment.NewLine + "    ", reasons);
                 }
 
                 // return value
-                return isValid;
+                return response;
             }
             #endregion
 
             #region CompareIndexesForTable(DataTable sourceTable, DataTable targetTable, ref SchemaComparison comparison)
             /// <summary>
-            /// This method is used to compare all the indees for agiven table
+            /// This method is used to compare all the indexes for a given table
             /// </summary>
             /// <param name="sourceTable"></param>
             /// <param name="targetTable"></param>
             /// <param name="comparison"></param>
             public void CompareIndexesForTable(DataTable sourceTable, DataTable targetTable, ref SchemaComparison comparison)
             {
-                // see if al 
+                // if all the objects exist
                 if (NullHelper.Exists(sourceTable, targetTable, comparison))
                 {
                     // If the sourceTable has an indexes collection
@@ -1029,10 +1257,10 @@ namespace DBCompare
                             if (NullHelper.Exists(targetIndex))
                             {
                                 // compare the index
-                                bool validIndex = CompareIndexes(sourceIndex, targetIndex);
+                                ComparisonResponse response = CompareIndexes(sourceIndex, targetIndex);
 
                                 // if not a valid index
-                                if (!validIndex)
+                                if (!response.Valid)
                                 {
                                     // Create a new instance of a 'SchemaDifference' object.
                                     SchemaDifference diff = new SchemaDifference();
@@ -1041,7 +1269,13 @@ namespace DBCompare
                                     diff.DifferenceType = DifferenceTypeEnum.IndexNotValid;
 
                                     // set the message
-                                    diff.Message = "The index '" + sourceIndex.Name + "' in the target database table '" + targetTable.Name + "' is not valid.";
+                                    diff.Message = response.InvalidReason;
+
+                                    // Set the Table
+                                    diff.Table = sourceTable;
+
+                                    // store the full source index, so it can be dropped and recreated
+                                    diff.Index = sourceIndex;
 
                                     // add to the SchemaDifferences
                                     comparison.SchemaDifferences.Add(diff);
@@ -1052,14 +1286,20 @@ namespace DBCompare
                                 // Create a new instance of a 'SchemaDifference' object.
                                 SchemaDifference diff = new SchemaDifference();
 
-                                // not valid
+                                // not found
                                 diff.DifferenceType = DifferenceTypeEnum.IndexNotFound;
 
                                 // set the message
                                 diff.Message = "The index '" + sourceIndex.Name + "' was not found in the target database table '" + targetTable.Name + "'.";
 
+                                // Set the Table
+                                diff.Table = sourceTable;
+
+                                // store the full source index, so it can be created
+                                diff.Index = sourceIndex;
+
                                 // add to the SchemaDifferences
-                                comparison.SchemaDifferences.Add(diff);                               
+                                comparison.SchemaDifferences.Add(diff);
                             }
                         }
                     }
@@ -1250,7 +1490,7 @@ namespace DBCompare
                 string sourceWordText = "";
                 string targetWordText = "";
                 int wordCompare = 0;
-
+                
                 // if the sourceProcedureText exists and the targetProcedureText exists and the comparison object exists
                 if ((TextHelper.Exists(sourceProcedureText, targetProcedureText)) && (comparison != null))
                 {
@@ -1351,7 +1591,7 @@ namespace DBCompare
                 // verify all 3 objects exist
                 if (NullHelper.Exists(sourceDatabase, targetTable, comparison))
                 {
-                    // compare each field
+                    // Iterate the collection of DataField objects
                     foreach (DataField sourceField in sourceTable.Fields)
                     {
                         // attempt to find the targetField
@@ -1525,6 +1765,32 @@ namespace DBCompare
 
                 // return value
                 return comparison;
+            }
+            #endregion
+
+            #region DefaultsMatch(DefaultValueConstraint source, DefaultValueConstraint target)
+            /// <summary>
+            /// returns true if the two defaults match. Compares the Definition text when both have one;
+            /// falls back to the numeric DefaultValue if either Definition is missing (for example from an older XML schema).
+            /// </summary>
+            private bool DefaultsMatch(DefaultValueConstraint source, DefaultValueConstraint target)
+            {
+                // initial value
+                bool match = false;
+
+                // if both have a definition, compare the text
+                if ((TextHelper.Exists(source.Definition)) && (TextHelper.Exists(target.Definition)))
+                {
+                    match = String.Equals(source.Definition.Trim(), target.Definition.Trim(), StringComparison.OrdinalIgnoreCase);
+                }
+                else
+                {
+                    // fall back to the numeric value
+                    match = (source.DefaultValue == target.DefaultValue);
+                }
+
+                // return value
+                return match;
             }
             #endregion
 

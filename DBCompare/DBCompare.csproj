@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <Version>8.0.0</Version>
-	<FileVersion>7.0.1</FileVersion>	
+    <Version>10.1.0</Version>
+	<FileVersion>100.0</FileVersion>	
     <PackageId>DataJuggler.DBCompare</PackageId>
     <Authors>DataJuggler</Authors>
     <Company>DataJuggler</Company>
@@ -64,20 +64,20 @@ attempt as a Nuget package.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;IDE0090;IDE0017;IDE0059;</NoWarn>
+    <NoWarn>1701;1702;IDE0090;IDE0017;IDE0059;WFO1000;</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn>1701;1702;IDE0090;IDE0017;IDE0059;</NoWarn>
+    <NoWarn>1701;1702;IDE0090;IDE0017;IDE0059;WFO1000;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataJuggler.Net8" Version="8.0.0" />
-    <PackageReference Include="DataJuggler.RandomShuffler" Version="8.0.0" />
-    <PackageReference Include="DataJuggler.UltimateHelper" Version="8.0.0" />
-    <PackageReference Include="DataJuggler.Win.Controls" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
-    <PackageReference Include="XmlMirror.Runtime7" Version="7.0.0" />
+    <PackageReference Include="DataJuggler.NET.Data" Version="10.1.2" />
+    <PackageReference Include="DataJuggler.RandomShuffler" Version="10.2.1" />
+    <PackageReference Include="DataJuggler.UltimateHelper" Version="10.0.5" />
+    <PackageReference Include="DataJuggler.Win.Controls" Version="10.0.1" />
+    <PackageReference Include="DataJuggler.XmlMirror.RunTime.NETCore" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.0" />
   </ItemGroup>
 
   <ItemGroup>

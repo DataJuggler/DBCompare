@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataJuggler.NET8;
+using DataJuggler.NET.Data;
 using DBCompare.Enumerations;
 
 #endregion
@@ -29,11 +29,16 @@ namespace DBCompare
         private DataField field;
         private StoredProcedure procedure;
         private DifferenceTypeEnum differenceType;
+        private ForeignKeyConstraint foreignKey;
+        private DataIndex index;
         private string name;
         private double _value;
         private string referenceTableName;
         private string referenceColumnName;
         private string invalidForeignKeyName;
+        private CheckConstraint checkConstraint;
+        private DefaultValueConstraint defaultValueConstraint;
+        private string invalidConstraintName;
         #endregion
 
         #region Methods
@@ -72,6 +77,28 @@ namespace DBCompare
 
         #region Properties
 
+            #region CheckConstraint
+            /// <summary>
+            /// This property gets or sets the value for 'CheckConstraint'.
+            /// </summary>
+            public CheckConstraint CheckConstraint
+            {
+                get { return checkConstraint; }
+                set { checkConstraint = value; }
+            }
+            #endregion
+            
+            #region DefaultValueConstraint
+            /// <summary>
+            /// This property gets or sets the value for 'DefaultValueConstraint'.
+            /// </summary>
+            public DefaultValueConstraint DefaultValueConstraint
+            {
+                get { return defaultValueConstraint; }
+                set { defaultValueConstraint = value; }
+            }
+            #endregion
+            
             #region DifferenceType
             /// <summary>
             /// This property gets or sets the value for 'DifferenceType'.
@@ -94,6 +121,51 @@ namespace DBCompare
             }
             #endregion
             
+            #region ForeignKey
+            /// <summary>
+            /// This property gets or sets the value for 'ForeignKey'.
+            /// </summary>
+            public ForeignKeyConstraint ForeignKey
+            {
+                get { return foreignKey; }
+                set { foreignKey = value; }
+            }
+            #endregion
+            
+            #region HasCheckConstraint
+            /// <summary>
+            /// This property returns true if this object has a 'CheckConstraint'.
+            /// </summary>
+            public bool HasCheckConstraint
+            {
+                get
+                {
+                    // initial value
+                    bool hasCheckConstraint = (CheckConstraint != null);
+
+                    // return value
+                    return hasCheckConstraint;
+                }
+            }
+            #endregion
+            
+            #region HasDefaultValueConstraint
+            /// <summary>
+            /// This property returns true if this object has a 'DefaultValueConstraint'.
+            /// </summary>
+            public bool HasDefaultValueConstraint
+            {
+                get
+                {
+                    // initial value
+                    bool hasDefaultValueConstraint = (DefaultValueConstraint != null);
+
+                    // return value
+                    return hasDefaultValueConstraint;
+                }
+            }
+            #endregion
+            
             #region HasField
             /// <summary>
             /// This property returns true if this object has a 'Field'.
@@ -107,6 +179,40 @@ namespace DBCompare
                     
                     // return value
                     return hasField;
+                }
+            }
+            #endregion
+            
+            #region HasForeignKey
+            /// <summary>
+            /// This property returns true if this object has a 'ForeignKey'.
+            /// </summary>
+            public bool HasForeignKey
+            {
+                get
+                {
+                    // initial value
+                    bool hasForeignKey = (ForeignKey != null);
+
+                    // return value
+                    return hasForeignKey;
+                }
+            }
+            #endregion
+            
+            #region HasIndex
+            /// <summary>
+            /// This property returns true if this object has an 'Index'.
+            /// </summary>
+            public bool HasIndex
+            {
+                get
+                {
+                    // initial value
+                    bool hasIndex = (Index != null);
+
+                    // return value
+                    return hasIndex;
                 }
             }
             #endregion
@@ -142,6 +248,28 @@ namespace DBCompare
                     // return value
                     return hasTable;
                 }
+            }
+            #endregion
+            
+            #region Index
+            /// <summary>
+            /// This property gets or sets the value for 'Index'.
+            /// </summary>
+            public DataIndex Index
+            {
+                get { return index; }
+                set { index = value; }
+            }
+            #endregion
+            
+            #region InvalidConstraintName
+            /// <summary>
+            /// This property gets or sets the value for 'InvalidConstraintName'.
+            /// </summary>
+            public string InvalidConstraintName
+            {
+                get { return invalidConstraintName; }
+                set { invalidConstraintName = value; }
             }
             #endregion
             
