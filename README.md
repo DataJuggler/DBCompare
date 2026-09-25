@@ -12,7 +12,7 @@ DB Compare compares two SQL Server databases and generates a report of any schem
 
 ## Download
 
-Installers are available on the [Releases](../../releases) page.
+Installers are available on the [Releases](../../releases) tab located on the right side of this page.
 
 ## What Gets Compared
 
