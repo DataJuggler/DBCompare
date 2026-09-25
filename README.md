@@ -39,11 +39,15 @@ Generate Scripts has also gone through a major upgrade:
 - Generated tables now keep the same field ordinal order as the source table.
 - Indexes and Foreign Key Constraints are now scripted in one pass. Before, this either took two passes or wasn't supported.
 
-## Requirements
+## Requirements Source Code Version
 
-- .NET 10
-- SQL Server
-- NuGet package [DataJuggler.NET.Data](https://www.nuget.org/packages/DataJuggler.NET.Data) version 10.1.2, which matches this release
+- Visual Studio 2026
+- SQL Server or SQL Server Express
+
+## Powered By
+
+DB Compare is powered by the NuGet package [DataJuggler.NET.Data](https://www.nuget.org/packages/DataJuggler.NET.Data), 
+which reads the database schema used for each comparison. Version 10.1.2 of the package matches this release.
 
 ## History
 
