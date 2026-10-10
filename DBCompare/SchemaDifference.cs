@@ -24,25 +24,48 @@ namespace DBCompare
     {
         
         #region Private Variables
-        private string message;
-        private DataTable table;
-        private DataField field;
-        private StoredProcedure procedure;
-        private DifferenceTypeEnum differenceType;
-        private ForeignKeyConstraint foreignKey;
-        private DataIndex index;
-        private string name;
         private double _value;
-        private string referenceTableName;
-        private string referenceColumnName;
-        private string invalidForeignKeyName;
         private CheckConstraint checkConstraint;
         private DefaultValueConstraint defaultValueConstraint;
+        private DifferenceTypeEnum differenceType;
+        private DataField field;
+        private ForeignKeyConstraint foreignKey;
+        private List<ForeignKeyConstraint> foreignKeysToRecreate;
+        private DataIndex index;
         private string invalidConstraintName;
+        private string invalidForeignKeyName;
+        private string message;
+        private string name;
+        private StoredProcedure procedure;
+        private string referenceColumnName;
+        private string referenceTableName;
+        private DataTable table;
         #endregion
-
+        
+        #region Constructor
+        /// <summary>
+        /// Create a new instance of a SchemaDifference object
+        /// </summary>
+        public SchemaDifference()
+        {
+            // Perform initializations for this object
+            Init();
+        }
+        #endregion
+        
         #region Methods
-
+            
+            #region Init()
+            /// <summary>
+            ///  This method performs initializations for this object.
+            /// </summary>
+            public void Init()
+            {
+                // Create a new collection of 'ForeignKeyConstraint' objects.
+                ForeignKeysToRecreate = new List<ForeignKeyConstraint>();
+            }
+            #endregion
+            
             #region ToString()
             /// <summary>
             /// method returns a String to provide info about this object
@@ -74,9 +97,9 @@ namespace DBCompare
             #endregion
             
         #endregion
-
+        
         #region Properties
-
+            
             #region CheckConstraint
             /// <summary>
             /// This property gets or sets the value for 'CheckConstraint'.
@@ -132,6 +155,17 @@ namespace DBCompare
             }
             #endregion
             
+            #region ForeignKeysToRecreate
+            /// <summary>
+            /// This property gets or sets the value for 'ForeignKeysToRecreate'.
+            /// </summary>
+            public List<ForeignKeyConstraint> ForeignKeysToRecreate
+            {
+                get { return foreignKeysToRecreate; }
+                set { foreignKeysToRecreate = value; }
+            }
+            #endregion
+            
             #region HasCheckConstraint
             /// <summary>
             /// This property returns true if this object has a 'CheckConstraint'.
@@ -176,7 +210,7 @@ namespace DBCompare
                 {
                     // initial value
                     bool hasField = (this.Field != null);
-                    
+
                     // return value
                     return hasField;
                 }
@@ -196,6 +230,23 @@ namespace DBCompare
 
                     // return value
                     return hasForeignKey;
+                }
+            }
+            #endregion
+            
+            #region HasForeignKeysToRecreate
+            /// <summary>
+            /// This property returns true if this object has a 'ForeignKeysToRecreate'.
+            /// </summary>
+            public bool HasForeignKeysToRecreate
+            {
+                get
+                {
+                    // initial value
+                    bool hasForeignKeysToRecreate = (ForeignKeysToRecreate != null);
+
+                    // return value
+                    return hasForeignKeysToRecreate;
                 }
             }
             #endregion
@@ -227,7 +278,7 @@ namespace DBCompare
                 {
                     // initial value
                     bool hasProcedure = (this.Procedure != null);
-                    
+
                     // return value
                     return hasProcedure;
                 }
@@ -244,7 +295,7 @@ namespace DBCompare
                 {
                     // initial value
                     bool hasTable = (this.Table != null);
-                    
+
                     // return value
                     return hasTable;
                 }

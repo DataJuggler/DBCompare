@@ -259,10 +259,14 @@ namespace DBCompare
             string message = "-- This script is meant to be a time saver. Review it before running, and use it only if it looks safe for your environment.";
             message += Environment.NewLine + "-- This tool is a work in progress. It scripts tables, fields, stored procedures, default value constraints,";
             message += Environment.NewLine + "-- indexes, check constraints and foreign keys.";
+            message += Environment.NewLine + "-- Field changes drop and recreate the constraints and indexes on that field inside a transaction,";
+            message += Environment.NewLine + "-- so if a field change fails, it rolls back and leaves that table as it was.";
             message += Environment.NewLine + "-- Recreating indexes rebuilds them, which can take time and lock large tables. Recreated check constraints and";
             message += Environment.NewLine + "-- foreign keys use WITH CHECK, so existing rows that violate a constraint will cause that statement to fail.";
             message += Environment.NewLine + "-- By using this script, you acknowledge I am not responsible for any damage to your database.";
             message += Environment.NewLine + "-- Thank you for using DB Compare." + Environment.NewLine + Environment.NewLine + Environment.NewLine + Environment.NewLine;
+            
+            // build the message
             StringBuilder sb = new StringBuilder(message);
 
             // if the Comparison object exists and has one or more differences
@@ -270,8 +274,6 @@ namespace DBCompare
             {
                 // Get the tablesSQL
                 string tablesSQL = GetUpdateTablesSQL();
-
-
 
                 // Get the fieldsSQL
                 string fieldsSQL = GetUpdateFieldsSQL();
@@ -617,10 +619,31 @@ namespace DBCompare
         }
         #endregion
 
+        #region BuildAddCheckConstraintSQL(string tableName, string constraintName, string checkClause)
+        /// <summary>
+        /// returns the ADD CONSTRAINT ... CHECK sql. Skipped if a check constraint with that name already exists.
+        /// </summary>
+        private string BuildAddCheckConstraintSQL(string tableName, string constraintName, string checkClause)
+        {
+            // initial value
+            string sql = "";
+
+            // guard: only add it if it does not exist yet
+            sql = "IF OBJECT_ID(N'" + EscapeLiteral("[" + constraintName + "]") + "', N'C') IS NULL" + Environment.NewLine;
+
+            // add it with the source expression (WITH CHECK validates existing rows)
+            sql += "ALTER TABLE [" + tableName + "] WITH CHECK ADD CONSTRAINT [" + constraintName + "] CHECK " + checkClause + Environment.NewLine + "Go" + Environment.NewLine;
+
+            // return value
+            return sql;
+        }
+        #endregion
+
         #region BuildCreateForeignKeySQL(SchemaDifference difference)
         /// <summary>
         /// Builds the ADD CONSTRAINT sql for a foreign key. Uses the full ForeignKeyConstraint when
         /// available (all columns, named, with cascade rules); falls back to the single Field if not.
+        /// The named version is skipped if a foreign key with that name already exists.
         /// </summary>
         private string BuildCreateForeignKeySQL(SchemaDifference difference)
         {
@@ -644,8 +667,11 @@ namespace DBCompare
                 fieldList = String.Join(", ", columns.Select(x => "[" + x.FieldName + "]"));
                 referencedList = String.Join(", ", columns.Select(x => "[" + x.ReferencedColumn + "]"));
 
+                // guard: only add it if it does not exist yet
+                sql = "IF OBJECT_ID(N'" + EscapeLiteral("[" + fk.Name + "]") + "', N'F') IS NULL" + Environment.NewLine;
+
                 // named constraint, all columns, validated against existing rows
-                sql = "ALTER TABLE [" + tableName + "] WITH CHECK ADD CONSTRAINT [" + fk.Name + "] FOREIGN KEY (" + fieldList + ") REFERENCES [" + fk.ReferencedTable + "] (" + referencedList + ")";
+                sql += "ALTER TABLE [" + tableName + "] WITH CHECK ADD CONSTRAINT [" + fk.Name + "] FOREIGN KEY (" + fieldList + ") REFERENCES [" + fk.ReferencedTable + "] (" + referencedList + ")";
 
                 // cascade rules: NO_ACTION is the default, so only script the others (SET_NULL -> SET NULL)
                 if ((TextHelper.Exists(fk.OnDelete)) && (!TextHelper.IsEqual(fk.OnDelete, "NO_ACTION")))
@@ -661,7 +687,7 @@ namespace DBCompare
                 // add the batch separator
                 sql += Environment.NewLine + "Go" + Environment.NewLine;
             }
-            // fallback: the old single-field way, only if Field is actually set
+            // fallback: the old single-field way, only if Field is actually set (unnamed, so no guard is possible)
             else if ((difference.HasField) && (TextHelper.Exists(difference.ReferenceTableName, difference.ReferenceColumnName)))
             {
                 sql = "ALTER TABLE [" + tableName + "] ADD FOREIGN KEY ([" + difference.Field.FieldName + "]) REFERENCES [" + difference.ReferenceTableName + "] ([" + difference.ReferenceColumnName + "])" + Environment.NewLine + "Go" + Environment.NewLine;
@@ -676,6 +702,7 @@ namespace DBCompare
         /// <summary>
         /// Builds the CREATE INDEX or ADD CONSTRAINT sql for the index given, including
         /// column order, sort direction, included columns and filter.
+        /// Skipped if an index with that name (or, for a primary key, any primary key) already exists.
         /// </summary>
         private string BuildCreateIndexSQL(DataIndex index, string tableName, bool isConstraint)
         {
@@ -686,16 +713,63 @@ namespace DBCompare
             string clustered = index.TypeDescription.ToUpper();
             List<IndexColumn> keyColumns = index.Columns.Where(x => !x.IsIncludedColumn).OrderBy(x => x.Ordinal).ToList();
             List<IndexColumn> includedColumns = index.Columns.Where(x => x.IsIncludedColumn).ToList();
-            string keyList = String.Join(", ", keyColumns.Select(x => "[" + x.FieldName + "] " + (x.IsDescendingKey ? "DESC" : "ASC")));
+            string keyList = "";
+            string primaryKeyCheck = "";
+
+            // build the key list, e.g. [CompanyId] ASC, [Email] ASC
+            foreach (IndexColumn keyColumn in keyColumns)
+            {
+                // if this is not the first column
+                if (TextHelper.Exists(keyList))
+                {
+                    // add a comma
+                    keyList += ", ";
+                }
+
+                // add the column and its sort direction
+                if (keyColumn.IsDescendingKey)
+                {
+                    keyList += "[" + keyColumn.FieldName + "] DESC";
+                }
+                else
+                {
+                    keyList += "[" + keyColumn.FieldName + "] ASC";
+                }
+            }
+
+            // a table can only have one primary key, so for a primary key also check for one with a different name
+            if (index.IsPrimary)
+            {
+                primaryKeyCheck = " OR is_primary_key = 1";
+            }
+
+            // guard
+            sql = "IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'" + EscapeLiteral("[" + tableName + "]") + "') AND (name = N'" + EscapeLiteral(index.Name) + "'" + primaryKeyCheck + "))" + Environment.NewLine;
 
             // Primary Key or Unique Constraint
             if (isConstraint)
             {
-                sql = "ALTER TABLE [" + tableName + "] ADD CONSTRAINT [" + index.Name + "] " + (index.IsPrimary ? "PRIMARY KEY" : "UNIQUE") + " " + clustered + " (" + keyList + ")";
+                // primary key or unique
+                if (index.IsPrimary)
+                {
+                    sql += "ALTER TABLE [" + tableName + "] ADD CONSTRAINT [" + index.Name + "] PRIMARY KEY " + clustered + " (" + keyList + ")";
+                }
+                else
+                {
+                    sql += "ALTER TABLE [" + tableName + "] ADD CONSTRAINT [" + index.Name + "] UNIQUE " + clustered + " (" + keyList + ")";
+                }
             }
             else
             {
-                sql = "CREATE " + (index.IsUnique ? "UNIQUE " : "") + clustered + " INDEX [" + index.Name + "] ON [" + tableName + "] (" + keyList + ")";
+                // unique index or regular index
+                if (index.IsUnique)
+                {
+                    sql += "CREATE UNIQUE " + clustered + " INDEX [" + index.Name + "] ON [" + tableName + "] (" + keyList + ")";
+                }
+                else
+                {
+                    sql += "CREATE " + clustered + " INDEX [" + index.Name + "] ON [" + tableName + "] (" + keyList + ")";
+                }
 
                 // included columns
                 if (includedColumns.Count > 0)
@@ -712,6 +786,133 @@ namespace DBCompare
 
             // add the batch separator
             sql += Environment.NewLine + "Go" + Environment.NewLine;
+
+            // return value
+            return sql;
+        }
+        #endregion
+
+        #region BuildDropColumnDependenciesSQL(string tableName, string columnName)
+        /// <summary>
+        /// returns T-SQL that, when it runs, finds and drops everything in the TARGET that blocks altering
+        /// or dropping the column: foreign keys on the column, foreign keys in other tables that reference
+        /// it, indexes / primary keys / unique constraints that use it, check constraints, the default
+        /// constraint, and user-created statistics. Looked up by column, so auto-generated names in older
+        /// databases are found too. Must run inside a single batch (it declares variables).
+        /// </summary>
+        public string BuildDropColumnDependenciesSQL(string tableName, string columnName)
+        {
+            // initial value
+            string sql = "";
+
+            // locals
+            StringBuilder sb = new StringBuilder();
+            string table = EscapeLiteral("[" + tableName + "]");
+            string column = EscapeLiteral(columnName);
+
+            // the column name as a LIKE pattern; an underscore is a LIKE wildcard, so wrap it in [ ]
+            string likeColumn = EscapeLiteral(columnName.Replace("_", "[_]"));
+
+            // header and variables
+            sb.Append("-- Drop what locks [" + tableName + "].[" + columnName + "] in this database" + Environment.NewLine);
+            sb.Append("DECLARE @DropSQL nvarchar(max) = N''" + Environment.NewLine);
+            sb.Append("DECLARE @ObjectId int = OBJECT_ID(N'" + table + "')" + Environment.NewLine);
+            sb.Append("DECLARE @ColumnId int = (SELECT column_id FROM sys.columns WHERE object_id = @ObjectId AND name = N'" + column + "')" + Environment.NewLine + Environment.NewLine);
+
+            // 1. foreign keys first (on this column, or in any table that references it)
+            sb.Append("-- foreign keys on this column, or in other tables that reference it" + Environment.NewLine);
+            sb.Append("SELECT @DropSQL += N'ALTER TABLE ' + QUOTENAME(OBJECT_SCHEMA_NAME(fk.parent_object_id)) + N'.' + QUOTENAME(OBJECT_NAME(fk.parent_object_id)) + N' DROP CONSTRAINT ' + QUOTENAME(fk.name) + N';' + CHAR(13) + CHAR(10)" + Environment.NewLine);
+            sb.Append("FROM sys.foreign_keys fk" + Environment.NewLine);
+            sb.Append("WHERE EXISTS (SELECT 1 FROM sys.foreign_key_columns fkc WHERE fkc.constraint_object_id = fk.object_id" + Environment.NewLine);
+            sb.Append("    AND ((fkc.parent_object_id = @ObjectId AND fkc.parent_column_id = @ColumnId) OR (fkc.referenced_object_id = @ObjectId AND fkc.referenced_column_id = @ColumnId)))" + Environment.NewLine + Environment.NewLine);
+
+            // 2a. nonclustered indexes, primary keys and unique constraints
+            sb.Append("-- nonclustered indexes, primary key and unique constraints that use this column" + Environment.NewLine);
+            sb.Append("SELECT @DropSQL += CASE WHEN i.is_primary_key = 1 OR i.is_unique_constraint = 1" + Environment.NewLine);
+            sb.Append("    THEN N'ALTER TABLE " + table + " DROP CONSTRAINT ' + QUOTENAME(i.name)" + Environment.NewLine);
+            sb.Append("    ELSE N'DROP INDEX ' + QUOTENAME(i.name) + N' ON " + table + "' END + N';' + CHAR(13) + CHAR(10)" + Environment.NewLine);
+            sb.Append("FROM sys.indexes i" + Environment.NewLine);
+            sb.Append("WHERE i.object_id = @ObjectId AND i.index_id > 1" + Environment.NewLine);
+            sb.Append("    AND EXISTS (SELECT 1 FROM sys.index_columns ic WHERE ic.object_id = i.object_id AND ic.index_id = i.index_id AND ic.column_id = @ColumnId)" + Environment.NewLine + Environment.NewLine);
+
+            // 2b. the clustered index last, so the nonclustered ones are not rebuilt twice
+            sb.Append("-- the clustered index or primary key, if it uses this column" + Environment.NewLine);
+            sb.Append("SELECT @DropSQL += CASE WHEN i.is_primary_key = 1 OR i.is_unique_constraint = 1" + Environment.NewLine);
+            sb.Append("    THEN N'ALTER TABLE " + table + " DROP CONSTRAINT ' + QUOTENAME(i.name)" + Environment.NewLine);
+            sb.Append("    ELSE N'DROP INDEX ' + QUOTENAME(i.name) + N' ON " + table + "' END + N';' + CHAR(13) + CHAR(10)" + Environment.NewLine);
+            sb.Append("FROM sys.indexes i" + Environment.NewLine);
+            sb.Append("WHERE i.object_id = @ObjectId AND i.index_id = 1" + Environment.NewLine);
+            sb.Append("    AND EXISTS (SELECT 1 FROM sys.index_columns ic WHERE ic.object_id = i.object_id AND ic.index_id = i.index_id AND ic.column_id = @ColumnId)" + Environment.NewLine + Environment.NewLine);
+
+            // 3. check constraints (column level, or table level checks that mention the column)
+            sb.Append("-- check constraints on this column" + Environment.NewLine);
+            sb.Append("SELECT @DropSQL += N'ALTER TABLE " + table + " DROP CONSTRAINT ' + QUOTENAME(cc.name) + N';' + CHAR(13) + CHAR(10)" + Environment.NewLine);
+            sb.Append("FROM sys.check_constraints cc" + Environment.NewLine);
+            sb.Append("WHERE cc.parent_object_id = @ObjectId AND (cc.parent_column_id = @ColumnId OR cc.definition LIKE N'%[[]" + likeColumn + "]%')" + Environment.NewLine + Environment.NewLine);
+
+            // 4. the default value constraint
+            sb.Append("-- default value constraint on this column" + Environment.NewLine);
+            sb.Append("SELECT @DropSQL += N'ALTER TABLE " + table + " DROP CONSTRAINT ' + QUOTENAME(dc.name) + N';' + CHAR(13) + CHAR(10)" + Environment.NewLine);
+            sb.Append("FROM sys.default_constraints dc" + Environment.NewLine);
+            sb.Append("WHERE dc.parent_object_id = @ObjectId AND dc.parent_column_id = @ColumnId" + Environment.NewLine + Environment.NewLine);
+
+            // 5. user-created statistics (SQL Server drops auto-created ones itself)
+            sb.Append("-- user-created statistics on this column" + Environment.NewLine);
+            sb.Append("SELECT @DropSQL += N'DROP STATISTICS " + table + ".' + QUOTENAME(s.name) + N';' + CHAR(13) + CHAR(10)" + Environment.NewLine);
+            sb.Append("FROM sys.stats s" + Environment.NewLine);
+            sb.Append("WHERE s.object_id = @ObjectId AND s.user_created = 1" + Environment.NewLine);
+            sb.Append("    AND EXISTS (SELECT 1 FROM sys.stats_columns sc WHERE sc.object_id = s.object_id AND sc.stats_id = s.stats_id AND sc.column_id = @ColumnId)" + Environment.NewLine + Environment.NewLine);
+
+            // run the drops, and print what was dropped
+            sb.Append("IF LEN(@DropSQL) > 0" + Environment.NewLine);
+            sb.Append("BEGIN" + Environment.NewLine);
+            sb.Append("    PRINT @DropSQL" + Environment.NewLine);
+            sb.Append("    EXEC sp_executesql @DropSQL" + Environment.NewLine);
+            sb.Append("END" + Environment.NewLine);
+
+            // set the return value
+            sql = sb.ToString();
+
+            // return value
+            return sql;
+        }
+        #endregion
+
+        #region BuildDropConstraintSQL(string tableName, string constraintName)
+        /// <summary>
+        /// Builds a DROP CONSTRAINT that is skipped if the constraint does not exist
+        /// (works for primary keys, unique, check, default and foreign key constraints).
+        /// </summary>
+        private string BuildDropConstraintSQL(string tableName, string constraintName)
+        {
+            // initial value
+            string sql = "";
+
+            // guard: only drop it if it exists
+            sql = "IF OBJECT_ID(N'" + EscapeLiteral("[" + constraintName + "]") + "') IS NOT NULL" + Environment.NewLine;
+
+            // the drop
+            sql += "ALTER TABLE [" + tableName + "] DROP CONSTRAINT [" + constraintName + "]" + Environment.NewLine + "Go" + Environment.NewLine;
+
+            // return value
+            return sql;
+        }
+        #endregion
+
+        #region BuildDropIndexSQL(string tableName, string indexName)
+        /// <summary>
+        /// Builds a DROP INDEX that is skipped if the index does not exist
+        /// </summary>
+        private string BuildDropIndexSQL(string tableName, string indexName)
+        {
+            // initial value
+            string sql = "";
+
+            // guard: only drop it if it exists
+            sql = "IF EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID(N'" + EscapeLiteral("[" + tableName + "]") + "') AND name = N'" + EscapeLiteral(indexName) + "')" + Environment.NewLine;
+
+            // the drop
+            sql += "DROP INDEX [" + indexName + "] ON [" + tableName + "]" + Environment.NewLine + "Go" + Environment.NewLine;
 
             // return value
             return sql;
@@ -871,6 +1072,127 @@ namespace DBCompare
         }
         #endregion
 
+        #region CreateAlterFieldSQL(SchemaDifference difference, Database sourceDatabase)
+        /// <summary>
+        /// returns the SQL to alter a field that may be locked by constraints or indexes. In one transaction:
+        /// drops what locks the column in the target, alters it, then recreates the source's indexes,
+        /// check constraints and defaults. Foreign keys are stored on the difference and recreated later.
+        /// </summary>
+        public string CreateAlterFieldSQL(SchemaDifference difference, Database sourceDatabase)
+        {
+            // initial value
+            string sql = "";
+
+            // locals
+            StringBuilder sb = new StringBuilder();
+            DataTable table = difference.Table;
+            DataField field = difference.Field;
+            string tableName = table.Name;
+            string columnName = field.DBFieldName;
+            List<DefaultValueConstraint> defaults = table.GetDefaultValueConstraintsForColumn(columnName);
+            List<CheckConstraint> checks = table.GetCheckConstraintsForColumn(columnName);
+            List<DataIndex> indexes = table.GetIndexesForColumn(columnName);
+            HashSet<string> scriptedChecks = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            DefaultValueConstraint fillDefault = null;
+            bool isConstraint = false;
+            string checkClause = "";
+
+            // get the foreign keys that use this column, so they are recreated after the indexes section
+            difference.ForeignKeysToRecreate = sourceDatabase.GetForeignKeysForColumn(table, columnName);
+
+            // header
+            sb.Append("-- Alter [" + tableName + "].[" + columnName + "]: drop what locks the column, alter it, recreate from the source." + Environment.NewLine);
+            sb.Append("-- Foreign keys are recreated after the indexes section. On any error the whole change rolls back." + Environment.NewLine);
+            sb.Append("SET XACT_ABORT ON" + Environment.NewLine);
+            sb.Append("BEGIN TRANSACTION" + Environment.NewLine + Environment.NewLine);
+
+            // drop what locks the column in the target
+            sb.Append(BuildDropColumnDependenciesSQL(tableName, columnName));
+            sb.Append(Environment.NewLine);
+
+            // if this column is becoming not null
+            if (!field.IsNullable)
+            {
+                // find a default with a definition
+                fillDefault = defaults.FirstOrDefault(x => TextHelper.Exists(x.Definition));
+
+                // If the fillDefault object exists
+                if (NullHelper.Exists(fillDefault))
+                {
+                    // fill existing nulls with the default so the not null change succeeds
+                    sb.Append("-- Fill existing nulls with the column's default so the not null change succeeds" + Environment.NewLine);
+                    sb.Append("UPDATE [" + tableName + "] SET [" + columnName + "] = " + fillDefault.Definition + " WHERE [" + columnName + "] IS NULL" + Environment.NewLine + Environment.NewLine);
+                }
+            }
+
+            // the alter itself (same sql as before, without the Go)
+            sb.Append(StripBatchSeparators(CreateFieldSQL(table, field, false)) + Environment.NewLine + Environment.NewLine);
+
+            // recreate the indexes (EXEC compiles each one after the alter has run)
+            foreach (DataIndex index in indexes)
+            {
+                // if this is not a clustered or nonclustered rowstore index
+                if ((!TextHelper.IsEqual(index.TypeDescription, "CLUSTERED")) && (!TextHelper.IsEqual(index.TypeDescription, "NONCLUSTERED")))
+                {
+                    // warn, this one must be recreated by hand
+                    sb.Append("-- WARNING: " + index.TypeDescription + " index [" + index.Name + "] was dropped and must be recreated manually." + Environment.NewLine);
+
+                    // skip this index
+                    continue;
+                }
+
+                // primary keys and unique constraints are added as constraints
+                isConstraint = (index.IsPrimary || index.IsUniqueConstraint);
+
+                // append the create sql
+                sb.Append(GetLiteralSQL(BuildCreateIndexSQL(index, tableName, isConstraint)) + Environment.NewLine);
+            }
+
+            // recreate the check constraints
+            foreach (CheckConstraint checkConstraint in checks)
+            {
+                // if this constraint name was already scripted
+                if (!scriptedChecks.Add(checkConstraint.ConstraintName))
+                {
+                    // skip it
+                    continue;
+                }
+
+                // decode the expression
+                checkClause = XmlPatternHelper.Decode(checkConstraint.CheckClause);
+
+                // If the checkClause string exists
+                if (TextHelper.Exists(checkClause))
+                {
+                    // append the add sql
+                    sb.Append(GetLiteralSQL(BuildAddCheckConstraintSQL(tableName, checkConstraint.ConstraintName, checkClause)) + Environment.NewLine);
+                }
+                else
+                {
+                    // warn, nothing to recreate it from
+                    sb.Append("-- WARNING: check constraint [" + checkConstraint.ConstraintName + "] has no check clause and was not recreated." + Environment.NewLine);
+                }
+            }
+
+            // recreate the default value constraints
+            foreach (DefaultValueConstraint defaultConstraint in defaults)
+            {
+                // append the add sql
+                sb.Append(GetLiteralSQL(BuildAddDefaultSQL(tableName, defaultConstraint)) + Environment.NewLine);
+            }
+
+            // commit
+            sb.Append(Environment.NewLine + "COMMIT TRANSACTION" + Environment.NewLine);
+            sb.Append("Go" + Environment.NewLine + Environment.NewLine);
+
+            // set the return value
+            sql = sb.ToString();
+
+            // return value
+            return sql;
+        }
+        #endregion
+
         #region CreateFieldSQL(DataTable table, DataField field, bool addNew)
         /// <summary>
         /// returns the Field SQL
@@ -885,6 +1207,8 @@ namespace DBCompare
 
             // locals
             string adjustment = "Alter Column ";
+            string dbDataType = field.DBDataType.ToLower();
+            string size = "";
 
             // fixing bug where table names like User or Sales Records do not work.
             sb.Append("Alter Table [");
@@ -910,13 +1234,31 @@ namespace DBCompare
             sb.Append(' ');
             sb.Append(field.DBDataType);
 
-            // if a string
-            if (field.DataType == DataManager.DataTypeEnum.String)
+            // if this type takes a length
+            if ((dbDataType == "nvarchar") || (dbDataType == "varchar") || (dbDataType == "nchar") || (dbDataType == "char") || (dbDataType == "varbinary") || (dbDataType == "binary"))
             {
+                // default to the field size
+                size = field.Size.ToString();
+
+                // a max column reports a huge size (or -1), and nothing larger than 8000 is valid
+                if ((field.Size <= 0) || (field.Size > 8000))
+                {
+                    // use max
+                    size = "max";
+                }
+
                 // append the size
-                sb.Append('(');
-                sb.Append(field.Size);
-                sb.Append(')');
+                sb.Append("(" + size + ")");
+            }
+            else if ((dbDataType == "decimal") || (dbDataType == "numeric"))
+            {
+                // append the precision and scale, e.g. decimal(18,2)
+                sb.Append("(" + field.Precision.ToString() + "," + field.Scale.ToString() + ")");
+            }
+            else if (dbDataType == "datetime2")
+            {
+                // append the fractional second digits, e.g. datetime2(0)
+                sb.Append("(" + field.Precision.ToString() + ")");
             }
 
             // not handlng identity columns here, because I just can't see that
@@ -1559,6 +1901,27 @@ namespace DBCompare
         }
         #endregion
 
+        #region EscapeLiteral(string value)
+        /// <summary>
+        /// returns the value with single quotes doubled, for use inside N'...'
+        /// </summary>
+        private static string EscapeLiteral(string value)
+        {
+            // initial value
+            string escapedValue = "";
+
+            // If the value string exists
+            if (TextHelper.Exists(value))
+            {
+                // double any single quotes
+                escapedValue = value.Replace("'", "''");
+            }
+
+            // return value
+            return escapedValue;
+        }
+        #endregion
+
         #region FixReserveWordsInSelect(string storedProcedureText)
         /// <summary>
         /// returns the Reserve Words In Select
@@ -1698,7 +2061,8 @@ namespace DBCompare
 
         #region GenerateDropExtraAssetsSQL()
         /// <summary>
-        /// returns the Drop Extra Assets SQL
+        /// returns the Drop Extra Assets SQL. Extra fields have their constraints, indexes and
+        /// foreign keys dropped first, since DROP COLUMN fails while anything depends on the column.
         /// </summary>
         public string GenerateDropExtraAssetsSQL()
         {
@@ -1721,12 +2085,17 @@ namespace DBCompare
                         // both are required to generate the drop SQL
                         if ((difference.HasTable) && (difference.HasField))
                         {
-                            // Get the sql for the drop
-                            sql = "Alter Table " + difference.Table.Name + Environment.NewLine + "Drop Column " + difference.Field.FieldName;
+                            // drop what depends on the column first (defaults, indexes, foreign keys, checks)
+                            sb.Append(BuildDropColumnDependenciesSQL(difference.Table.Name, difference.Field.DBFieldName));
+                            sb.Append(Environment.NewLine);
+
+                            // now drop the column (same batch, since the dependency sql declares variables)
+                            sql = "Alter Table [" + difference.Table.Name + "]" + Environment.NewLine + "Drop Column [" + difference.Field.DBFieldName + "]";
                             sb.Append(sql);
                             sb.Append(Environment.NewLine);
                             sb.Append("GO");
                             sb.Append(Environment.NewLine);
+
                             // Add a blank line
                             sb.Append(Environment.NewLine);
                         }
@@ -1740,11 +2109,12 @@ namespace DBCompare
                         if (difference.HasProcedure)
                         {
                             // Create the drop sql
-                            sql = "Drop Procedure " + difference.Procedure.ProcedureName;
+                            sql = "Drop Procedure [" + difference.Procedure.ProcedureName + "]";
                             sb.Append(sql);
                             sb.Append(Environment.NewLine);
                             sb.Append("GO");
                             sb.Append(Environment.NewLine);
+
                             // Add a blank line
                             sb.Append(Environment.NewLine);
                         }
@@ -1757,22 +2127,23 @@ namespace DBCompare
                         // If the value for the property difference.HasTable is true
                         if (difference.HasTable)
                         {
-                            // if a view
+                            // if a view (was difference.Procedure.ProcedureName, which is null for a table)
                             if (difference.Table.IsView)
                             {
                                 // Create the drop sql
-                                sql = "Drop View " + difference.Procedure.ProcedureName;
+                                sql = "Drop View [" + difference.Table.Name + "]";
                             }
                             else
                             {
                                 // Create the drop sql
-                                sql = "Drop Table " + difference.Procedure.ProcedureName;
+                                sql = "Drop Table [" + difference.Table.Name + "]";
                             }
 
                             sb.Append(sql);
                             sb.Append(Environment.NewLine);
                             sb.Append("GO");
                             sb.Append(Environment.NewLine);
+
                             // Add a blank line
                             sb.Append(Environment.NewLine);
                         }
@@ -1847,11 +2218,12 @@ namespace DBCompare
                     // if invalid, drop the existing one first
                     if (difference.DifferenceType == DifferenceTypeEnum.CheckConstraintNotValid)
                     {
-                        sb.Append("ALTER TABLE [" + tableName + "] DROP CONSTRAINT [" + checkConstraint.ConstraintName + "]" + Environment.NewLine + "Go" + Environment.NewLine);
+                        // guarded, a field change may have already dropped it
+                        sb.Append(BuildDropConstraintSQL(tableName, checkConstraint.ConstraintName));
                     }
 
-                    // add it with the source expression (WITH CHECK validates existing rows)
-                    sb.Append("ALTER TABLE [" + tableName + "] WITH CHECK ADD CONSTRAINT [" + checkConstraint.ConstraintName + "] CHECK " + checkClause + Environment.NewLine + "Go" + Environment.NewLine);
+                    // guarded add with the source expression (skipped if it already exists)
+                    sb.Append(BuildAddCheckConstraintSQL(tableName, checkConstraint.ConstraintName, checkClause));
                 }
             }
 
@@ -1913,7 +2285,8 @@ namespace DBCompare
                                     checkState = "WITH CHECK CHECK";
                                 }
 
-                                // append this sql
+                                // guarded, a field change may have dropped and recreated it
+                                sb.Append("IF OBJECT_ID(N'" + EscapeLiteral("[" + difference.InvalidForeignKeyName + "]") + "', N'F') IS NOT NULL" + Environment.NewLine);
                                 sb.Append("ALTER TABLE [" + tableName + "] " + checkState + " CONSTRAINT [" + difference.InvalidForeignKeyName + "]" + Environment.NewLine + "Go" + Environment.NewLine);
                             }
                         }
@@ -1922,11 +2295,11 @@ namespace DBCompare
                             // for everything except NotFound, drop the existing (wrong) constraint first
                             if ((difference.DifferenceType != DifferenceTypeEnum.ForeignKeyNotFound) && (TextHelper.Exists(difference.InvalidForeignKeyName)))
                             {
-                                // append the drop sql
-                                sb.Append("ALTER TABLE [" + tableName + "] DROP CONSTRAINT [" + difference.InvalidForeignKeyName + "]" + Environment.NewLine + "Go" + Environment.NewLine);
+                                // guarded drop, a field change may have already dropped it
+                                sb.Append(BuildDropConstraintSQL(tableName, difference.InvalidForeignKeyName));
                             }
 
-                            // create the constraint
+                            // create the constraint (guarded inside the builder)
                             createSQL = BuildCreateForeignKeySQL(difference);
 
                             // if the create sql was built
@@ -2096,7 +2469,8 @@ namespace DBCompare
                         // if the name exists
                         if (TextHelper.Exists(dropName))
                         {
-                            sb.Append("ALTER TABLE [" + tableName + "] DROP CONSTRAINT [" + dropName + "]" + Environment.NewLine + "Go" + Environment.NewLine);
+                            // guarded, a field change may have already dropped it
+                            sb.Append(BuildDropConstraintSQL(tableName, dropName));
                         }
                         else
                         {
@@ -2116,6 +2490,115 @@ namespace DBCompare
         }
         #endregion
 
+        #region GetLiteralSQL(string sql)
+        /// <summary>
+        /// returns the sql wrapped in EXEC(N'...') as a Unicode string literal, so SQL Server compiles it
+        /// when it runs, after earlier statements in the same batch (such as an ALTER COLUMN) have taken effect
+        /// </summary>
+        private static string GetLiteralSQL(string sql)
+        {
+            // initial value
+            string literalSQL = "EXEC(N'" + EscapeLiteral(StripBatchSeparators(sql)) + "')";
+
+            // return value
+            return literalSQL;
+        }
+        #endregion
+
+        #region GetRecreateForeignKeysSQL()
+        /// <summary>
+        /// returns the SQL to recreate the foreign keys that were dropped by field changes.
+        /// Must be called after GetUpdateFieldsSQL, which fills ForeignKeysToRecreate on each difference.
+        /// Each foreign key is only scripted once, even if more than one field change dropped it.
+        /// </summary>
+        public string GetRecreateForeignKeysSQL()
+        {
+            // initial value
+            string sql = "";
+
+            // locals
+            StringBuilder sb = new StringBuilder();
+            HashSet<string> scripted = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            DataTable fkTable = null;
+            SchemaDifference fkDifference = null;
+            string createSQL = "";
+
+            // if the Comparison and its differences exist
+            if ((HasComparison) && (Comparison.HasSchemaDifferences) && (Comparison.HasSourceDatabase))
+            {
+                // iterate the SchemaDifferences
+                foreach (SchemaDifference difference in Comparison.SchemaDifferences)
+                {
+                    // if this difference has no foreign keys to recreate
+                    if (!ListHelper.HasOneOrMoreItems(difference.ForeignKeysToRecreate))
+                    {
+                        // skip it
+                        continue;
+                    }
+
+                    // iterate the foreign keys to recreate
+                    foreach (ForeignKeyConstraint foreignKey in difference.ForeignKeysToRecreate)
+                    {
+                        // if this foreign key was already scripted by another field change
+                        if (!scripted.Add(foreignKey.Table + "." + foreignKey.Name))
+                        {
+                            // skip it
+                            continue;
+                        }
+
+                        // find the table this foreign key belongs to
+                        fkTable = SQLDatabaseConnector.FindTable(Comparison.SourceDatabase.Tables, foreignKey.Table);
+
+                        // If the fkTable object does not exist
+                        if (NullHelper.IsNull(fkTable))
+                        {
+                            // leave a comment instead of failing
+                            sb.Append("-- Unable to recreate foreign key [" + foreignKey.Name + "]: table [" + foreignKey.Table + "] not found." + Environment.NewLine);
+
+                            // skip it
+                            continue;
+                        }
+
+                        // reuse the existing builder, which takes a SchemaDifference
+                        fkDifference = new SchemaDifference();
+                        fkDifference.Table = fkTable;
+                        fkDifference.ForeignKey = foreignKey;
+                        createSQL = BuildCreateForeignKeySQL(fkDifference);
+
+                        // If the createSQL string exists
+                        if (TextHelper.Exists(createSQL))
+                        {
+                            // append the create sql
+                            sb.Append(createSQL);
+
+                            // if the source has this foreign key disabled
+                            if (foreignKey.IsDisabled)
+                            {
+                                // match the source
+                                sb.Append("ALTER TABLE [" + fkTable.Name + "] NOCHECK CONSTRAINT [" + foreignKey.Name + "]" + Environment.NewLine + "Go" + Environment.NewLine);
+                            }
+                        }
+                        else
+                        {
+                            // leave a comment instead of failing
+                            sb.Append("-- Unable to recreate foreign key [" + foreignKey.Name + "]: column information missing." + Environment.NewLine);
+                        }
+                    }
+                }
+            }
+
+            // if any foreign keys were scripted
+            if (sb.Length > 0)
+            {
+                // add a header and a blank line after
+                sql = "-- Recreate foreign keys dropped by field changes" + Environment.NewLine + sb.ToString() + Environment.NewLine;
+            }
+
+            // return value
+            return sql;
+        }
+        #endregion
+
         #region GetUpdateFieldsSQL()
         /// <summary>
         /// returns the Update Fields SQL
@@ -2125,7 +2608,7 @@ namespace DBCompare
             // initial value
             string sql = "";
 
-            // locals                
+            // locals
             DataTable table = null;
             DataField field = null;
             string fieldSQL = "";
@@ -2149,7 +2632,7 @@ namespace DBCompare
                     // fixing error of trying to add a column to a view
                     if (!table.IsView)
                     {
-                        // if Field 
+                        // if Field
                         if (difference.DifferenceType == DifferenceTypeEnum.FieldIsMissing)
                         {
                             // create the SQL to create this field
@@ -2157,25 +2640,22 @@ namespace DBCompare
                         }
                         else if (difference.DifferenceType == DifferenceTypeEnum.FieldInvalid)
                         {
-                            // create the SQL to create this field
-                            fieldSQL = CreateFieldSQL(table, field, false);
+                            // drop what locks this field, alter it, then recreate from the source
+                            fieldSQL = CreateAlterFieldSQL(difference, Comparison.SourceDatabase);
                         }
 
+                        // If the fieldSQL string exists
                         if (TextHelper.Exists(fieldSQL))
                         {
                             // Add the fieldSQL
                             sb.Append(fieldSQL);
                         }
                     }
-                    else
-                    {
-                        // to do: drop view and recreate it with the new field
-                    }
                 }
-
-                // set the return value
-                sql = sb.ToString();
             }
+
+            // set the return value
+            sql = sb.ToString();
 
             // return value
             return sql;
@@ -2618,6 +3098,36 @@ namespace DBCompare
                 // Save the settings
                 this.Settings.Save();
             }
+        }
+        #endregion
+
+        #region StripBatchSeparators(string sql)
+        /// <summary>
+        /// returns the sql with any lines that are only "Go" removed, so it can run inside one batch
+        /// </summary>
+        private static string StripBatchSeparators(string sql)
+        {
+            // initial value
+            string strippedSQL = "";
+
+            // locals
+            List<string> lines = null;
+
+            // If the sql string exists
+            if (TextHelper.Exists(sql))
+            {
+                // normalize every line ending to Environment.NewLine
+                sql = sql.Replace("\r\n", "\n").Replace("\n", Environment.NewLine);
+
+                // keep every line that is not a batch separator
+                lines = sql.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Where(x => !TextHelper.IsEqual(x.Trim(), "Go")).ToList();
+
+                // rejoin the lines
+                strippedSQL = String.Join(Environment.NewLine, lines).Trim();
+            }
+
+            // return value
+            return strippedSQL;
         }
         #endregion
 

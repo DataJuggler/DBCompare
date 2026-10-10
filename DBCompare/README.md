@@ -62,7 +62,15 @@ As will all my open source, they come with triple your money back if you are not
 
 # Updates
 
-I just realized this Read Me is way out of date. 
+I just realized this Read Me is way out of date. See the Releases Tab on https://datajuggler.com/DBCompare for
+info on the last 7 years.
+
+10.10.2026: DB Compare 10.2.0
+
+- Altering a field now drops and recreates its constraints in one transaction.
+- Drops and adds are skipped if the object is missing or already exists.
+- Correct sizes for decimal, datetime2, nvarchar(max) and varbinary.
+- Extra fields drop their dependents first; fixed extra table drop crash.
 
 # Major Update
 
@@ -72,8 +80,6 @@ that reference more than one field. Also Default Value checks are no longer limi
 generate scripts feature has been massively overhauled. A missing table and all it's indexes, constraints, default values and FK's
 can all be scripted now. 
 
-
-Update 9.12.2019: DBCompare install can not be downloaded here: https://datajuggler.com/Downloads/DBCompare.msi
 
 Update 6.29.2019: 
 Version 2.1 New Features
