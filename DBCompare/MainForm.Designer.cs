@@ -992,7 +992,7 @@ namespace DBCompare
             MinimumSize = new System.Drawing.Size(1240, 740);
             Name = "MainForm";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            Text = "DB Compare Version 10.1.3";
+            Text = "DB Compare Version 10.2.2";
             Load += MainForm_Load;
             YouTubePanel.ResumeLayout(false);
             YouTubePanel.PerformLayout();
