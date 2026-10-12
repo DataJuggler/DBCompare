@@ -13,7 +13,7 @@ namespace DBCompare
 
     #region class ComparisonResponse
     /// <summary>
-    /// This class is used to return info from any thing type of comparison.
+    /// This class is used to return info from any type of comparison.
     /// </summary>
     internal class ComparisonResponse
     {

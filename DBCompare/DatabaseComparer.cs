@@ -1467,11 +1467,15 @@ namespace DBCompare
                             // Set the message
                             schemaDifference.Message = "The target database does not have any stored procedures.";
 
-                            // add this difference
+                            // add this difference (summary)
                             comparison.SchemaDifferences.Add(schemaDifference);
 
-                            // The TargetDatabase does not have any stored procedures
-                            comparison.SchemaDifferences.Add(schemaDifference);
+                            // iterate the source stored procedures
+                            foreach (StoredProcedure sourceProcedure in this.SourceDatabase.StoredProcedures)
+                            {
+                                // Since the target has no procedures, each one is added as 'not found' (diagram procedures are skipped if set to ignore)
+                                CompareStoredProcedures(sourceProcedure, this.TargetDatabase, comparison);
+                            }
                         }
                     }
                 }

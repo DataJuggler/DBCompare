@@ -796,9 +796,10 @@ namespace DBCompare
         /// <summary>
         /// returns T-SQL that, when it runs, finds and drops everything in the TARGET that blocks altering
         /// or dropping the column: foreign keys on the column, foreign keys in other tables that reference
-        /// it, indexes / primary keys / unique constraints that use it, check constraints, the default
-        /// constraint, and user-created statistics. Looked up by column, so auto-generated names in older
-        /// databases are found too. Must run inside a single batch (it declares variables).
+        /// it, indexes / primary keys / unique constraints that use it (including filtered indexes whose
+        /// WHERE uses it), check constraints, the default constraint, and user-created statistics.
+        /// Looked up by column, so auto-generated names in older databases are found too.
+        /// Must run inside a single batch (it declares variables).
         /// </summary>
         public string BuildDropColumnDependenciesSQL(string tableName, string columnName)
         {
@@ -826,16 +827,18 @@ namespace DBCompare
             sb.Append("WHERE EXISTS (SELECT 1 FROM sys.foreign_key_columns fkc WHERE fkc.constraint_object_id = fk.object_id" + Environment.NewLine);
             sb.Append("    AND ((fkc.parent_object_id = @ObjectId AND fkc.parent_column_id = @ColumnId) OR (fkc.referenced_object_id = @ObjectId AND fkc.referenced_column_id = @ColumnId)))" + Environment.NewLine + Environment.NewLine);
 
-            // 2a. nonclustered indexes, primary keys and unique constraints
-            sb.Append("-- nonclustered indexes, primary key and unique constraints that use this column" + Environment.NewLine);
+            // 2a. nonclustered indexes, primary keys and unique constraints (and filtered indexes whose WHERE uses this column,
+            //     since filter columns are not listed in sys.index_columns)
+            sb.Append("-- nonclustered indexes, primary key and unique constraints that use this column (including in a filter)" + Environment.NewLine);
             sb.Append("SELECT @DropSQL += CASE WHEN i.is_primary_key = 1 OR i.is_unique_constraint = 1" + Environment.NewLine);
             sb.Append("    THEN N'ALTER TABLE " + table + " DROP CONSTRAINT ' + QUOTENAME(i.name)" + Environment.NewLine);
             sb.Append("    ELSE N'DROP INDEX ' + QUOTENAME(i.name) + N' ON " + table + "' END + N';' + CHAR(13) + CHAR(10)" + Environment.NewLine);
             sb.Append("FROM sys.indexes i" + Environment.NewLine);
             sb.Append("WHERE i.object_id = @ObjectId AND i.index_id > 1" + Environment.NewLine);
-            sb.Append("    AND EXISTS (SELECT 1 FROM sys.index_columns ic WHERE ic.object_id = i.object_id AND ic.index_id = i.index_id AND ic.column_id = @ColumnId)" + Environment.NewLine + Environment.NewLine);
+            sb.Append("    AND (EXISTS (SELECT 1 FROM sys.index_columns ic WHERE ic.object_id = i.object_id AND ic.index_id = i.index_id AND ic.column_id = @ColumnId)" + Environment.NewLine);
+            sb.Append("        OR (i.has_filter = 1 AND i.filter_definition LIKE N'%[[]" + likeColumn + "]%'))" + Environment.NewLine + Environment.NewLine);
 
-            // 2b. the clustered index last, so the nonclustered ones are not rebuilt twice
+            // 2b. the clustered index last, so the nonclustered ones are not rebuilt twice (a clustered index can not be filtered)
             sb.Append("-- the clustered index or primary key, if it uses this column" + Environment.NewLine);
             sb.Append("SELECT @DropSQL += CASE WHEN i.is_primary_key = 1 OR i.is_unique_constraint = 1" + Environment.NewLine);
             sb.Append("    THEN N'ALTER TABLE " + table + " DROP CONSTRAINT ' + QUOTENAME(i.name)" + Environment.NewLine);
@@ -1075,8 +1078,9 @@ namespace DBCompare
         #region CreateAlterFieldSQL(SchemaDifference difference, Database sourceDatabase)
         /// <summary>
         /// returns the SQL to alter a field that may be locked by constraints or indexes. In one transaction:
-        /// drops what locks the column in the target, alters it, then recreates the source's indexes,
-        /// check constraints and defaults. Foreign keys are stored on the difference and recreated later.
+        /// drops what locks the column in the target, alters it, then recreates the source's indexes
+        /// (including filtered indexes whose WHERE uses the column), check constraints and defaults.
+        /// Foreign keys are stored on the difference and recreated later.
         /// </summary>
         public string CreateAlterFieldSQL(SchemaDifference difference, Database sourceDatabase)
         {
@@ -1096,6 +1100,26 @@ namespace DBCompare
             DefaultValueConstraint fillDefault = null;
             bool isConstraint = false;
             string checkClause = "";
+            string bracketedColumn = "[" + columnName + "]";
+
+            // filtered indexes whose WHERE uses this column are dropped too, so add them to the list to recreate
+            if (table.HasIndexes)
+            {
+                // iterate the source table's indexes
+                foreach (DataIndex filteredIndex in table.Indexes)
+                {
+                    // if this index has a filter that uses this column
+                    if ((filteredIndex.HasFilter) && (TextHelper.Exists(filteredIndex.FilterDefinition)) && (filteredIndex.FilterDefinition.IndexOf(bracketedColumn, StringComparison.OrdinalIgnoreCase) >= 0))
+                    {
+                        // if it is not already in the list
+                        if (!indexes.Any(x => TextHelper.IsEqual(x.Name, filteredIndex.Name)))
+                        {
+                            // add it
+                            indexes.Add(filteredIndex);
+                        }
+                    }
+                }
+            }
 
             // get the foreign keys that use this column, so they are recreated after the indexes section
             difference.ForeignKeysToRecreate = sourceDatabase.GetForeignKeysForColumn(table, columnName);
@@ -1467,8 +1491,8 @@ namespace DBCompare
                         {
                             line.Append('(');
 
-                            // max length columns report a size of -1
-                            if (field.Size == -1)
+                            // a max column reports a huge size (or -1), and nothing larger than 8000 is valid
+                            if ((field.Size <= 0) || (field.Size > 8000))
                             {
                                 line.Append("max");
                             }
